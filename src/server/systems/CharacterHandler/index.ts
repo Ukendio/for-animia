@@ -1,10 +1,13 @@
 import { OnInit, Service } from "@flamework/core";
 import Log from "@rbxts/log";
 import promiseR15 from "@rbxts/promise-character";
+import { Option } from "@rbxts/rust-classes";
 import { Players, Workspace } from "@rbxts/services";
 import { UnitConstructor } from "../UnitConstructor";
 
-@Service({})
+@Service({
+	loadOrder: 2,
+})
 export class CharacterHandler implements OnInit {
 	public constructor(private UnitConstructor: UnitConstructor) {}
 	public onInit(): void {
@@ -15,10 +18,7 @@ export class CharacterHandler implements OnInit {
 						character.AncestryChanged.Wait();
 					}
 
-					this.UnitConstructor.create_melee(player, character.HumanoidRootPart, {
-						damage: 25,
-						effect_name: "basic_punch",
-					});
+					this.UnitConstructor.create_effect(player, "BasicPunch", character.HumanoidRootPart);
 				})
 				.catch((reason) => Log.Warn(reason));
 		});

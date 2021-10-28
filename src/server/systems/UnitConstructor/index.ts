@@ -1,12 +1,14 @@
-import { Fabric, useReplication, useTags, useBatching } from "@rbxts/fabric";
+import { Fabric, useReplication, useTags, useBatching, NonNullableObject } from "@rbxts/fabric";
 import { OnInit, Service } from "@flamework/core";
 import { net_remotes } from "shared/Remotes";
 import { createUnit } from "./createUnit";
-import { Config } from "shared/Types";
-import { EFFECT_DECLARATION } from "shared/effect_library";
 
-const path_to_units = script.Parent!.Parent!.FindFirstChild("units")!;
-@Service({})
+const path_to_units = script.FindFirstChild("general_units")!;
+const effect_units_path = script.Parent!.Parent!.FindFirstChild("effect_library")!;
+
+@Service({
+	loadOrder: 1,
+})
 export class UnitConstructor implements OnInit {
 	fabric = new Fabric("Game");
 
@@ -17,17 +19,13 @@ export class UnitConstructor implements OnInit {
 		useTags(fabric);
 		useBatching(fabric);
 		fabric.registerUnitsIn(path_to_units);
+		fabric.registerUnitsIn(effect_units_path);
+
 		fabric.DEBUG = true;
 	}
 
-	public create_melee(
-		player: Player,
-		ref: BasePart,
-		defaults: Config & {
-			effect_name: keyof EFFECT_DECLARATION;
-		},
-	): void {
-		createUnit(this.fabric, "Melee", ref, defaults, (...args) => {
+	public create_effect<T extends keyof FabricUnits>(player: Player, name: T, ref: BasePart): void {
+		createUnit(this.fabric, name, ref, (...args) => {
 			net_remotes.Server.Create("construct_unit").SendToPlayer(player, ...args);
 		});
 	}

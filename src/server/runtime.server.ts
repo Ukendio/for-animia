@@ -3,7 +3,6 @@ import ZirconRemotes from "@rbxts/zircon/out/Shared/Remotes";
 import { net_remotes } from "shared/Remotes";
 
 const c = net_remotes.Server;
-c.Create("broadcast_effect");
 c.Create("construct_unit");
 
 Flamework.addPaths("src/server/systems");

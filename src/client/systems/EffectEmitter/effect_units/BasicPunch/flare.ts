@@ -1,72 +1,16 @@
-import { Janitor } from "@rbxts/janitor";
-import { match } from "@rbxts/rbxts-pattern";
 import { Vec } from "@rbxts/rust-classes";
-import { RunService, Workspace } from "@rbxts/services";
+import { Workspace } from "@rbxts/services";
+import { MODULE_DECLARATION } from "./mod";
 import tween from "./tween";
 
-const head_janitor = new Janitor();
 const rng = new Random();
-const module = script as MODULE_DECLARATION;
 
-function rotate_tween<T extends BasePart>(object: T, rotation: number, time: number, style: Enum.EasingStyle): void {
-	const value = new Instance("NumberValue");
-	const tween_seq = tween(value, { Value: rotation }, time, style);
-	tween_seq.Play();
-
-	const janitor = head_janitor.Add(new Janitor());
-
-	let changed = 0;
-	janitor.Add(
-		RunService.RenderStepped.Connect(() => {
-			object.CFrame = object.CFrame.mul(CFrame.Angles(0, math.rad(value.Value - changed), 0));
-			changed = value.Value;
-		}),
-	);
-
-	janitor.Add(
-		tween_seq.Completed.Connect(() => {
-			janitor.Destroy();
-		}),
-	);
-}
 const anim = new Instance("Animation");
 anim.AnimationId = "rbxassetid://7738674443";
 
-interface MODULE_DECLARATION extends LuaSourceContainer {
-	flip_book: Folder;
-	prefab: Model & {
-		HitFlares: Part & {
-			Attachment: Attachment & {
-				Spark1: ParticleEmitter;
-				Spark2: ParticleEmitter;
-			};
-		};
-		Slash: Part & {
-			Mesh: SpecialMesh;
-			Decal: Decal;
-		};
-		Sphere: Part & {
-			Mesh: SpecialMesh;
-		};
-	};
-	overlay_model: Model & {
-		MeshPart: MeshPart;
-	};
-}
+const module = script as MODULE_DECLARATION;
 
-function play_flip_book(decal: Decal, folder: Folder): Promise<void> {
-	return new Promise<void>((resolve) => {
-		for (const page of folder.GetChildren()) {
-			decal.Texture = (page as Decal).Texture;
-			task.wait();
-		}
-		resolve();
-	});
-}
-
-function flare(origin: CFrame, targets: Vec<BasePart>) {
-	if (targets.first().isNone()) return;
-
+export function flare(origin: CFrame, targets: Vec<BasePart>): Promise<Array<void>> {
 	return Promise.all([
 		new Promise<void>((resolve) => {
 			for (let i = 0; i < 5; i++) {
@@ -180,52 +124,3 @@ function flare(origin: CFrame, targets: Vec<BasePart>) {
 		}),
 	]);
 }
-
-/* necessary evil :/
- * mutating an upvalue is easier than figuring out structure
- * in future will make effects into units..
- */
-
-let count = 0 as keyof typeof convert_number_to_string_table;
-
-enum AnimationTable {
-	right = "7755891755",
-	left = "7755905610",
-	kick = "7755908040",
-	gut = "7755911442",
-}
-
-const convert_number_to_string_table = {
-	0: "right",
-	1: "left",
-	2: "kick",
-	3: "gut",
-} as const;
-
-const animation = new Instance("Animation");
-
-export = (animator: Animator, origin: CFrame, targets: Array<BasePart>) => {
-	const animation_id = AnimationTable[convert_number_to_string_table[count]];
-	count += 1;
-
-	if (count > 3) {
-		count = 0;
-	}
-
-	animation.AnimationId = `rbxassetid://${animation_id}`;
-	animator.LoadAnimation(animation).Play();
-
-	//origin: HumanoidRootPartCFrame
-	const slash = module.prefab.Slash.Clone();
-	slash.CFrame = origin.mul(CFrame.Angles(0, math.rad(90), 0));
-	slash.Parent = Workspace;
-
-	rotate_tween(slash, -190, 0.3, Enum.EasingStyle.Quad);
-	task.defer(() => {
-		task.wait(0.1);
-		flare(
-			origin.mul(CFrame.Angles(0, math.rad(rng.NextInteger(-30, 30)), math.rad(rng.NextInteger(-10, -30)))),
-			Vec.fromPtr(targets),
-		)?.expect();
-	});
-};

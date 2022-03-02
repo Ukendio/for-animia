@@ -2,6 +2,15 @@
 	"version": 1,
 	"flameworkVersion": "1.0.0-beta.7",
 	"identifiers": {
+<<<<<<< HEAD
 		"for-animia:out/client/main.client@Foo": "client/main.client@Foo"
+=======
+		"for-animia:out/client/systems/UnitConstructor/init@UnitConstructor": "client/systems/UnitConstructor/init@UnitConstructor",
+		"for-animia:out/client/systems/EffectEmitter/init@EffectEmitter": "client/systems/EffectEmitter/init@EffectEmitter",
+		"for-animia:out/client/systems/InputMapper/init@InputMapper": "client/systems/InputMapper/init@InputMapper",
+		"for-animia:out/client/systems/ToolChain/init@ToolChain": "client/systems/ToolChain/init@ToolChain",
+		"for-animia:out/server/systems/UnitConstructor/init@UnitConstructor": "server/systems/UnitConstructor/init@UnitConstructor",
+		"for-animia:out/server/systems/CharacterHandler/init@CharacterHandler": "server/systems/CharacterHandler/init@CharacterHandler"
+>>>>>>> 58caa86bfe53c23c5ad216f95492162249541fce
 	}
 }

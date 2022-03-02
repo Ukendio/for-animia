@@ -1,0 +1,7 @@
+{
+	"version": 1,
+	"flameworkVersion": "1.0.0-beta.7",
+	"identifiers": {
+		"for-animia:out/client/main.client@Foo": "client/main.client@Foo"
+	}
+}

@@ -16,31 +16,31 @@ export interface ClientData {
 	m1: Enum.UserInputType;
 	interact: Enum.KeyCode;
 	toggle_menu: Enum.KeyCode;
-	equip_weapon_1: Enum.KeyCode;
-	equip_weapon_2: Enum.KeyCode;
-	equip_weapon_3: Enum.KeyCode;
 	use_ability_1: Enum.KeyCode;
 	use_ability_2: Enum.KeyCode;
 	use_ability_3: Enum.KeyCode;
 	use_ability_4: Enum.KeyCode;
+	dash: [Enum.KeyCode, Enum.KeyCode]
 }
 
 const world = new World();
 
+const key = <T extends keyof typeof Enum.KeyCode>(key: T): typeof Enum.KeyCode[T] => Enum.KeyCode[key]
+
+const input_type =<T extends keyof typeof Enum.UserInputType>(key: T): typeof Enum.UserInputType[T] => Enum.UserInputType[key]
+
 const state = identity<ClientData>({
-	jump: Enum.KeyCode.Space,
-	strafe_left: Enum.KeyCode.A,
-	strafe_right: Enum.KeyCode.D,
-	m1: Enum.UserInputType.MouseButton1,
-	interact: Enum.KeyCode.E,
-	toggle_menu: Enum.KeyCode.G,
-	equip_weapon_1: Enum.KeyCode.One,
-	equip_weapon_2: Enum.KeyCode.Two,
-	equip_weapon_3: Enum.KeyCode.Three,
-	use_ability_1: Enum.KeyCode.C,
-	use_ability_2: Enum.KeyCode.Q,
-	use_ability_3: Enum.KeyCode.E,
-	use_ability_4: Enum.KeyCode.X,
+	jump: key("Space"),
+	strafe_left: key("A"),
+	strafe_right: key("D"),
+	m1: input_type("MouseButton1"),
+	interact: key("E"),
+	toggle_menu: key("G"),
+	use_ability_1: key("One"),
+	use_ability_2: key("Two"),
+	use_ability_3: key("Three"),
+	use_ability_4: key("Four"),
+	dash: [key("Q"), key("E")]
 });
 
 const loop = new Loop(world, state);

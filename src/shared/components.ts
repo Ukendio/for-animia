@@ -1,4 +1,4 @@
-import { AnyEntity, component, Entity, InferComponents } from "@rbxts/matter";
+import { AnyEntity, component, } from "@rbxts/matter";
 
 export const Ability = component<{ name: string }>();
 
@@ -9,6 +9,8 @@ export const Arrow = component<{ goal: Vector3 }>();
 export const CombatStats = component<{ hp: number; max_hp: number; damage: number }>();
 
 export const Counter = component<{ idx: number }>();
+
+export const Deku = component("Deku")
 
 export const Equipped = component();
 
@@ -39,6 +41,8 @@ export const OnHitEffect = component<{ id: string }>();
 export const Projectile = component<{ origin?: CFrame; goal: CFrame; remaining_time?: number; caster_model?: Model }>();
 
 export const Prompt = component<{ prompt: ProximityPrompt }>();
+
+export const Punch = component()
 
 export const Range = component<{ size: number }>();
 

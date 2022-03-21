@@ -1,20 +1,22 @@
-import { useEvent, useThrottle, World } from "@rbxts/matter";
-import { Players, ReplicatedStorage, TweenService, UserInputService, Workspace } from "@rbxts/services";
+import { useEvent, World } from "@rbxts/matter";
+import { Players, ReplicatedStorage, UserInputService, Workspace } from "@rbxts/services";
 import { ClientData } from "client/main.client";
-import { Gray, Projectile, Renderable, Tracker, Transform, TweenProps } from "shared/components";
+import { Projectile, Renderable, Soul, Tracker, Transform, TweenProps } from "shared/components";
+import { ice_hit } from "shared/effects_db/ice_hit";
 import remotes from "shared/remotes";
-import { ice_hit } from "shared/souls/gray/ice_arrows";
 
 const create_fx = remotes.Client.Get("CreateFX");
 const replicate_fx = remotes.Client.Get("ReplicateFX");
 type ReplicateFx = RBXScriptSignal<Parameters<typeof replicate_fx.Connect>[0]>;
 
 export function ice_arrows(world: World, state: ClientData): void {
-	for (const [, , { model }] of world.query(Gray, Renderable)) {
-		for (const [, { KeyCode }] of useEvent(UserInputService, "InputBegan")) {
-			if (KeyCode === state.use_ability_1) {
-				const mouse_hit = Players.GetPlayerFromCharacter(model)!.GetMouse().Hit;
-				create_fx.SendToServer("IceArrows", mouse_hit);
+	for (const [, soul, { model }] of world.query(Soul, Renderable)) {
+		if (soul.name === "Gray") {
+			for (const [, { KeyCode }] of useEvent(UserInputService, "InputBegan")) {
+				if (KeyCode === state.use_ability_1) {
+					const mouse_hit = Players.GetPlayerFromCharacter(model)!.GetMouse().Hit;
+					create_fx.SendToServer("IceArrows", mouse_hit);
+				}
 			}
 		}
 	}
@@ -46,9 +48,9 @@ export function ice_arrows(world: World, state: ClientData): void {
 		}
 	}
 
-	for (const [, ability_name, pos] of useEvent(replicate_fx as never, replicate_fx as ReplicateFx)) {
+	for (const [, ability_name, cf] of useEvent(replicate_fx as never, replicate_fx as ReplicateFx)) {
 		if (ability_name === "IceHit") {
-			ice_hit(pos.Position);
+			ice_hit(cf.Position);
 		}
 	}
 }

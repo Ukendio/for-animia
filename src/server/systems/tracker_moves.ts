@@ -1,7 +1,8 @@
 import { useDeltaTime, World } from "@rbxts/matter";
+import { Option } from "@rbxts/rust-classes";
 import { Workspace } from "@rbxts/services";
 import { quad_beizer } from "shared/beizer";
-import { Tracker, Projectile, Rotation, Transform, Renderable } from "shared/components";
+import { Tracker, Projectile, Rotation, Transform, Renderable, Lifetime } from "shared/components";
 import remotes from "shared/remotes";
 import update_transforms from "shared/systems/update_transforms";
 
@@ -11,29 +12,33 @@ const raycast_params = new RaycastParams();
 raycast_params.FilterType = Enum.RaycastFilterType.Blacklist;
 
 function tracker_moves(world: World): void {
-	for (let [id, { model }, transform, projectile, { angle }] of world.query(
+	for (let [id, { model }, transform, projectile, lifetime, { angle }] of world.query(
 		Renderable,
 		Transform,
 		Projectile,
+		Lifetime,
 		Rotation,
 		Tracker,
 	)) {
 		if (!model.PrimaryPart) continue;
 
-		if (!projectile.caster_model || projectile.remaining_time === undefined) continue;
+		const start = projectile.origin.match(
+			(orig) => orig,
+			() => {
+				const origin = Option.some(transform.cf);
+				projectile = projectile.patch({ origin });
 
-		if (!projectile.origin) {
-			projectile = projectile.patch({ origin: transform.cf });
-		}
+				return transform.cf;
+			},
+		);
 
-		projectile = projectile.patch({ remaining_time: projectile.remaining_time! - useDeltaTime() });
+		lifetime = lifetime.patch({ remaining_time: lifetime.remaining_time - useDeltaTime() });
 
-		const start = projectile.origin!;
 		const goal = projectile.goal;
-		const desired_look_vector = start!.Position.sub(goal.Position).Unit;
+		const desired_look_vector = start.Position.sub(goal.Position).Unit;
 		const mid_point = start.Lerp(goal, 0.5).mul(angle).Position;
 
-		const elapsed = 1 - projectile.remaining_time!;
+		const elapsed = 1 - lifetime.remaining_time!;
 
 		const curve = quad_beizer(elapsed, start.Position, mid_point, goal.Position);
 
@@ -48,7 +53,7 @@ function tracker_moves(world: World): void {
 			continue;
 		}
 
-		if (projectile.remaining_time! <= 0) {
+		if (projectile) {
 			replicate_fx.SendToAllPlayers("IceHit", goal);
 
 			world.insert(id, transform.patch({ cf: new CFrame(curve) }), projectile);

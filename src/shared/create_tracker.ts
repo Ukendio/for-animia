@@ -1,6 +1,7 @@
 import { Entity, InferComponents, World } from "@rbxts/matter";
+import { Option } from "@rbxts/rust-classes";
 import { Workspace } from "@rbxts/services";
-import { Projectile, Renderable, Rotation, Tracker, Transform } from "./components";
+import { Lifetime, Projectile, Renderable, Rotation, Tracker, Transform } from "./components";
 
 export function create_tracker(
 	world: World,
@@ -9,7 +10,11 @@ export function create_tracker(
 	name: string,
 	caster_model: Model,
 	angle: CFrame,
-): Entity<InferComponents<[typeof Renderable, typeof Transform, typeof Projectile, typeof Tracker, typeof Rotation]>> {
+): Entity<
+	InferComponents<
+		[typeof Renderable, typeof Transform, typeof Projectile, typeof Lifetime, typeof Tracker, typeof Rotation]
+	>
+> {
 	const p = new Instance("Part");
 	p.Size = Vector3.one;
 	p.Transparency = 1;
@@ -29,7 +34,12 @@ export function create_tracker(
 	return world.spawn(
 		Renderable({ model }),
 		Transform({ cf }),
-		Projectile({ goal: cf, origin, remaining_time: 1, caster_model }),
+		Projectile({
+			goal: cf,
+			origin: Option.some(origin),
+			caster_model,
+		}),
+		Lifetime({ remaining_time: 1 }),
 		Tracker(),
 		Rotation({ angle }),
 	);

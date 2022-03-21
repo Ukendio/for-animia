@@ -1,0 +1,37 @@
+import { World } from "@rbxts/matter";
+import { Option, Vec } from "@rbxts/rust-classes";
+import {
+	Collision,
+	CombatStats,
+	DamageArea,
+	ImpactEffect,
+	Renderable,
+	Shape,
+	Target,
+	Transform,
+	WantsMelee,
+} from "shared/components";
+import { EffectType, map_effect_payload } from "shared/effects_db";
+
+export function melee_hits(world: World): void {
+	for (const [id, { model }, combat_stats] of world.query(Renderable, CombatStats, WantsMelee, Target)) {
+		const root = model.FindFirstChild("HumanoidRootPart") as Part;
+
+		if (!root) continue;
+
+		const direction = root.CFrame.LookVector.Z + 2;
+
+		world.spawn(
+			DamageArea({
+				shape: Shape.Box,
+			}),
+			Collision({ size: new Vector3(5, 5, 0), blacklist: [model] }),
+			Transform({ cf: model.GetPivot().add(new Vector3(0, 0, direction)) }),
+			ImpactEffect({
+				effects: Vec.fromPtr([
+					map_effect_payload(Option.some(id), EffectType.Damage, { damage: combat_stats.damage }),
+				]),
+			}),
+		);
+	}
+}

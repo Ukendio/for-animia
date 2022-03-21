@@ -3,10 +3,14 @@ import { Renderable } from "shared/components";
 
 export function remove_missing_models(world: World): void {
 	for (const [id, { model }] of world.query(Renderable)) {
-		for (const [_] of useEvent(model, "AncestryChanged")) {
+		for (const _ of useEvent(model, "AncestryChanged")) {
 			if (model.IsDescendantOf(game) === false) {
 				world.remove(id, Renderable);
 				break;
+			}
+
+			if (!model.PrimaryPart) {
+				world.remove(id, Renderable);
 			}
 		}
 	}

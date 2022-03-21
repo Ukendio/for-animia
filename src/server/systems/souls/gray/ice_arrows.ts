@@ -17,7 +17,7 @@ export function ice_arrows(world: World): void {
 					for (let i = 0; i < 3; i++) {
 						world.spawn(
 							Ability({ name }),
-							Transform({ cf }),
+							Transform({ cf, do_not_reconcile: false }),
 							Tracker({ target: model }),
 							Counter({ idx: i }),
 						);
@@ -28,7 +28,7 @@ export function ice_arrows(world: World): void {
 	}
 
 	for (const [id, ability, transform, tracker, counter] of world.query(Ability, Transform, Tracker, Counter)) {
-		const fn = () => {
+		const fn = (): void => {
 			const ANGLES = [
 				new CFrame(math.random(20, 30), 0, 0),
 				new CFrame(math.random(-30, -20), 0, 0),

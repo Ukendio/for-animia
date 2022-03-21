@@ -1,62 +1,88 @@
-import { AnyEntity, component, } from "@rbxts/matter";
+import { AnyEntity, component } from "@rbxts/matter";
+import { Option, Vec } from "@rbxts/rust-classes";
+import { EffectType, EffectTypeInfo } from "./effects_db";
+import { souls_db } from "./souls_db";
 
 export const Ability = component<{ name: string }>();
 
-export const Archer = component();
-
-export const Arrow = component<{ goal: Vector3 }>();
-
-export const CombatStats = component<{ hp: number; max_hp: number; damage: number }>();
+export const CombatStats = component<{
+	hp: number;
+	max_hp: number;
+	damage: number;
+	defense: number;
+	soul_power: number;
+}>();
 
 export const Counter = component<{ idx: number }>();
 
-export const Deku = component("Deku")
+export const Collision = component<{
+	blacklist: Array<Instance>;
+	size: Vector3;
+	collided?: boolean;
+}>();
+
+export enum Shape {
+	Box,
+	Radius,
+	Cylinder,
+	Sphere,
+	Disc,
+}
+
+export const DamageArea = component<{ shape: Shape }>();
+
+export const Effect = component<{
+	creator: Option<AnyEntity>;
+	effect_type: EffectType;
+	effect_payload: EffectTypeInfo[keyof EffectTypeInfo];
+	target: Option<AnyEntity>;
+}>();
 
 export const Equipped = component();
 
-export const Grappler = component("Gray");
-
-export const Grappling = component<{ remaining_time: number; goal: Vector3; hooked?: boolean }>();
-
-export const Gray = component("Gray");
-
 export const Float = component<{ cached?: boolean; force: Vector3 }>();
-
-export const HasColoured = component();
 
 export const HitScan = component<{ raycast_result: RaycastResult }>();
 
-export const InBackpack = component<{ owner: AnyEntity; slot: number }>();
+export const KnockBack = component<{ force: number }>();
+
+export const ImpactEffect = component<{ effects: Vec<ReturnType<typeof Effect>> }>();
+
+export const InBackpack = component<{ owner: AnyEntity; slot: Enum.KeyCode }>();
 
 export const Item = component();
 
-export const MacroKeyBind = component<{ macro: [Enum.KeyCode, Enum.KeyCode] }>();
+export const Lifetime = component<{ remaining_time: number }>();
 
 export const Mass = component<{ density: number; friction: number; elasticity: number }>();
 
-export const Mob = component<{ id: number }>();
+export const Mastery = component<{ lvl: number; exp: number }>();
 
-export const OnHitEffect = component<{ id: string }>();
+export const Mob = component();
 
-export const Projectile = component<{ origin?: CFrame; goal: CFrame; remaining_time?: number; caster_model?: Model }>();
+export const Projectile = component<{
+	origin: Option<CFrame>;
+	goal: CFrame;
+	caster_model: Model;
+}>();
 
 export const Prompt = component<{ prompt: ProximityPrompt }>();
 
-export const Punch = component()
-
-export const Range = component<{ size: number }>();
-
-export const Renderable = component<{ model: Model }>();
+export const Renderable = component<{ model: Model; in_anim?: boolean }>();
 
 export const Rotation = component<{ angle: CFrame }>();
 
-export const Spinning = component();
+export const Soul = component<{ name: keyof typeof souls_db }>();
 
 export const Steer = component<{ cached?: boolean; direction: Vector3 }>();
 
 export const Strafing = component<{ direction: Enum.KeyCode }>();
 
+export const SufferDamage = component<{ damage: number; source: Option<AnyEntity> }>();
+
 export const Target = component();
+
+export const Team = component<{ players: Vec<AnyEntity> }>();
 
 export const Tracker = component<{ target: Instance }>();
 
@@ -64,10 +90,10 @@ export const Transform = component<{ cf: CFrame; do_not_reconcile?: boolean }>()
 
 export const TweenProps = component<{ data: TweenInfo }>();
 
-export const WantsMelee = component<{ damage: number; remaining_time?: number }>();
+export const Velocity = component<{ cached?: boolean; velocity: Vector3 }>();
+
+export const WantsMelee = component();
 
 export const WantsOpenInventory = component();
 
 export const WantsPickUp = component<{ item: AnyEntity; collected_by: AnyEntity }>();
-
-export const Windup = component<{ remaining_time: number; finished?: boolean }>();

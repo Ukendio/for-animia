@@ -6,20 +6,21 @@ export function objects_float(world: World): void {
 		if (!float.cached) {
 			const body_force = new Instance("BodyForce");
 			body_force.Force = float.force;
+			body_force.Name = "BodyForce@" + id;
 			body_force.Parent = model.FindFirstChild("HumanoidRootPart");
 
 			world.insert(id, float.patch({ cached: true }));
 		}
 	}
 
-	for (let [, float_record, { model }] of world.queryChanged(Float, Renderable)) {
+	for (let [id, float_record, { model }] of world.queryChanged(Float, Renderable)) {
 		if (float_record.new !== undefined) {
 			if (float_record.new.force !== float_record.old.force && float_record.new.cached) {
 				const root = model.FindFirstChild("HumanoidRootPart");
 
 				if (!root) continue;
 
-				const body_force = root.FindFirstChild("BodyForce") as BodyForce;
+				const body_force = root.FindFirstChild("BodyForce@" + id) as BodyForce;
 				body_force.Force = float_record.new.force;
 			}
 		} else {
@@ -27,7 +28,7 @@ export function objects_float(world: World): void {
 
 			if (!root) continue;
 
-			const body_force = root.FindFirstChild("BodyForce");
+			const body_force = root.FindFirstChild("BodyForce@" + id);
 
 			body_force?.Destroy();
 		}

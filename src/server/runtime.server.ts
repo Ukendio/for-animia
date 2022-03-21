@@ -1,11 +1,9 @@
 import { Loop, useThrottle, World } from "@rbxts/matter";
 import promiseR15 from "@rbxts/promise-character";
-import { HashMap } from "@rbxts/rust-classes";
+import { HashMap, Option } from "@rbxts/rust-classes";
 import { Players, ReplicatedStorage, RunService, Workspace } from "@rbxts/services";
 import { Counter, Mob, Transform } from "shared/components";
 import mobs_database from "./mobs_database";
-import { mobs_hurt } from "./systems/mobs_hurt";
-import { mobs_move } from "./systems/mobs_move";
 import { players_are_targets } from "./systems/players_are_targets";
 import { remove_missing_models } from "shared/systems/remove_missing_models";
 import { spawn_mobs } from "./systems/spawn_mobs";
@@ -23,13 +21,11 @@ const world = new World();
 const loop = new Loop(world);
 
 loop.scheduleSystems([
-	mobs_move,
 	players_are_targets,
 	remove_missing_models,
 	remove_missing_trackers,
 	update_transforms,
 	spawn_mobs,
-	mobs_hurt,
 	frictionless_grapplers,
 	apply_mass,
 	ice_arrows,
@@ -67,7 +63,7 @@ function generate_spawns_on_islands(islands: Islands): HashMap<string, HashMap<C
 
 			part.Parent = spawn_folder;
 
-			const origin = island.GetPrimaryPartCFrame().Position;
+			const origin = island.GetPivot().Position;
 			part.Position = origin.add(
 				new Vector3(
 					part.Size.X / 2 + math.random(1, 2) === 1 ? -island.GetExtentsSize().X : island.GetExtentsSize().X,
@@ -99,15 +95,15 @@ function spawn_mobs_from_island_spawns(islands_mobs: HashMap<string, HashMap<CFr
 spawn_mobs_from_island_spawns(generate_spawns_on_islands(islands));
 
 function spawn_players(): void {
-	const player_added = (player: Player) => {
+	const player_added = (player: Player): void => {
 		if (player.Character) character_added(player.Character);
 		else player.CharacterAdded.Connect(character_added);
 	};
 
-	const character_added = (character: Model) =>
+	const character_added = (character: Model): Promise<void> =>
 		promiseR15(character).then(() => {
 			const island = islands["[1] Foo"];
-			const goal_position = island.GetPrimaryPartCFrame().Position;
+			const goal_position = island.GetPivot().Position;
 
 			wait(0.2);
 			character.PivotTo(new CFrame(goal_position.add(new Vector3(0, 3, 0))));

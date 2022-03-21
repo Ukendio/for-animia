@@ -1,23 +1,80 @@
 import { useEvent, World } from "@rbxts/matter";
+import { Option, Vec } from "@rbxts/rust-classes";
 import { UserInputService } from "@rbxts/services";
 import { ClientData } from "client/main.client";
-import { Deku, Renderable, Target } from "shared/components";
-import { play_anim } from "shared/play_anim";
+import {
+	Collision,
+	CombatStats,
+	DamageArea,
+	Effect,
+	ImpactEffect,
+	KnockBack,
+	Mastery,
+	Renderable,
+	Shape,
+	Soul,
+	Target,
+	Transform,
+} from "shared/components";
+import { EffectType, map_effect_payload } from "shared/effects_db";
+import { souls_db } from "shared/souls_db";
+import { use_anim } from "shared/use_anim";
 
 // animation id 9006471997
 
-export function detriot_smash(world: World, controls: ClientData): void {
-    for (const [deku_id, {model}] of world.query(Renderable, Target , Deku)) {
-        for (const [, {KeyCode}] of useEvent(UserInputService, "InputBegan")) {
-            if (KeyCode === controls.use_ability_1) {
-                const humanoid = model.FindFirstChildOfClass("Humanoid");
-                
-                if (!humanoid) continue;
+const animation = new Instance("Animation");
+animation.AnimationId = "rbxassetid://9006471997";
 
-                play_anim(humanoid, "rbxassetid://").Play();
-            
-                world.insert(deku_id /**, Punch() */ )
-            }
-        }
-    }
+export function detriot_smash(world: World, controls: ClientData): void {
+	for (let [id, renderable, combat_stats, mastery, soul] of world.query(
+		Renderable,
+		CombatStats,
+		Mastery,
+		Soul,
+		Target,
+	)) {
+		if (soul.name === "Deku") {
+			for (const [, { KeyCode }] of useEvent(UserInputService, "InputBegan")) {
+				if (KeyCode === controls.use_ability_1) {
+					const model = renderable.model;
+					const root = model.FindFirstChild("HumanoidRootPart") as Part;
+					const animator = model.FindFirstChildOfClass("Humanoid")?.FindFirstChildOfClass("Animator");
+
+					if (!root || !animator) continue;
+
+					if (renderable.in_anim === undefined) renderable = renderable.patch({ in_anim: false });
+
+					const anim_track = use_anim(animator, animation, !renderable.in_anim);
+
+					for (const _ of useEvent(anim_track, "Stopped")) {
+					}
+
+					const direction = root.CFrame.LookVector.Z + 2;
+					const deku_detroit_smash_info = souls_db.Deku.abilities["Detroit Smash"];
+					const damage = deku_detroit_smash_info.base_damage.i(mastery.lvl);
+
+					world.spawn(
+						DamageArea({
+							shape: Shape.Box,
+						}),
+						Transform({ cf: model.GetPivot().add(new Vector3(0, 0, direction)) }),
+						Collision({
+							size: new Vector3(5, 5, 0),
+							blacklist: [model],
+						}),
+						ImpactEffect({
+							effects: Vec.fromPtr([
+								map_effect_payload(Option.none(), EffectType.KnockBack, {
+									force: root.CFrame.LookVector.mul(30),
+								}),
+								map_effect_payload(Option.some(id), EffectType.Damage, {
+									damage,
+								}),
+							]),
+						}),
+					);
+				}
+			}
+		}
+	}
 }

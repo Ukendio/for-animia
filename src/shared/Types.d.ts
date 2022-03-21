@@ -496,3 +496,5 @@ interface Workspace extends Instance {
 }
 
 type IterableSignal<T extends { Connect: Callback }> = RBXScriptSignal<Parameters<T["Connect"]>[0]>;
+
+type Enumerate<T extends { [index: string]: Callback }> = ReturnType<T[keyof T]>;

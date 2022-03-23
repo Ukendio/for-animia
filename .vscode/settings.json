@@ -10,16 +10,5 @@
 	"eslint.run": "onType",
 	"eslint.format.enable": true,
 	"typescript.tsdk": "node_modules/typescript/lib",
-	"cSpell.words": [
-<<<<<<< HEAD
-		"beizer",
-		"Interactables",
-		"ipairs",
-		"Raycast",
-		"rbxts",
-		"Scriptable",
-=======
->>>>>>> 58caa86bfe53c23c5ad216f95492162249541fce
-		"Skybox"
-	]
+	"cSpell.words": ["beizer", "Interactables", "ipairs", "Raycast", "rbxts", "Scriptable", "Skybox"]
 }

@@ -1,9 +1,6 @@
 {
 	"name": "roblox-ts-game",
-	"globIgnorePaths": [
-		"**/package.json",
-		"**/tsconfig.json"
-	],
+	"globIgnorePaths": ["**/package.json", "**/tsconfig.json"],
 	"tree": {
 		"$className": "DataModel",
 		"ServerScriptService": {
@@ -17,10 +14,7 @@
 			"rbxts_include": {
 				"$path": "include",
 				"node_modules": {
-					"$path": "node_modules/@rbxts",
-					"@flamework": {
-						"$path": "node_modules/@flamework"
-					}
+					"$path": "node_modules/@rbxts"
 				}
 			},
 			"TS": {
@@ -89,7 +83,7 @@
 				"RespectFilteringEnabled": true
 			}
 		},
-		"Lighting" : {
+		"Lighting": {
 			"$className": "Lighting",
 			"$properties": {
 				"Ambient": {
@@ -115,21 +109,21 @@
 				}
 			},
 			"ColorCorrection": {
-				"$className":"ColorCorrectionEffect",
+				"$className": "ColorCorrectionEffect",
 				"$properties": {
 					"Saturation": 0
 				}
 			},
 			"Bloom": {
-				"$className":"BloomEffect",
+				"$className": "BloomEffect",
 				"$properties": {
 					"Intensity": 2.5,
 					"Size": 25,
-					"Threshold": 1.8 
+					"Threshold": 1.8
 				}
 			},
 			"Sky": {
-				"$className":"Sky", 
+				"$className": "Sky",
 				"$properties": {
 					"MoonAngularSize": 11,
 					"MoonTextureId": "rbxasset://sky/moon.jpg",
@@ -145,7 +139,7 @@
 				}
 			},
 			"Atmosphere": {
-				"$className":"Atmosphere", 
+				"$className": "Atmosphere",
 				"$properties": {
 					"Density": 0.386,
 					"Color": {
@@ -154,11 +148,10 @@
 					"Decay": {
 						"Color3": [0.360784, 0.235294, 0.0509804]
 					}
-	
 				}
 			},
 			"Blur": {
-				"$className":"BlurEffect", 
+				"$className": "BlurEffect",
 				"$properties": {
 					"Size": 2
 				}

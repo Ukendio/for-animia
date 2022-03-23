@@ -1,9 +1,8 @@
-import { World } from "@rbxts/matter";
+import { AnyEntity, World } from "@rbxts/matter";
 import { match, __ } from "@rbxts/rbxts-pattern";
-import { Option } from "@rbxts/rust-classes";
+import { Option, Vec } from "@rbxts/rust-classes";
 import { Workspace } from "@rbxts/services";
-import { Collision, DamageArea, ImpactEffect, Renderable, Shape, Soul, Transform } from "shared/components";
-import { compose_effects } from "shared/effects_db";
+import { Collision, DamageArea, ImpactEffect, Projectile, Renderable, Shape, Soul, Transform } from "shared/components";
 
 const overlap_params = new OverlapParams();
 overlap_params.FilterType = Enum.RaycastFilterType.Blacklist;
@@ -57,22 +56,80 @@ export function things_collide(world: World): void {
 		Collision,
 		ImpactEffect,
 	)) {
+		let collided = false;
+
 		if (!collision.collided) {
 			overlap_params.FilterDescendantsInstances = collision.blacklist;
 
 			for (const instance of get_parts_in_shape(damage_area.shape, collision.size, cf)) {
-				if (instance.Parent?.FindFirstChildOfClass("Humanoid")) {
-					for (const [id, renderable] of world.query(Renderable, Soul)) {
-						if (renderable.model === instance.Parent) {
-							on_hit.effects
-								.iter()
-								.forEach((e) => world.insert(id, e.patch({ target: Option.some(id) })));
-						}
+				collided = true;
+				const instance_model = instance.Parent;
+
+				if (instance_model && instance_model.FindFirstChildOfClass("Humanoid")) {
+					const id = instance_model.GetAttribute("entity_id") as AnyEntity;
+
+					if (id !== undefined) {
+						const [renderable, soul] = world.get(id, Renderable, Soul);
+
+						if (!renderable || !soul) continue;
+
+						on_hit.effects.forEach((fx) => {
+							/**
+							 * predict fx unless it is damage type
+							 * const player = Players.GetPlayerFromCharacter(renderable.model);
+							 * if (fx.effect_type === EffectType.Damage && player) {
+							 *    remote_event.FireServer(serialize(fx), player);
+							 *    break
+							 * } else
+							 */
+
+							world.insert(id, fx.patch({ target: Option.some(id) }));
+						});
 					}
 				}
 			}
 
-			world.insert(id, collision.patch({ collided: true }));
+			print(collided);
+
+			world.insert(id, collision.patch({ collided }));
 		}
+	}
+
+	for (const [id, projectile, { cf }, collision, on_hit, { model }] of world.query(
+		Projectile,
+		Transform,
+		Collision,
+		ImpactEffect,
+		Renderable,
+	)) {
+		let collided = false;
+		if (!collision.collided) {
+			overlap_params.FilterDescendantsInstances = collision.blacklist;
+
+			const part = model.FindFirstChildOfClass("Part");
+
+			if (part) {
+				for (const instance of Workspace.GetPartsInPart(part, overlap_params)) {
+					collided = true;
+					const instance_model = instance.Parent;
+
+					if (instance_model && instance_model.FindFirstChildOfClass("Humanoid")) {
+						const id = instance_model.GetAttribute("entity_id") as AnyEntity;
+
+						if (id !== undefined) {
+							const [renderable, soul] = world.get(id, Renderable, Soul);
+
+							if (!renderable || !soul) continue;
+
+							on_hit.effects.forEach((fx) => world.spawn(fx.patch({ target: Option.some(id) })));
+
+							continue;
+						}
+					} else on_hit.effects.forEach((fx) => world.spawn(fx.patch({ pos: Option.some(cf.Position) })));
+				}
+			}
+
+			world.insert(id, collision.patch({ collided }));
+		} else world.despawn(id);
 	}
 }

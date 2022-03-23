@@ -1,4 +1,4 @@
-import { World } from "@rbxts/matter";
+import { useEvent, World } from "@rbxts/matter";
 import { Vec } from "@rbxts/rust-classes";
 import { Mass, Renderable, Target } from "shared/components";
 

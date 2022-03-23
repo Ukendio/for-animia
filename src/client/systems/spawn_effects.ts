@@ -1,30 +1,36 @@
 import { World } from "@rbxts/matter";
-import { match, __ } from "@rbxts/rbxts-pattern";
-import { Effect, Renderable, SufferDamage, Velocity } from "shared/components";
-import { EffectType, EffectTypeInfo } from "shared/effects_db";
+import { Effect, Lifetime, Renderable, SufferDamage, Velocity } from "shared/components";
+import { compose_effects, EffectType } from "client/effects_db";
+import { explosion_1 } from "client/effects_db/explosions";
+import { Vec } from "@rbxts/rust-classes";
 
 export function spawn_effects(world: World): void {
-	for (const [id, { creator, effect_type, effect_payload, target }] of world.query(Effect).without(Renderable)) {
-		match(effect_type)
-			.with(EffectType.Damage, (payload) => {
-				const { damage } = effect_payload as EffectTypeInfo[typeof payload];
+	for (const [id, effect] of world.query(Effect).without(Renderable)) {
+		const { creator, effect_type, effect_payload, target, pos } = effect;
 
-				target.map((target) => {
-					world.insert(target, SufferDamage({ damage, source: creator }));
-					world.despawn(id);
-				});
-			})
+		if (effect_type === EffectType.Damage) {
+			const { damage } = effect_payload;
 
-			.with(EffectType.KnockBack, (payload) => {
-				const { force } = effect_payload as EffectTypeInfo[typeof payload];
+			target.map((target) => {
+				world.insert(target, SufferDamage({ damage, source: creator }));
+			});
+		} else if (effect_type === EffectType.Explosion) {
+			const { size } = effect_payload;
 
-				target.map((target) => {
-					world.insert(target, Velocity({ velocity: force }));
-					world.despawn(id);
-				});
-			})
+			pos.map((p) => {
+				world.insert(
+					id,
+					Renderable({ model: compose_effects(p, Vec.fromPtr([explosion_1(size)])).once(1) }),
+					Lifetime({ remaining_time: 2 }),
+				);
+			});
+		} else if (effect_type === EffectType.KnockBack) {
+			const { force } = effect_payload;
 
-			.with(__, () => {})
-			.exhaustive();
+			target.map((target) => {
+				world.insert(target, Velocity());
+				world.despawn(id);
+			});
+		}
 	}
 }

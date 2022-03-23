@@ -4,6 +4,7 @@ import {
 	Collision,
 	CombatStats,
 	DamageArea,
+	Effect,
 	ImpactEffect,
 	Renderable,
 	Shape,
@@ -11,7 +12,7 @@ import {
 	Transform,
 	WantsMelee,
 } from "shared/components";
-import { EffectType, map_effect_payload } from "shared/effects_db";
+import { EffectType } from "client/effects_db";
 
 export function melee_hits(world: World): void {
 	for (const [id, { model }, combat_stats] of world.query(Renderable, CombatStats, WantsMelee, Target)) {
@@ -28,9 +29,15 @@ export function melee_hits(world: World): void {
 			Collision({ size: new Vector3(5, 5, 0), blacklist: [model] }),
 			Transform({ cf: model.GetPivot().add(new Vector3(0, 0, direction)) }),
 			ImpactEffect({
-				effects: Vec.fromPtr([
-					map_effect_payload(Option.some(id), EffectType.Damage, { damage: combat_stats.damage }),
-				]),
+				effects: [
+					Effect({
+						creator: Option.some(id),
+						effect_type: EffectType.Damage,
+						effect_payload: { damage: combat_stats.damage },
+						target: Option.none(),
+						pos: Option.none(),
+					}),
+				],
 			}),
 		);
 	}

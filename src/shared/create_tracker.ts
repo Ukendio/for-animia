@@ -5,7 +5,7 @@ import { Lifetime, Projectile, Renderable, Rotation, Tracker, Transform } from "
 
 export function create_tracker(
 	world: World,
-	origin: CFrame,
+	origin: Vector3,
 	cf: CFrame,
 	name: string,
 	caster_model: Model,
@@ -35,9 +35,7 @@ export function create_tracker(
 		Renderable({ model }),
 		Transform({ cf }),
 		Projectile({
-			goal: cf,
-			origin: Option.some(origin),
-			caster_model,
+			goal: cf.Position,
 		}),
 		Lifetime({ remaining_time: 1 }),
 		Tracker(),

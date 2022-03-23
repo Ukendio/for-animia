@@ -9,9 +9,11 @@ export const souls_db = {
 		},
 		evolutions: Vec.fromPtr([]),
 	},
-	["Vampire"]: {
+	["Fire Person"]: {
 		abilities: {
-			["Detroit Smash"]: {},
+			["Fireball"]: {
+				base_damage: Vec.fromPtr([10, 20, 30]),
+			},
 		},
 		evolutions: Vec.fromPtr([]),
 	},
@@ -22,6 +24,12 @@ export const souls_db = {
 		evolutions: Vec.fromPtr([]),
 	},
 	["Gray"]: {
+		abilities: {
+			["Detroit Smash"]: {},
+		},
+		evolutions: Vec.fromPtr([]),
+	},
+	["Vampire"]: {
 		abilities: {
 			["Detroit Smash"]: {},
 		},

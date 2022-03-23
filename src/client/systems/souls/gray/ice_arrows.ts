@@ -2,7 +2,7 @@ import { useEvent, World } from "@rbxts/matter";
 import { Players, ReplicatedStorage, UserInputService, Workspace } from "@rbxts/services";
 import { ClientData } from "client/main.client";
 import { Projectile, Renderable, Soul, Tracker, Transform, TweenProps } from "shared/components";
-import { ice_hit } from "shared/effects_db/ice_hit";
+import { ice_hit } from "client/effects_db/ice_hit";
 import remotes from "shared/remotes";
 
 const create_fx = remotes.Client.Get("CreateFX");
@@ -15,7 +15,7 @@ export function ice_arrows(world: World, state: ClientData): void {
 			for (const [, { KeyCode }] of useEvent(UserInputService, "InputBegan")) {
 				if (KeyCode === state.use_ability_1) {
 					const mouse_hit = Players.GetPlayerFromCharacter(model)!.GetMouse().Hit;
-					create_fx.SendToServer("IceArrows", mouse_hit);
+					create_fx.SendToServer("IceArrows", mouse_hit.Position);
 				}
 			}
 		}
@@ -48,9 +48,9 @@ export function ice_arrows(world: World, state: ClientData): void {
 		}
 	}
 
-	for (const [, ability_name, cf] of useEvent(replicate_fx as never, replicate_fx as ReplicateFx)) {
+	for (const [, ability_name, pos] of useEvent(replicate_fx as never, replicate_fx as ReplicateFx)) {
 		if (ability_name === "IceHit") {
-			ice_hit(cf.Position);
+			ice_hit(pos);
 		}
 	}
 }

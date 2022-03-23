@@ -1,13 +1,15 @@
-import { Loop, World } from "@rbxts/matter";
-import { RunService } from "@rbxts/services";
+import { AnyEntity, Loop, World } from "@rbxts/matter";
+import { CollectionService, RunService } from "@rbxts/services";
 
 import { remove_missing_models } from "shared/systems/remove_missing_models";
 import update_transforms from "shared/systems/update_transforms";
 
 import spawn_player from "./systems/spawn_player";
 import { ice_arrows } from "./systems/souls/gray/ice_arrows";
-import { track_world } from "./systems/track_world";
 import projectiles_follow_trackers from "./systems/projectiles_follow_trackers";
+import { Renderable, Soul, Transform } from "shared/components";
+import { ComponentCtor } from "@rbxts/matter/src/lib/Component";
+import { HashMap } from "@rbxts/rust-classes";
 
 export interface ClientData {
 	equip_soul_1: Enum.KeyCode;
@@ -55,13 +57,6 @@ const state = identity<ClientData>({
 
 const loop = new Loop(world, state);
 
-loop.scheduleSystems([
-	remove_missing_models,
-	update_transforms,
-	spawn_player,
-	ice_arrows,
-	track_world,
-	projectiles_follow_trackers,
-]);
+loop.scheduleSystems([remove_missing_models, update_transforms, spawn_player, ice_arrows, projectiles_follow_trackers]);
 
 loop.begin({ default: RunService.Heartbeat });

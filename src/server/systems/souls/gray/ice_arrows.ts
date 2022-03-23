@@ -10,14 +10,14 @@ type CreateFx = RBXScriptSignal<Parameters<typeof create_fx.Connect>[0]>;
 const replicate_fx = remotes.Server.Create("ReplicateFX");
 
 export function ice_arrows(world: World): void {
-	for (const [, plr, name, cf] of useEvent(create_fx as never, create_fx as CreateFx)) {
+	for (const [, plr, name, pos] of useEvent(create_fx as never, create_fx as CreateFx)) {
 		if (name === "IceArrows") {
 			for (const [, { model }] of world.query(Renderable, Target)) {
 				if (plr === Players.GetPlayerFromCharacter(model)) {
 					for (let i = 0; i < 3; i++) {
 						world.spawn(
 							Ability({ name }),
-							Transform({ cf, do_not_reconcile: false }),
+							Transform({ cf: new CFrame(pos), do_not_reconcile: false }),
 							Tracker({ target: model }),
 							Counter({ idx: i }),
 						);
@@ -42,11 +42,11 @@ export function ice_arrows(world: World): void {
 
 			if (!root_part || !humanoid) return;
 
-			const start = root_part.CFrame;
+			const start = root_part.CFrame.Position;
 
 			create_tracker(world, start, transform.cf, ability.name + "_server", model, ANGLES[counter.idx]);
 
-			replicate_fx.SendToAllPlayers(ability.name, transform.cf);
+			replicate_fx.SendToAllPlayers(ability.name, transform.cf.Position);
 
 			world.despawn(id);
 		};

@@ -1,6 +1,6 @@
-import { AnyEntity, component } from "@rbxts/matter";
+import { AnyEntity, Component, component } from "@rbxts/matter";
 import { Option, Vec } from "@rbxts/rust-classes";
-import { EffectType, EffectTypeInfo } from "./effects_db";
+import type { EffectType, EffectTypeInfo } from "client/effects_db";
 import { souls_db } from "./souls_db";
 
 export const Ability = component<{ name: string }>();
@@ -27,16 +27,34 @@ export enum Shape {
 	Cylinder,
 	Sphere,
 	Disc,
+	Custom,
 }
 
 export const DamageArea = component<{ shape: Shape }>();
 
-export const Effect = component<{
-	creator: Option<AnyEntity>;
-	effect_type: EffectType;
-	effect_payload: EffectTypeInfo[keyof EffectTypeInfo];
-	target: Option<AnyEntity>;
-}>();
+export const Effect = component<
+	{
+		[E in EffectType]: {
+			creator: Option<AnyEntity>;
+			effect_type: E;
+			effect_payload: EffectTypeInfo[E];
+			target: Option<AnyEntity>;
+			pos: Option<Vector3>;
+		};
+	}[EffectType]
+>();
+
+export type _____ = Component<
+	{
+		[E in EffectType]: {
+			creator: Option<AnyEntity>;
+			effect_type: E;
+			effect_payload: EffectTypeInfo[E];
+			target: Option<AnyEntity>;
+			pos: Option<Vector3>;
+		};
+	}[EffectType]
+>;
 
 export const Equipped = component();
 
@@ -46,7 +64,7 @@ export const HitScan = component<{ raycast_result: RaycastResult }>();
 
 export const KnockBack = component<{ force: number }>();
 
-export const ImpactEffect = component<{ effects: Vec<ReturnType<typeof Effect>> }>();
+export const ImpactEffect = component<{ effects: Array<ReturnType<typeof Effect>> }>();
 
 export const InBackpack = component<{ owner: AnyEntity; slot: Enum.KeyCode }>();
 
@@ -61,9 +79,7 @@ export const Mastery = component<{ lvl: number; exp: number }>();
 export const Mob = component();
 
 export const Projectile = component<{
-	origin: Option<CFrame>;
-	goal: CFrame;
-	caster_model: Model;
+	goal: Vector3;
 }>();
 
 export const Prompt = component<{ prompt: ProximityPrompt }>();
@@ -90,7 +106,7 @@ export const Transform = component<{ cf: CFrame; do_not_reconcile?: boolean }>()
 
 export const TweenProps = component<{ data: TweenInfo }>();
 
-export const Velocity = component<{ cached?: boolean; velocity: Vector3 }>();
+export const Velocity = component<{ speed: number }>();
 
 export const WantsMelee = component();
 

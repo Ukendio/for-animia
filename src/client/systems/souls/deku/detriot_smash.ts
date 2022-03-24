@@ -16,7 +16,7 @@ import {
 	Target,
 	Transform,
 } from "shared/components";
-import { EffectType } from "client/effects_db";
+import { EffectType } from "shared/effects_db";
 import { souls_db } from "shared/souls_db";
 import { use_anim } from "shared/use_anim";
 

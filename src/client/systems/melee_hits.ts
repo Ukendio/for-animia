@@ -12,7 +12,7 @@ import {
 	Transform,
 	WantsMelee,
 } from "shared/components";
-import { EffectType } from "client/effects_db";
+import { EffectType } from "shared/effects_db";
 
 export function melee_hits(world: World): void {
 	for (const [id, { model }, combat_stats] of world.query(Renderable, CombatStats, WantsMelee, Target)) {

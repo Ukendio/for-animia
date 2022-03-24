@@ -1,6 +1,6 @@
 import { AnyEntity, Component, component } from "@rbxts/matter";
 import { Option, Vec } from "@rbxts/rust-classes";
-import type { EffectType, EffectTypeInfo } from "client/effects_db";
+import type { DeserializedEffect, EffectType, EffectTypeInfo } from "shared/effects_db";
 import { souls_db } from "./souls_db";
 
 export const Ability = component<{ name: string }>();
@@ -32,29 +32,7 @@ export enum Shape {
 
 export const DamageArea = component<{ shape: Shape }>();
 
-export const Effect = component<
-	{
-		[E in EffectType]: {
-			creator: Option<AnyEntity>;
-			effect_type: E;
-			effect_payload: EffectTypeInfo[E];
-			target: Option<AnyEntity>;
-			pos: Option<Vector3>;
-		};
-	}[EffectType]
->();
-
-export type _____ = Component<
-	{
-		[E in EffectType]: {
-			creator: Option<AnyEntity>;
-			effect_type: E;
-			effect_payload: EffectTypeInfo[E];
-			target: Option<AnyEntity>;
-			pos: Option<Vector3>;
-		};
-	}[EffectType]
->;
+export const Effect = component<DeserializedEffect>();
 
 export const Equipped = component();
 
@@ -85,6 +63,10 @@ export const Projectile = component<{
 export const Prompt = component<{ prompt: ProximityPrompt }>();
 
 export const Renderable = component<{ model: Model; in_anim?: boolean }>();
+
+export const Replicate = component<{
+	should_predict: boolean;
+}>();
 
 export const Rotation = component<{ angle: CFrame }>();
 

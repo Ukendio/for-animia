@@ -1,10 +1,10 @@
 import { Loop, useEvent, World } from "@rbxts/matter";
 import { Option } from "@rbxts/rust-classes";
 import { RunService, UserInputService } from "@rbxts/services";
-import { effects_have_lifetimes } from "client/systems/effects_have_lifetimes";
-import { projectiles_fly } from "client/systems/projectiles_fly";
-import { spawn_effects } from "client/systems/spawn_effects";
-import { things_collide } from "client/systems/things_collide";
+import { effects_have_lifetimes } from "shared/systems/effects_have_lifetimes";
+import { projectiles_fly } from "shared/systems/projectiles_fly";
+import { spawn_effects } from "shared/systems/spawn_effects";
+import { things_collide } from "shared/systems/things_collide";
 import { Renderable } from "shared/components";
 import { remove_missing_models } from "shared/systems/remove_missing_models";
 import update_transforms from "shared/systems/update_transforms";

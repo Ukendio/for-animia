@@ -12,7 +12,7 @@ import {
 	Velocity,
 	Effect,
 } from "shared/components";
-import { EffectType } from ".";
+import { EffectType } from "..";
 
 export function fireball(world: World, creator: Option<AnyEntity>, cf: CFrame, goal: Vector3): AnyEntity {
 	const part = New("Part")({
@@ -33,18 +33,14 @@ export function fireball(world: World, creator: Option<AnyEntity>, cf: CFrame, g
 		ImpactEffect({
 			effects: [
 				Effect({
-					creator,
+					creator: creator.asPtr(),
 					effect_type: EffectType.Damage,
 					effect_payload: { damage: 50 },
-					target: Option.none(),
-					pos: Option.none(),
 				}),
 				Effect({
-					creator,
+					creator: creator.asPtr(),
 					effect_type: EffectType.Explosion,
 					effect_payload: { size: new NumberSequence(48, 52) },
-					target: Option.none(),
-					pos: Option.none(),
 				}),
 			],
 		}),

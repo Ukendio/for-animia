@@ -1,10 +1,10 @@
-import { AnyEntity } from "@rbxts/matter";
 import Net from "@rbxts/net";
-import { SerializedEffect } from "./effects_db";
+import { MappedEffect } from "./effects_db";
+import type { SerializedMappedEffect } from "./serde";
 
 export = Net.Definitions.Create({
 	CreateFX: Net.Definitions.ClientToServerEvent<[string, Vector3]>(),
-	CreateFX2: Net.Definitions.ClientToServerEvent<[SerializedEffect]>(),
+	CreateFX2: Net.Definitions.ClientToServerEvent<[SerializedMappedEffect]>(),
 	ReplicateFX: Net.Definitions.ServerToClientEvent<[string, Vector3]>(),
-	ReplicateFX2: Net.Definitions.ServerToClientEvent<[SerializedEffect]>(),
+	ReplicateFX2: Net.Definitions.ServerToClientEvent<[MappedEffect]>(),
 });

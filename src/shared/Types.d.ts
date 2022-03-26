@@ -481,6 +481,126 @@ type Particles = Folder & {
 	};
 };
 
+type MarcusFix = Model & {
+	["[Interactable]Devil's Sword"]: Model & {
+		["Cube.022"]: MeshPart;
+		["Cube.020"]: MeshPart;
+		["Cube.014"]: MeshPart;
+		["Cube.001"]: MeshPart;
+		["Cube.010"]: MeshPart;
+		["Cube.009"]: MeshPart;
+		Cube: MeshPart;
+		["Cube.013"]: MeshPart;
+		["Cube.019"]: MeshPart;
+		["Cube.004"]: MeshPart;
+		["Cube.023"]: MeshPart;
+		Circle: MeshPart;
+		ProximityPrompt: ProximityPrompt & {
+			WeaponName: StringValue;
+			WeaponType: StringValue;
+			WeaponNickName: StringValue;
+			WeaponRarity: IntValue;
+		};
+		["Cube.016"]: MeshPart;
+		["Cube.024"]: MeshPart;
+		["Cube.015"]: MeshPart;
+		["Cube.048"]: MeshPart;
+		["Cube.012"]: MeshPart;
+		["Cube.003"]: MeshPart;
+		["Cube.007"]: MeshPart;
+		["Cube.021"]: MeshPart;
+		["Circle.001"]: MeshPart;
+		["Cube.018"]: MeshPart;
+		["Cube.002"]: MeshPart;
+		["Cube.006"]: MeshPart;
+		["Cube.008"]: MeshPart;
+		["Cube.005"]: MeshPart;
+	};
+	["[Interactable]MagicBook"]: Model & {
+		["Belt Buckle"]: Model & {
+			Nails: MeshPart;
+			Belt: MeshPart;
+			["Belt Thingy"]: MeshPart;
+		};
+		["Left Cover"]: Model & {
+			["Left Acc"]: MeshPart;
+			["Left Inside"]: MeshPart;
+			["Small Orbs"]: MeshPart;
+			["Left Corners"]: MeshPart;
+			["Left Cover"]: MeshPart;
+			["Big Orb Ring"]: MeshPart;
+			["Big Orb"]: MeshPart;
+			["Small Orbs Rings"]: MeshPart;
+		};
+		ProximityPrompt: ProximityPrompt & {
+			WeaponName: StringValue;
+			WeaponType: StringValue;
+			WeaponNickName: StringValue;
+			WeaponRarity: IntValue;
+		};
+		["Right Cover"]: Model & {
+			["Right Acc"]: MeshPart;
+			["Right Inside"]: MeshPart;
+			["Right Corners"]: MeshPart;
+			["Right Cover"]: MeshPart;
+			["Back Orbs Rings"]: MeshPart;
+			["Back Orbs"]: MeshPart;
+		};
+		Pages: Model & {
+			["Page Four"]: MeshPart;
+			["Page Five"]: MeshPart;
+			["Page Two"]: MeshPart;
+			["Page Six"]: MeshPart;
+			["Page Three"]: MeshPart;
+			["Page One"]: MeshPart;
+		};
+		["Cover Back Part"]: Model & {
+			["Cover Back"]: MeshPart;
+			["Cover Clamps"]: MeshPart;
+		};
+	};
+	["[Interactable]Hero's Sword"]: Model & {
+		ProximityPrompt: ProximityPrompt & {
+			WeaponName: StringValue;
+			WeaponType: StringValue;
+			WeaponNickName: StringValue;
+			WeaponRarity: IntValue;
+		};
+		Script: Script;
+		["Meshes/sworder_Cube.003"]: MeshPart;
+		["Meshes/sworder_Cube.001"]: MeshPart;
+		["Meshes/sworder_Cylinder.001"]: MeshPart;
+		["Meshes/sworder_Cylinder.003"]: MeshPart;
+	};
+	Sword01: Model & {
+		Handle: Part & {
+			TrailTop: Attachment;
+			Trail: Trail;
+			Effect: ParticleEmitter;
+			Slash: Sound;
+			TrailBottom: Attachment;
+			Equip: Sound;
+		};
+		Blade: Part;
+	};
+	["[Interactable]Spear"]: Model & {
+		ProximityPrompt: ProximityPrompt & {
+			WeaponName: StringValue;
+			WeaponType: StringValue;
+			WeaponNickName: StringValue;
+			WeaponRarity: IntValue;
+		};
+	};
+	["[Interactable]Dagger"]: Model & {
+		ProximityPrompt: ProximityPrompt & {
+			WeaponName: StringValue;
+			WeaponType: StringValue;
+			WeaponNickName: StringValue;
+			WeaponRarity: IntValue;
+		};
+	};
+};
+
 interface ReplicatedStorage extends Instance {
 	Assets: Folder & {
 		ArcherModel: ArcherModel;
@@ -488,6 +608,7 @@ interface ReplicatedStorage extends Instance {
 		ArrowModel: ArrowModel;
 		Islands: Folder;
 		Particles: Particles;
+		MarcusFix: MarcusFix;
 	};
 }
 

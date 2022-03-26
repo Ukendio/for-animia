@@ -1,7 +1,7 @@
 import { useEvent, World } from "@rbxts/matter";
 import { Option } from "@rbxts/rust-classes";
 import { Players, UserInputService } from "@rbxts/services";
-import { fireball } from "shared/effects_db/fireball";
+import { fireball } from "shared/effects_db/effects/fireball";
 import { ClientData } from "client/main.client";
 import { Renderable, Soul } from "shared/components";
 

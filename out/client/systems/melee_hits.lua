@@ -1,6 +1,5 @@
 -- Compiled with roblox-ts v1.3.3
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local Option = TS.import(script, TS.getModule(script, "@rbxts", "rust-classes").out).Option
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components")
 local Collision = _components.Collision
 local CombatStats = _components.CombatStats
@@ -35,13 +34,11 @@ local function melee_hits(world)
 		_object[_left] = _exp_2 + _vector3
 		_fn:spawn(_exp, _exp_1, Transform(_object), ImpactEffect({
 			effects = { Effect({
-				creator = Option:some(id),
+				creator = id,
 				effect_type = 0,
 				effect_payload = {
 					damage = combat_stats.damage,
 				},
-				target = Option:none(),
-				pos = Option:none(),
 			}) },
 		}))
 	end

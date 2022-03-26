@@ -1,7 +1,6 @@
 -- Compiled with roblox-ts v1.3.3
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local useEvent = TS.import(script, TS.getModule(script, "@rbxts", "matter").src.lib).useEvent
-local Option = TS.import(script, TS.getModule(script, "@rbxts", "rust-classes").out).Option
 local UserInputService = TS.import(script, TS.getModule(script, "@rbxts", "services")).UserInputService
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components")
 local Collision = _components.Collision
@@ -60,13 +59,10 @@ local function detriot_smash(world, controls)
 						blacklist = { model },
 					}), ImpactEffect({
 						effects = { Effect({
-							creator = Option:none(),
 							effect_type = 0,
 							effect_payload = {
 								damage = 50,
 							},
-							target = Option:none(),
-							pos = Option:none(),
 						}) },
 					}))
 				end

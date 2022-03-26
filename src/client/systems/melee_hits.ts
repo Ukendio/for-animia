@@ -31,11 +31,9 @@ export function melee_hits(world: World): void {
 			ImpactEffect({
 				effects: [
 					Effect({
-						creator: Option.some(id),
+						creator: id,
 						effect_type: EffectType.Damage,
 						effect_payload: { damage: combat_stats.damage },
-						target: Option.none(),
-						pos: Option.none(),
 					}),
 				],
 			}),

@@ -67,11 +67,8 @@ export function detriot_smash(world: World, controls: ClientData): void {
 						ImpactEffect({
 							effects: [
 								Effect({
-									creator: Option.none(),
 									effect_type: EffectType.Damage,
 									effect_payload: { damage: 50 },
-									target: Option.none(),
-									pos: Option.none(),
 								}),
 							],
 						}),

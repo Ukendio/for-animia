@@ -1,6 +1,6 @@
 import { AnyEntity, Component, component } from "@rbxts/matter";
 import { Option, Vec } from "@rbxts/rust-classes";
-import type { DeserializedEffect, EffectType, EffectTypeInfo } from "shared/effects_db";
+import { MappedEffect } from "./effects_db";
 import { souls_db } from "./souls_db";
 
 export const Ability = component<{ name: string }>();
@@ -32,7 +32,7 @@ export enum Shape {
 
 export const DamageArea = component<{ shape: Shape }>();
 
-export const Effect = component<DeserializedEffect>();
+export const Effect = component<MappedEffect>();
 
 export const Equipped = component();
 

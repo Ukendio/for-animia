@@ -1,6 +1,6 @@
 import { Children, New } from "@rbxts/fusion";
 import { AnyEntity } from "@rbxts/matter";
-import { Option, Vec } from "@rbxts/rust-classes";
+import { Vec } from "@rbxts/rust-classes";
 import { Workspace } from "@rbxts/services";
 
 export const enum EffectType {
@@ -19,23 +19,13 @@ export interface Emit {
 	once: (...emit_counts: Array<number>) => Model;
 }
 
-export type SerializedEffect = {
+export type MappedEffect = {
 	[E in EffectType]: {
-		creator: AnyEntity | undefined;
+		creator?: AnyEntity;
 		effect_type: E;
 		effect_payload: EffectTypeInfo[E];
-		target: AnyEntity | undefined;
-		pos: Vector3 | undefined;
-	};
-}[EffectType];
-
-export type DeserializedEffect = {
-	[E in EffectType]: {
-		creator: Option<AnyEntity>;
-		effect_type: E;
-		effect_payload: EffectTypeInfo[E];
-		target: Option<AnyEntity>;
-		pos: Option<Vector3>;
+		target?: AnyEntity;
+		pos?: Vector3;
 	};
 }[EffectType];
 

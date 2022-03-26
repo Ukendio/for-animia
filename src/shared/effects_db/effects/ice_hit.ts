@@ -1,7 +1,7 @@
 import { New } from "@rbxts/fusion";
 import { Vec } from "@rbxts/rust-classes";
 import { TweenService } from "@rbxts/services";
-import { compose_effects } from ".";
+import { compose_effects } from "..";
 import { gradient } from "./gradient";
 import { shards } from "./shards";
 import { smoke } from "./smoke";

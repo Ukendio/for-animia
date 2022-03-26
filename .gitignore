@@ -1,5 +1,5 @@
 /node_modules
 /include
-/out
+out/
 *.tsbuildinfo
 *.lua

@@ -16,7 +16,7 @@ import {
 	Target,
 	Transform,
 } from "shared/components";
-import { EffectType } from "shared/effects_db";
+import { EffectVariant } from "shared/effects_db";
 import { souls_db } from "shared/souls_db";
 import { use_anim } from "shared/use_anim";
 
@@ -51,24 +51,27 @@ export function detriot_smash(world: World, controls: ClientData): void {
 
 					const direction = root.CFrame.LookVector.Z + 2;
 					const deku_detroit_smash_info = souls_db.Deku.abilities["Detroit Smash"];
-					const damage = deku_detroit_smash_info.base_damage.i(mastery.lvl);
+					const base_damage = deku_detroit_smash_info.base_damage.i(mastery.lvl);
 
 					const cf = model.GetPivot().add(new Vector3(0, 0, direction));
 
 					world.spawn(
-						DamageArea({
-							shape: Shape.Box,
-						}),
+						DamageArea({ shape: Shape.Box }),
 						Transform({ cf }),
-						Collision({
-							size: new Vector3(5, 5, 0),
-							blacklist: [model],
-						}),
+						Collision({ size: new Vector3(5, 5, 0), blacklist: [model] }),
 						ImpactEffect({
 							effects: [
 								Effect({
-									effect_type: EffectType.Damage,
-									effect_payload: { damage: 50 },
+									creator: Option.some(id),
+									variant: EffectVariant.Damage(combat_stats.damage + base_damage),
+									target: Option.none(),
+									pos: Option.none(),
+								}),
+								Effect({
+									creator: Option.some(id),
+									variant: EffectVariant.KnockBack(new Vector3(0, 0, 200)),
+									target: Option.none(),
+									pos: Option.none(),
 								}),
 							],
 						}),

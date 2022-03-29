@@ -1,7 +1,7 @@
 import { New } from "@rbxts/fusion";
 import { Vec } from "@rbxts/rust-classes";
 import { TweenService } from "@rbxts/services";
-import { compose_effects } from "..";
+import { compose_effects } from "../emitter";
 import { gradient } from "./gradient";
 import { shards } from "./shards";
 import { smoke } from "./smoke";
@@ -11,11 +11,11 @@ import { specs } from "./specs";
 
 export function ice_hit(pos: Vector3): Model {
 	const model = compose_effects(
-		pos,
 		Vec.fromPtr([
 			spark(
 				new ColorSequence(Color3.fromRGB(116, 185, 254)),
 				new NumberSequence([new NumberSequenceKeypoint(0, 1.42), new NumberSequenceKeypoint(1, 10)]),
+				"",
 			),
 			gradient(
 				new ColorSequence(Color3.fromRGB(124, 197, 254)),

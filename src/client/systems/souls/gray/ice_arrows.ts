@@ -5,8 +5,8 @@ import { Projectile, Renderable, Soul, Tracker, Transform, TweenProps } from "sh
 import { ice_hit } from "shared/effects_db/effects/ice_hit";
 import remotes from "shared/remotes";
 
-const create_fx = remotes.Client.Get("CreateFX");
-const replicate_fx = remotes.Client.Get("ReplicateFX");
+const create_fx = remotes.Client.Get("CreateFX2");
+const replicate_fx = remotes.Client.Get("ReplicateFX2");
 type ReplicateFx = RBXScriptSignal<Parameters<typeof replicate_fx.Connect>[0]>;
 
 export function ice_arrows(world: World, state: ClientData): void {

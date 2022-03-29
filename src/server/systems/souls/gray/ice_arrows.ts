@@ -4,10 +4,10 @@ import { Ability, Counter, Renderable, Target, Tracker, Transform } from "shared
 import { create_tracker } from "shared/create_tracker";
 import remotes from "shared/remotes";
 
-const create_fx = remotes.Server.Create("CreateFX");
+const create_fx = remotes.Server.Create("CreateFX2");
 type CreateFx = RBXScriptSignal<Parameters<typeof create_fx.Connect>[0]>;
 
-const replicate_fx = remotes.Server.Create("ReplicateFX");
+const replicate_fx = remotes.Server.Create("ReplicateFX2");
 
 export function ice_arrows(world: World): void {
 	for (const [, plr, name, pos] of useEvent(create_fx as never, create_fx as CreateFx)) {

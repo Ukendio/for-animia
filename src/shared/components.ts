@@ -1,6 +1,6 @@
 import { AnyEntity, Component, component } from "@rbxts/matter";
 import { Option, Vec } from "@rbxts/rust-classes";
-import { MappedEffect } from "./effects_db";
+import { EffectVariant } from "./effects_db";
 import { souls_db } from "./souls_db";
 
 export const Ability = component<{ name: string }>();
@@ -32,7 +32,12 @@ export enum Shape {
 
 export const DamageArea = component<{ shape: Shape }>();
 
-export const Effect = component<MappedEffect>();
+export const Effect = component<{
+	creator: Option<AnyEntity>;
+	variant: EffectVariant;
+	target: Option<AnyEntity>;
+	pos: Option<Vector3>;
+}>();
 
 export const Equipped = component();
 

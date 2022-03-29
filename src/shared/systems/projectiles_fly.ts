@@ -4,8 +4,15 @@ import { Projectile, Transform, Velocity } from "shared/components";
 export function projectiles_fly(world: World): void {
 	for (let [id, projectile, transform, { speed }] of world.query(Projectile, Transform, Velocity)) {
 		const vel_offset = speed * useDeltaTime();
+
+		const distance = projectile.goal.sub(transform.cf.Position);
+		const unit_direction = distance.Unit;
+		const velocity = unit_direction.mul(vel_offset);
+
+		const cf = transform.cf.add(velocity);
+
 		transform = transform.patch({
-			cf: transform.cf.add(projectile.goal.sub(transform.cf.Position).Unit.mul(vel_offset)),
+			cf,
 		});
 
 		if (transform.cf.Position.sub(projectile.goal).Magnitude <= vel_offset) {

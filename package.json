@@ -30,9 +30,9 @@
 		"@rbxts/net": "^2.1.5",
 		"@rbxts/plasma": "^0.1.0-ts.1",
 		"@rbxts/promise-character": "^1.0.3",
-		"@rbxts/rbxts-pattern": "^1.0.2",
 		"@rbxts/rust-classes": "^0.11.0-beta.1",
 		"@rbxts/services": "^1.2.0",
-		"@rbxts/testez": "^0.3.1-ts.7"
+		"@rbxts/testez": "^0.3.1-ts.7",
+		"@rbxts/variant": "^0.2.3"
 	}
 }

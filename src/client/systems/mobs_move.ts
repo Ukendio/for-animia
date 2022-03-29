@@ -31,7 +31,7 @@ export function mobs_move(world: World): void {
 
 			if (closest_position.sub(current_position).Magnitude < 4) {
 				if (world.get(id, WantsMelee)) {
-					continue;
+					break;
 				}
 
 				world.insert(id, WantsMelee());

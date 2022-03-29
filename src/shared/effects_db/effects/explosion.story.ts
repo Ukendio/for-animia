@@ -1,13 +1,25 @@
-import { Vec } from "@rbxts/rust-classes";
-import { compose_effects } from "..";
-import { explosion_1, explosion_2, explosion_3, explosion_4 } from "./explosions";
+import { Loop, World } from "@rbxts/matter";
+import { Option, Vec } from "@rbxts/rust-classes";
+import { RunService } from "@rbxts/services";
+import { Lifetime } from "shared/components";
+import { effects_have_lifetimes } from "shared/systems/effects_have_lifetimes";
+import { remove_missing_models } from "shared/systems/remove_missing_models";
+import update_transforms from "shared/systems/update_transforms";
+import { EffectVariant } from "..";
+import { explosion } from "./explosions";
 
 export = (target: Instance): Callback => {
-	const effects_model = compose_effects(
-		new Vector3(0, 10, 0),
-		Vec.fromPtr([explosion_1(new NumberSequence(8, 10))]),
-	).once(1, 1);
+	const world = new World();
+	const loop = new Loop(world);
+	loop.scheduleSystems([effects_have_lifetimes, remove_missing_models, update_transforms]);
+
+	const connections = loop.begin({ default: RunService.Heartbeat });
+	const id = explosion(
+		world,
+		EffectVariant.Explosion(new NumberSequence(10, 10)),
+		Option.some(new Vector3(0, 10, 0)),
+	);
 	return function (): void {
-		effects_model.Destroy();
+		task.delay(world.get(id, Lifetime).remaining_time + 0.5, () => connections.default.Disconnect());
 	};
 };

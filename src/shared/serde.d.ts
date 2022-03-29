@@ -1,10 +1,9 @@
 import { AnyEntity } from "@rbxts/matter";
-import { EffectType, EffectTypeInfo } from "./effects_db";
+import { EffectVariant } from "./effects_db";
 
 type SerializedMappedEffect = {
 	creator?: AnyEntity;
-	effect_type: EffectType;
-	effect_payload: EffectTypeInfo[EffectType];
+	variant: EffectVariant;
 	target?: AnyEntity;
 	pos?: Vector3;
 };

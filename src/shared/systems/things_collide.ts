@@ -1,5 +1,4 @@
 import { AnyEntity, World } from "@rbxts/matter";
-import { match, __ } from "@rbxts/rbxts-pattern";
 import { Option, Vec } from "@rbxts/rust-classes";
 import { Workspace } from "@rbxts/services";
 import { Collision, DamageArea, ImpactEffect, Projectile, Renderable, Shape, Soul, Transform } from "shared/components";
@@ -7,46 +6,41 @@ import { Collision, DamageArea, ImpactEffect, Projectile, Renderable, Shape, Sou
 const overlap_params = new OverlapParams();
 overlap_params.FilterType = Enum.RaycastFilterType.Blacklist;
 
+const raycast_params = new RaycastParams();
+raycast_params.FilterType = Enum.RaycastFilterType.Blacklist;
+
 function get_parts_in_shape(shape: Shape, size: Vector3, cf: CFrame): Array<Instance> {
-	return match(shape)
-		.with(Shape.Box, () => {
-			return Workspace.GetPartBoundsInBox(cf, size, overlap_params);
-		})
-		.with(Shape.Radius, () => {
-			return Workspace.GetPartBoundsInRadius(cf.Position, size.X, overlap_params);
-		})
-		.with(Shape.Cylinder, () => {
-			const cylinder = new Instance("Part");
-			cylinder.Shape = Enum.PartType.Cylinder;
-			cylinder.Rotation = new Vector3(cf.Rotation.X, cf.Rotation.Y, cf.Rotation.Z);
-			cylinder.Anchored = true;
-			cylinder.Transparency = 1;
-			cylinder.Parent = Workspace;
-			cylinder.Size = size;
+	if (shape === Shape.Box) {
+		return Workspace.GetPartBoundsInBox(cf, size, overlap_params);
+	} else if (shape === Shape.Radius) return Workspace.GetPartBoundsInRadius(cf.Position, size.X, overlap_params);
+	else if (shape === Shape.Cylinder) {
+		const cylinder = new Instance("Part");
+		cylinder.Shape = Enum.PartType.Cylinder;
+		cylinder.Rotation = new Vector3(cf.Rotation.X, cf.Rotation.Y, cf.Rotation.Z);
+		cylinder.Anchored = true;
+		cylinder.Transparency = 1;
+		cylinder.Parent = Workspace;
+		cylinder.Size = size;
 
-			const parts = Workspace.GetPartsInPart(cylinder, overlap_params);
+		const parts = Workspace.GetPartsInPart(cylinder, overlap_params);
 
-			cylinder.Destroy();
+		cylinder.Destroy();
 
-			return parts;
-		})
-		.with(Shape.Sphere, () => {
-			const sphere = new Instance("Part");
-			sphere.Shape = Enum.PartType.Ball;
-			sphere.Anchored = true;
-			sphere.Transparency = 1;
-			sphere.Parent = Workspace;
-			sphere.Size = size;
+		return parts;
+	} else if (shape === Shape.Sphere) {
+		const sphere = new Instance("Part");
+		sphere.Shape = Enum.PartType.Ball;
+		sphere.Anchored = true;
+		sphere.Transparency = 1;
+		sphere.Parent = Workspace;
+		sphere.Size = size;
 
-			const parts = Workspace.GetPartsInPart(sphere, overlap_params);
+		const parts = Workspace.GetPartsInPart(sphere, overlap_params);
 
-			sphere.Destroy();
+		sphere.Destroy();
 
-			return parts;
-		})
-		.with(Shape.Disc, () => [])
-		.with(__, () => error("not a valid shape"))
-		.exhaustive();
+		return parts;
+	} else error("Non-valid shape");
 }
 
 export function things_collide(world: World): void {
@@ -109,6 +103,14 @@ export function things_collide(world: World): void {
 			const part = model.FindFirstChildOfClass("Part");
 
 			if (part) {
+				for (let i = -45; i < 45; i + 45) {
+					const raycast_result = Workspace.Raycast(
+						cf.Position,
+						new Vector3(0, 1, 0).Cross(projectile.goal.Unit.mul(collision.size.Z / 2 + 1)),
+						raycast_params,
+					);
+				}
+
 				for (const instance of Workspace.GetPartsInPart(part, overlap_params)) {
 					collided = true;
 					const instance_model = instance.Parent;

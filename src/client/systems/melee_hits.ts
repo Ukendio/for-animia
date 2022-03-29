@@ -12,7 +12,7 @@ import {
 	Transform,
 	WantsMelee,
 } from "shared/components";
-import { EffectType } from "shared/effects_db";
+import { EffectVariant } from "shared/effects_db";
 
 export function melee_hits(world: World): void {
 	for (const [id, { model }, combat_stats] of world.query(Renderable, CombatStats, WantsMelee, Target)) {
@@ -31,9 +31,10 @@ export function melee_hits(world: World): void {
 			ImpactEffect({
 				effects: [
 					Effect({
-						creator: id,
-						effect_type: EffectType.Damage,
-						effect_payload: { damage: combat_stats.damage },
+						creator: Option.some(id),
+						variant: EffectVariant.Damage(combat_stats.damage),
+						target: Option.none(),
+						pos: Option.none(),
 					}),
 				],
 			}),

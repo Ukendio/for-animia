@@ -11,7 +11,8 @@ import { ice_arrows } from "./systems/souls/gray/ice_arrows";
 import tracker_moves from "./systems/tracker_moves";
 import { remove_missing_trackers } from "./systems/remove_missing_trackers";
 
-remotes();
+remotes.Server.Create("create_fx");
+remotes.Server.Create("replicate_fx");
 
 const world = new World();
 const loop = new Loop(world);

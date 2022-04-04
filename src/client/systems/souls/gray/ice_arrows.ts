@@ -5,7 +5,7 @@ import { Controls } from "client/main.client";
 import { Projectile, Renderable, Soul, Tracker, Transform, TweenProps } from "shared/components";
 import { remotes } from "shared/remotes";
 
-const replicate_fx = remotes.replicate_fx;
+const replicate_fx = remotes.Client.Get("replicate_fx");
 
 export function ice_arrows(world: World, state: Controls): void {
 	for (const [, soul, { model }] of world.query(Soul, Renderable)) {
@@ -46,7 +46,7 @@ export function ice_arrows(world: World, state: Controls): void {
 		}
 	}
 
-	for (const [, variant] of useEvent(replicate_fx, "OnClientEvent")) {
+	for (const [, variant] of useEvent("replicate_fx", replicate_fx)) {
 		print(variant);
 	}
 

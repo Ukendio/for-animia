@@ -7,8 +7,8 @@ import { Tracker, Projectile, Rotation, Transform, Renderable, Lifetime, Collisi
 import { remotes } from "shared/remotes";
 import update_transforms from "shared/systems/update_transforms";
 
-const replicate_fx = remotes.replicate_fx;
-const create_fx = remotes.create_fx;
+const replicate_fx = remotes.Server.Create("replicate_fx");
+const create_fx = remotes.Server.Create("create_fx");
 
 const raycast_params = new RaycastParams();
 raycast_params.FilterType = Enum.RaycastFilterType.Blacklist;

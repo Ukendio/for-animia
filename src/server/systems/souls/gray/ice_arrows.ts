@@ -4,10 +4,10 @@ import { Ability, Counter, Renderable, Target, Tracker, Transform } from "shared
 import { create_tracker } from "shared/create_tracker";
 import { remotes } from "shared/remotes";
 
-const { create_fx, replicate_fx } = remotes;
+const create_fx = remotes.Server.Create("create_fx");
 
 export function ice_arrows(world: World): void {
-	for (const [, plr, variant] of useEvent(create_fx, "OnServerEvent")) {
+	for (const [, plr, variant] of useEvent("create_fx", create_fx)) {
 		for (const [, { model }] of world.query(Renderable, Target)) {
 			if (plr === Players.GetPlayerFromCharacter(model)) {
 				for (let i = 0; i < 3; i++) {

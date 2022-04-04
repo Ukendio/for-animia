@@ -1,7 +1,7 @@
 import { World } from "@rbxts/matter";
 import { match } from "@rbxts/variant";
 import { EffectPayload } from ".";
-import { explosion } from "./effects/explosions";
+import { explosion } from "./effects/explosion";
 import { inflict_damage } from "./effects/inflict_damage";
 
 export function replicate_fx_on_client(world: World, { variant, creator, target, pos }: EffectPayload): void {

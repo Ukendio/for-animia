@@ -1,12 +1,12 @@
 import { useEvent, useThrottle, World } from "@rbxts/matter";
 import { HashMap } from "@rbxts/rust-classes";
 import { Players, ReplicatedStorage, UserInputService } from "@rbxts/services";
-import { ClientData } from "client/main.client";
+import { Controls } from "client/main.client";
 import { InBackpack, Mastery, Renderable, Soul, Target } from "shared/components";
 
 const soul_mastery_cache = HashMap.empty<ReturnType<typeof Soul>, ReturnType<typeof Mastery>>();
 
-export function players_change_souls(world: World, controls: ClientData): void {
+export function players_change_souls(world: World, controls: Controls): void {
 	if (useThrottle(1.5)) {
 		for (const [, { KeyCode }] of useEvent(UserInputService, "InputBegan")) {
 			if (

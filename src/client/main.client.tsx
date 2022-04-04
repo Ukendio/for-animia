@@ -1,5 +1,5 @@
-import { AnyEntity, Loop, World } from "@rbxts/matter";
-import { CollectionService, RunService } from "@rbxts/services";
+import { Loop, World } from "@rbxts/matter";
+import { RunService } from "@rbxts/services";
 
 import { remove_missing_models } from "shared/systems/remove_missing_models";
 import update_transforms from "shared/systems/update_transforms";
@@ -7,11 +7,10 @@ import update_transforms from "shared/systems/update_transforms";
 import spawn_player from "./systems/spawn_player";
 import { ice_arrows } from "./systems/souls/gray/ice_arrows";
 import projectiles_follow_trackers from "./systems/projectiles_follow_trackers";
-import { Renderable, Soul, Transform } from "shared/components";
-import { ComponentCtor } from "@rbxts/matter/src/lib/Component";
-import { HashMap } from "@rbxts/rust-classes";
+import Plasma from "@rbxts/plasma";
+import { players_have_overheads } from "./systems/players_have_overheads";
 
-export interface ClientData {
+export interface Controls {
 	equip_soul_1: Enum.KeyCode;
 	equip_soul_2: Enum.KeyCode;
 	equip_soul_3: Enum.KeyCode;
@@ -38,7 +37,7 @@ function input_type<T extends keyof Writable<typeof Enum.UserInputType>>(
 	return Enum.UserInputType[key] as Enum.UserInputType;
 }
 
-const state = identity<ClientData>({
+const state = identity<Controls>({
 	equip_soul_1: key("Z"),
 	equip_soul_2: key("X"),
 	equip_soul_3: key("C"),
@@ -55,8 +54,16 @@ const state = identity<ClientData>({
 	dash: [key("Q"), key("E")],
 });
 
-const loop = new Loop(world, state);
+const root = new Plasma(game);
+const loop = new Loop(world, state, root);
 
-loop.scheduleSystems([remove_missing_models, update_transforms, spawn_player, ice_arrows, projectiles_follow_trackers]);
+loop.scheduleSystems([
+	remove_missing_models,
+	update_transforms,
+	spawn_player,
+	ice_arrows,
+	projectiles_follow_trackers,
+	players_have_overheads,
+]);
 
 loop.begin({ default: RunService.Heartbeat });

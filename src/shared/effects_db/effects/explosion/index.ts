@@ -2,13 +2,12 @@ import { New } from "@rbxts/fusion";
 import { Entity, InferComponents, World } from "@rbxts/matter";
 import { Option, Vec } from "@rbxts/rust-classes";
 import { Renderable, Lifetime, Transform } from "shared/components";
-import { EffectVariant } from "..";
-import { compose_effects } from "../emitter";
+import { compose_effects } from "shared/effects_db/emitter";
 
 export function explosion(
 	world: World,
-	{ size }: EffectVariant<"Explosion">,
 	pos: Option<Vector3>,
+	size: NumberSequence,
 ): Entity<InferComponents<[typeof Renderable, typeof Lifetime, typeof Transform]>> {
 	const model = compose_effects(Vec.fromPtr([explosion_1(size)])).once(1);
 

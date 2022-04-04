@@ -1,6 +1,6 @@
 import { useDeltaTime, useEvent, World } from "@rbxts/matter";
 import { Players, TweenService, UserInputService, Workspace } from "@rbxts/services";
-import { ClientData } from "client/main.client";
+import { Controls } from "client/main.client";
 import { Float, HitScan, Lifetime, Renderable, Soul, Steer, Target } from "shared/components";
 import { get_mass_of_model } from "shared/get_mass_of_model";
 
@@ -20,7 +20,7 @@ const line_force = new Instance("LineForce");
 line_force.Name = "LineForce";
 line_force.Parent = hook_attach;
 
-export function grapplers_hooks(world: World, state: ClientData): void {
+export function grapplers_hooks(world: World, state: Controls): void {
 	for (const [grappler_entity, { model }, soul] of world.query(Renderable, Soul, Target).without(Lifetime, HitScan)) {
 		if (soul.name !== "Grappler") continue;
 

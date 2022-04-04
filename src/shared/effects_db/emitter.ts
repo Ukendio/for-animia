@@ -41,3 +41,10 @@ export function compose_effects(effects: Vec<ParticleEmitter>): Emit {
 	const effects_model = orig(effects);
 	return emit_effects(effects, effects_model);
 }
+
+// print 1 to 5
+function count(): void {
+	print(1);
+	print(2);
+	print(3);
+}

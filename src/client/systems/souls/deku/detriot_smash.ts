@@ -1,7 +1,7 @@
 import { AnyEntity, useEvent, World } from "@rbxts/matter";
 import { Option, Vec } from "@rbxts/rust-classes";
 import { UserInputService } from "@rbxts/services";
-import { ClientData } from "client/main.client";
+import { Controls } from "client/main.client";
 import {
 	Collision,
 	CombatStats,
@@ -18,14 +18,14 @@ import {
 } from "shared/components";
 import { EffectVariant } from "shared/effects_db";
 import { souls_db } from "shared/souls_db";
-import { use_anim } from "shared/use_anim";
+import { use_anim } from "shared/hooks/use_anim";
 
 // animation id 9006471997
 
 const animation = new Instance("Animation");
 animation.AnimationId = "rbxassetid://9006471997";
 
-export function detriot_smash(world: World, controls: ClientData): void {
+export function detriot_smash(world: World, controls: Controls): void {
 	for (let [id, renderable, combat_stats, mastery, soul] of world.query(
 		Renderable,
 		CombatStats,

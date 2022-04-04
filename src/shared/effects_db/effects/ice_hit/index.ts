@@ -1,13 +1,13 @@
 import { New } from "@rbxts/fusion";
 import { Vec } from "@rbxts/rust-classes";
 import { TweenService } from "@rbxts/services";
-import { compose_effects } from "../emitter";
-import { gradient } from "./gradient";
-import { shards } from "./shards";
-import { smoke } from "./smoke";
-import { snowflakes } from "./snowflakes";
-import { spark } from "./spark";
-import { specs } from "./specs";
+import { compose_effects } from "shared/effects_db/emitter";
+import { gradient } from "../gradient";
+import { shards } from "../shards";
+import { smoke } from "../smoke";
+import { snowflakes } from "../snowflakes";
+import { spark } from "../spark";
+import { specs } from "../specs";
 
 export function ice_hit(pos: Vector3): Model {
 	const model = compose_effects(

@@ -2,10 +2,10 @@ import { useEvent, World } from "@rbxts/matter";
 import { Option } from "@rbxts/rust-classes";
 import { Players, UserInputService } from "@rbxts/services";
 import { fireball } from "shared/effects_db/effects/fireball";
-import { ClientData } from "client/main.client";
+import { Controls } from "client/main.client";
 import { Renderable, Soul } from "shared/components";
 
-export function spawn_fireball(world: World, controls: ClientData): void {
+export function spawn_fireball(world: World, controls: Controls): void {
 	for (const [id, { model }, soul] of world.query(Renderable, Soul)) {
 		if (soul.name !== "Fire Person") continue;
 

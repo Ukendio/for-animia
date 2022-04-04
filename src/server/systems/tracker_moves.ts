@@ -1,12 +1,14 @@
 import { useDeltaTime, World } from "@rbxts/matter";
 import { Option } from "@rbxts/rust-classes";
 import { Workspace } from "@rbxts/services";
+import { todo } from "@rbxts/todo";
 import { quad_beizer } from "shared/beizer";
 import { Tracker, Projectile, Rotation, Transform, Renderable, Lifetime, Collision, Velocity } from "shared/components";
-import remotes from "shared/remotes";
+import { remotes } from "shared/remotes";
 import update_transforms from "shared/systems/update_transforms";
 
-const replicate_fx = remotes.Server.Create("ReplicateFX2");
+const replicate_fx = remotes.replicate_fx;
+const create_fx = remotes.create_fx;
 
 const raycast_params = new RaycastParams();
 raycast_params.FilterType = Enum.RaycastFilterType.Blacklist;
@@ -41,14 +43,14 @@ function tracker_moves(world: World): void {
 		const raycast_result = Workspace.Raycast(start.Position, desired_look_vector.mul(5), raycast_params);
 
 		if (raycast_result) {
-			replicate_fx.SendToAllPlayers("IceHit", goal);
-
+			todo();
+			create_fx;
 			world.remove(id, Tracker);
 			continue;
 		}
 
 		if (lifetime.remaining_time <= 0) {
-			replicate_fx.SendToAllPlayers("IceHit", goal);
+			todo();
 
 			world.insert(id, transform.patch({ cf: new CFrame(curve) }));
 			world.remove(id, Tracker);

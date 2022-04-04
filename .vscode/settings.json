@@ -10,5 +10,18 @@
 	"eslint.run": "onType",
 	"eslint.format.enable": true,
 	"typescript.tsdk": "node_modules/typescript/lib",
-	"cSpell.words": ["beizer", "Interactables", "ipairs", "Raycast", "rbxts", "Scriptable", "Skybox", "Stringable"]
+	"cSpell.words": [
+		"Adornee",
+		"beizer",
+		"Interactables",
+		"ipairs",
+		"Netto",
+		"Raycast",
+		"rbxts",
+		"Scriptable",
+		"Skybox",
+		"Stringable",
+		"Topo",
+		"traceback"
+	]
 }

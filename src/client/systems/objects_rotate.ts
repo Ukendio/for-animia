@@ -1,10 +1,10 @@
 import { World } from "@rbxts/matter";
 import { UserInputService, Workspace } from "@rbxts/services";
-import { ClientData } from "client/main.client";
+import { Controls } from "client/main.client";
 import { Steer, Renderable } from "shared/components";
 import { get_mass_of_model } from "shared/get_mass_of_model";
 
-export function objects_rotate(world: World, state: ClientData): void {
+export function objects_rotate(world: World, state: Controls): void {
 	for (let [id, steer, { model }] of world.query(Steer, Renderable)) {
 		const root = model.FindFirstChild("HumanoidRootPart") as Part;
 

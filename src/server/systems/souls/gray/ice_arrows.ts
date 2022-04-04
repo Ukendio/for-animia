@@ -2,26 +2,20 @@ import { useEvent, useThrottle, World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import { Ability, Counter, Renderable, Target, Tracker, Transform } from "shared/components";
 import { create_tracker } from "shared/create_tracker";
-import remotes from "shared/remotes";
+import { remotes } from "shared/remotes";
 
-const create_fx = remotes.Server.Create("CreateFX2");
-type CreateFx = RBXScriptSignal<Parameters<typeof create_fx.Connect>[0]>;
-
-const replicate_fx = remotes.Server.Create("ReplicateFX2");
+const { create_fx, replicate_fx } = remotes;
 
 export function ice_arrows(world: World): void {
-	for (const [, plr, name, pos] of useEvent(create_fx as never, create_fx as CreateFx)) {
-		if (name === "IceArrows") {
-			for (const [, { model }] of world.query(Renderable, Target)) {
-				if (plr === Players.GetPlayerFromCharacter(model)) {
-					for (let i = 0; i < 3; i++) {
-						world.spawn(
-							Ability({ name }),
-							Transform({ cf: new CFrame(pos), do_not_reconcile: false }),
-							Tracker({ target: model }),
-							Counter({ idx: i }),
-						);
-					}
+	for (const [, plr, variant] of useEvent(create_fx, "OnServerEvent")) {
+		for (const [, { model }] of world.query(Renderable, Target)) {
+			if (plr === Players.GetPlayerFromCharacter(model)) {
+				for (let i = 0; i < 3; i++) {
+					world.spawn(
+						Transform({ cf: new CFrame(variant.pos ?? Vector3.zero), do_not_reconcile: false }),
+						Tracker({ target: model }),
+						Counter({ idx: i }),
+					);
 				}
 			}
 		}
@@ -45,8 +39,6 @@ export function ice_arrows(world: World): void {
 			const start = root_part.CFrame.Position;
 
 			create_tracker(world, start, transform.cf, ability.name + "_server", model, ANGLES[counter.idx]);
-
-			replicate_fx.SendToAllPlayers(ability.name, transform.cf.Position);
 
 			world.despawn(id);
 		};

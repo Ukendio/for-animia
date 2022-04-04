@@ -12,7 +12,7 @@ import {
 	Velocity,
 	Effect,
 } from "shared/components";
-import { EffectVariant } from "..";
+import { EffectVariant } from "shared/effects_db";
 
 export function fireball(world: World, creator: Option<AnyEntity>, cf: CFrame, goal: Vector3): AnyEntity {
 	const part = New("Part")({

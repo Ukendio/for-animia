@@ -1,6 +1,6 @@
 import { useEvent, World } from "@rbxts/matter";
 import promiseR15 from "@rbxts/promise-character";
-import { CollectionService, Players } from "@rbxts/services";
+import { Players } from "@rbxts/services";
 import { Target, Renderable, CombatStats, Mastery, Soul } from "shared/components";
 
 function character_added(world: World, char: Model): void {
@@ -14,7 +14,6 @@ function character_added(world: World, char: Model): void {
 				Renderable({ model: character }),
 				CombatStats({ hp: 100, max_hp: 100, damage: 50, soul_power: 50, defense: 50 }),
 				Mastery(),
-				Soul({ name: "Gray" }),
 			),
 		);
 	});

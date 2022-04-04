@@ -69,9 +69,7 @@ export const Prompt = component<{ prompt: ProximityPrompt }>();
 
 export const Renderable = component<{ model: Model; in_anim?: boolean }>();
 
-export const Replicate = component<{
-	should_predict: boolean;
-}>();
+export const Replicate = component<{ should_predict?: boolean }>();
 
 export const Rotation = component<{ angle: CFrame }>();
 

@@ -29,6 +29,4 @@ loop.scheduleSystems([
 	tracker_moves,
 ]);
 
-loop.begin({
-	default: RunService.Heartbeat,
-});
+loop.begin({ default: RunService.Heartbeat });

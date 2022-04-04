@@ -8,7 +8,7 @@ import { remotes } from "shared/remotes";
 const create_fx = remotes.Server.Create("create_fx");
 const replicate_fx = remotes.Server.Create("replicate_fx");
 
-export function replicate(world: World): void {
+export function replicate_effects(world: World): void {
 	for (const [, plr, effect] of useEvent("create_fx", create_fx)) {
 		match(effect.variant, {
 			Damage: () => {

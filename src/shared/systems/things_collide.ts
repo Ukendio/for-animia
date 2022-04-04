@@ -1,5 +1,5 @@
 import { AnyEntity, World } from "@rbxts/matter";
-import { Option, Vec } from "@rbxts/rust-classes";
+import { Option } from "@rbxts/rust-classes";
 import { Workspace } from "@rbxts/services";
 import { Collision, DamageArea, ImpactEffect, Projectile, Renderable, Shape, Soul, Transform } from "shared/components";
 
@@ -67,23 +67,10 @@ export function things_collide(world: World): void {
 
 						if (!renderable || !soul) continue;
 
-						on_hit.effects.forEach((fx) => {
-							/**
-							 * predict fx unless it is damage type
-							 * const player = Players.GetPlayerFromCharacter(renderable.model);
-							 * if (fx.effect_type === EffectType.Damage && player) {
-							 *    remote_event.FireServer(serialize(fx), player);
-							 *    break
-							 * } else
-							 */
-
-							world.insert(id, fx.patch({ target: Option.some(id) }));
-						});
+						on_hit.effects.forEach((fx) => world.insert(id, fx.patch({ target: Option.some(id) })));
 					}
 				}
 			}
-
-			print(collided);
 
 			world.insert(id, collision.patch({ collided }));
 		}

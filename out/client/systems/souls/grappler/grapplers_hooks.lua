@@ -98,29 +98,25 @@ local function grapplers_hooks(world, state)
 		if not root then
 			continue
 		end
+		local force = Vector3.new()
+		local root_cf = root.CFrame
 		if UserInputService:IsKeyDown(state.strafe_left) then
-			local _cFrame = root.CFrame
-			local _cFrame_1 = CFrame.new(-1, 0, 0)
-			local _position = (_cFrame * _cFrame_1).Position
+			local _cFrame = CFrame.new(-1, 0, 0)
+			local _position = (root_cf * _cFrame).Position
 			local _position_1 = root.Position
-			local force = (_position - _position_1).Unit * twist_force
-			float = float:patch({
-				force = Vector3.new(force.X, float.force.Y, force.Z),
-			})
+			force = (_position - _position_1).Unit * twist_force
 		elseif UserInputService:IsKeyDown(state.strafe_right) then
 			local _cFrame = root.CFrame
 			local _cFrame_1 = CFrame.new(1, 0, 0)
 			local _position = (_cFrame * _cFrame_1).Position
 			local _position_1 = root.Position
-			local force = (_position - _position_1).Unit * twist_force
-			float = float:patch({
-				force = Vector3.new(force.X, float.force.Y, force.Z),
-			})
+			force = (_position - _position_1).Unit * twist_force
 		elseif not UserInputService:IsKeyDown(state.strafe_left) and not UserInputService:IsKeyDown(state.strafe_right) then
-			float = float:patch({
-				force = Vector3.new(0, get_mass_of_model(model) * Workspace.Gravity, 0),
-			})
+			force = Vector3.new(0, get_mass_of_model(model) * Workspace.Gravity, 0)
 		end
+		float = float:patch({
+			force = Vector3.new(force.X, float.force.Y, force.Z),
+		})
 		world:insert(grappler_entity, float, steer:patch({
 			direction = hit_scan.raycast_result.Position,
 		}))

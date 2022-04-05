@@ -10,12 +10,9 @@ local spawn_mobs = TS.import(script, game:GetService("ServerScriptService"), "TS
 local update_transforms = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "systems", "update_transforms")
 local frictionless_grapplers = TS.import(script, game:GetService("ServerScriptService"), "TS", "systems", "frictionless_grapplers").frictionless_grapplers
 local apply_mass = TS.import(script, game:GetService("ServerScriptService"), "TS", "systems", "apply_mass").apply_mass
-local remotes = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "remotes").remotes
 local ice_arrows = TS.import(script, game:GetService("ServerScriptService"), "TS", "systems", "souls", "gray", "ice_arrows").ice_arrows
 local tracker_moves = TS.import(script, game:GetService("ServerScriptService"), "TS", "systems", "tracker_moves")
 local remove_missing_trackers = TS.import(script, game:GetService("ServerScriptService"), "TS", "systems", "remove_missing_trackers").remove_missing_trackers
-remotes.Server:Create("create_fx")
-remotes.Server:Create("replicate_fx")
 local world = World.new()
 local loop = Loop.new(world)
 loop:scheduleSystems({ players_are_targets, remove_missing_models, remove_missing_trackers, update_transforms, spawn_mobs, frictionless_grapplers, apply_mass, ice_arrows, tracker_moves })

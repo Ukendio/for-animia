@@ -90,15 +90,19 @@ export function grapplers_hooks(world: World, state: Controls): void {
 
 		if (!root) continue;
 
+		let force = new Vector3();
+
+		const root_cf = root.CFrame;
+
 		if (UserInputService.IsKeyDown(state.strafe_left)) {
-			const force = root.CFrame.mul(new CFrame(-1, 0, 0)).Position.sub(root.Position).Unit.mul(twist_force);
-			float = float.patch({ force: new Vector3(force.X, float.force.Y, force.Z) });
+			force = root_cf.mul(new CFrame(-1, 0, 0)).Position.sub(root.Position).Unit.mul(twist_force);
 		} else if (UserInputService.IsKeyDown(state.strafe_right)) {
-			const force = root.CFrame.mul(new CFrame(1, 0, 0)).Position.sub(root.Position).Unit.mul(twist_force);
-			float = float.patch({ force: new Vector3(force.X, float.force.Y, force.Z) });
+			force = root.CFrame.mul(new CFrame(1, 0, 0)).Position.sub(root.Position).Unit.mul(twist_force);
 		} else if (!UserInputService.IsKeyDown(state.strafe_left) && !UserInputService.IsKeyDown(state.strafe_right)) {
-			float = float.patch({ force: new Vector3(0, get_mass_of_model(model) * Workspace.Gravity, 0) });
+			force = new Vector3(0, get_mass_of_model(model) * Workspace.Gravity, 0);
 		}
+
+		float = float.patch({ force: new Vector3(force.X, float.force.Y, force.Z) });
 
 		world.insert(grappler_entity, float, steer.patch({ direction: hit_scan.raycast_result.Position }));
 

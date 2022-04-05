@@ -4,7 +4,7 @@ import { Ability, Counter, Renderable, Target, Tracker, Transform } from "shared
 import { create_tracker } from "shared/create_tracker";
 import { remotes } from "shared/remotes";
 
-const create_fx = remotes.Server.Create("create_fx");
+const create_fx = remotes.Server.Get("create_fx");
 
 export function ice_arrows(world: World): void {
 	for (const [, plr, variant] of useEvent("create_fx", create_fx)) {

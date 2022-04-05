@@ -42,10 +42,7 @@ local function detriot_smash(world, controls)
 							in_anim = false,
 						})
 					end
-					local anim_track = use_anim(animator, animation, not renderable.in_anim)
-					for _element in useEvent(anim_track, "Stopped") do
-						local _ = { _element }
-					end
+					use_anim(animator, animation, not renderable.in_anim)
 					local direction = root.CFrame.LookVector.Z + 2
 					local deku_detroit_smash_info = souls_db.Deku.abilities["Detroit Smash"]
 					local base_damage = deku_detroit_smash_info.base_damage:i(mastery.lvl)

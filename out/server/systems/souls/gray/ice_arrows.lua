@@ -13,7 +13,7 @@ local Tracker = _components.Tracker
 local Transform = _components.Transform
 local create_tracker = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "create_tracker").create_tracker
 local remotes = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "remotes").remotes
-local create_fx = remotes.Server:Create("create_fx")
+local create_fx = remotes.Server:Get("create_fx")
 local function ice_arrows(world)
 	for _, plr, variant in useEvent("create_fx", create_fx) do
 		for _1, _binding in world:query(Renderable, Target) do

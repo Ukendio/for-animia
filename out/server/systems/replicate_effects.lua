@@ -5,8 +5,8 @@ local Option = TS.import(script, TS.getModule(script, "@rbxts", "rust-classes").
 local match = TS.import(script, TS.getModule(script, "@rbxts", "variant").out).match
 local Effect = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components").Effect
 local remotes = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "remotes").remotes
-local create_fx = remotes.Server:Create("create_fx")
-local replicate_fx = remotes.Server:Create("replicate_fx")
+local create_fx = remotes.Server:Get("create_fx")
+local replicate_fx = remotes.Server:Get("replicate_fx")
 local function replicate_effects(world)
 	for _, plr, effect in useEvent("create_fx", create_fx) do
 		local creator, variant, target, pos

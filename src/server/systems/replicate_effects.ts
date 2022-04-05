@@ -5,8 +5,8 @@ import { Effect } from "shared/components";
 
 import { remotes } from "shared/remotes";
 
-const create_fx = remotes.Server.Create("create_fx");
-const replicate_fx = remotes.Server.Create("replicate_fx");
+const create_fx = remotes.Server.Get("create_fx");
+const replicate_fx = remotes.Server.Get("replicate_fx");
 
 export function replicate_effects(world: World): void {
 	for (const [, plr, effect] of useEvent("create_fx", create_fx)) {

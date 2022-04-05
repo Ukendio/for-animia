@@ -37,7 +37,7 @@ function input_type<T extends keyof Writable<typeof Enum.UserInputType>>(
 	return Enum.UserInputType[key] as Enum.UserInputType;
 }
 
-const state = identity<Controls>({
+const controls: Controls = {
 	equip_soul_1: key("Z"),
 	equip_soul_2: key("X"),
 	equip_soul_3: key("C"),
@@ -52,10 +52,10 @@ const state = identity<Controls>({
 	use_ability_3: key("Three"),
 	use_ability_4: key("Four"),
 	dash: [key("Q"), key("E")],
-});
+};
 
 const root = new Plasma(game);
-const loop = new Loop(world, state, root);
+const loop = new Loop(world, controls, root);
 
 loop.scheduleSystems([
 	remove_missing_models,

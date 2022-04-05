@@ -44,10 +44,7 @@ export function detriot_smash(world: World, controls: Controls): void {
 
 					if (renderable.in_anim === undefined) renderable = renderable.patch({ in_anim: false });
 
-					const anim_track = use_anim(animator, animation, !renderable.in_anim);
-
-					for (const _ of useEvent(anim_track, "Stopped")) {
-					}
+					use_anim(animator, animation, !renderable.in_anim);
 
 					const direction = root.CFrame.LookVector.Z + 2;
 					const deku_detroit_smash_info = souls_db.Deku.abilities["Detroit Smash"];

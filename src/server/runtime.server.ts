@@ -6,13 +6,9 @@ import { spawn_mobs } from "./systems/spawn_mobs";
 import update_transforms from "shared/systems/update_transforms";
 import { frictionless_grapplers } from "./systems/frictionless_grapplers";
 import { apply_mass } from "./systems/apply_mass";
-import { remotes } from "shared/remotes";
 import { ice_arrows } from "./systems/souls/gray/ice_arrows";
 import tracker_moves from "./systems/tracker_moves";
 import { remove_missing_trackers } from "./systems/remove_missing_trackers";
-
-remotes.Server.Create("create_fx");
-remotes.Server.Create("replicate_fx");
 
 const world = new World();
 const loop = new Loop(world);

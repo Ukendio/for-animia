@@ -18,7 +18,7 @@ end
 local function input_type(key)
 	return Enum.UserInputType[key]
 end
-local _arg0 = {
+local controls = {
 	equip_soul_1 = key("Z"),
 	equip_soul_2 = key("X"),
 	equip_soul_3 = key("C"),
@@ -34,9 +34,8 @@ local _arg0 = {
 	use_ability_4 = key("Four"),
 	dash = { key("Q"), key("E") },
 }
-local state = _arg0
 local root = Plasma.new(game)
-local loop = Loop.new(world, state, root)
+local loop = Loop.new(world, controls, root)
 loop:scheduleSystems({ remove_missing_models, update_transforms, spawn_player, ice_arrows, projectiles_follow_trackers, players_have_overheads })
 loop:begin({
 	default = RunService.Heartbeat,

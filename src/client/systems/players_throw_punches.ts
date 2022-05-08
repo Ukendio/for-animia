@@ -1,17 +1,7 @@
 import { useEvent, useThrottle, World } from "@rbxts/matter";
 import { UserInputService } from "@rbxts/services";
 import { Controls } from "client/main.client";
-import {
-	Target,
-	Renderable,
-	CombatStats,
-	DamageArea,
-	KnockBack,
-	Shape,
-	Transform,
-	Collision,
-	WantsMelee,
-} from "shared/components";
+import { Target, Renderable, CombatStats, KnockBack, Shape, Transform, Collision, WantsMelee } from "shared/components";
 import { use_anim } from "shared/hooks/use_anim";
 
 // animation id 9006471997

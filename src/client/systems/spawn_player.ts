@@ -10,6 +10,7 @@ function character_added(world: World, char: Model): void {
 		character.SetAttribute(
 			"entity_id",
 			world.spawn(
+				Soul({ name: "Fire Person" }),
 				Target(),
 				Renderable({ model: character }),
 				CombatStats({ hp: 100, max_hp: 100, damage: 50, soul_power: 50, defense: 50 }),
@@ -24,10 +25,6 @@ function spawn_player(world: World): void {
 
 	if (plr.Character) {
 		character_added(world, plr.Character);
-	}
-
-	for (const [, char] of useEvent(plr, "CharacterAdded")) {
-		character_added(world, char);
 	}
 }
 

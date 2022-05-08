@@ -15,7 +15,7 @@ export function objects_float(world: World): void {
 
 	for (let [id, float_record, { model }] of world.queryChanged(Float, Renderable)) {
 		if (float_record.new !== undefined) {
-			if (float_record.new.force !== float_record.old.force && float_record.new.cached) {
+			if (float_record.new.force !== float_record.old?.force && float_record.new.cached) {
 				const root = model.FindFirstChild("HumanoidRootPart");
 
 				if (!root) continue;

@@ -24,7 +24,7 @@ export function objects_rotate(world: World, state: Controls): void {
 
 	for (let [, steer_record, { model }] of world.queryChanged(Steer, Renderable)) {
 		if (steer_record.new !== undefined) {
-			if (steer_record.new.direction !== steer_record.old.direction && steer_record.new.cached) {
+			if (steer_record.new.direction !== steer_record.old?.direction && steer_record.new.cached) {
 				const root = model.FindFirstChild("HumanoidRootPart") as Part;
 
 				if (!root) continue;

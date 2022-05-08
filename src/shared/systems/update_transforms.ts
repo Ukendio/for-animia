@@ -18,15 +18,6 @@ function update_transforms(world: World): void {
 			model_record.new.model.SetPrimaryPartCFrame(transform.cf);
 		}
 	}
-
-	for (const [id, { model }, transform] of world.query(Renderable, Transform)) {
-		const existing_cf = transform.cf;
-		const current_cf = model.PrimaryPart?.CFrame;
-
-		if (current_cf && current_cf !== existing_cf) {
-			world.insert(id, Transform({ cf: current_cf }));
-		}
-	}
 }
 
 export = { system: update_transforms, after: [remove_missing_models] };

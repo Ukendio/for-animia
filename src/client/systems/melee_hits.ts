@@ -1,9 +1,9 @@
 import { World } from "@rbxts/matter";
 import { Option, Vec } from "@rbxts/rust-classes";
+import { Players } from "@rbxts/services";
 import {
 	Collision,
 	CombatStats,
-	DamageArea,
 	Effect,
 	ImpactEffect,
 	Renderable,
@@ -12,10 +12,10 @@ import {
 	Transform,
 	WantsMelee,
 } from "shared/components";
-import { EffectVariant } from "shared/effects_db";
+import { EffectVariant } from "shared/effects";
 
 export function melee_hits(world: World): void {
-	for (const [id, { model }, combat_stats] of world.query(Renderable, CombatStats, WantsMelee, Target)) {
+	for (const [, { model }, combat_stats] of world.query(Renderable, CombatStats, WantsMelee, Target)) {
 		const root = model.FindFirstChild("HumanoidRootPart") as Part;
 
 		if (!root) continue;
@@ -23,15 +23,12 @@ export function melee_hits(world: World): void {
 		const direction = root.CFrame.LookVector.Z + 2;
 
 		world.spawn(
-			DamageArea({
-				shape: Shape.Box,
-			}),
-			Collision({ size: new Vector3(5, 5, 0), blacklist: [model] }),
+			Collision({ size: new Vector3(5, 5, 0), blacklist: [model], shape: Shape.Box }),
 			Transform({ cf: model.GetPivot().add(new Vector3(0, 0, direction)) }),
 			ImpactEffect({
 				effects: [
 					Effect({
-						creator: Option.some(id),
+						creator: Option.some(Players.LocalPlayer),
 						variant: EffectVariant.Damage(combat_stats.damage),
 						target: Option.none(),
 						pos: Option.none(),

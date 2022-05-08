@@ -45,7 +45,10 @@ export function players_have_overheads(world: World, controls: Controls, root: N
 						return {
 							opened,
 						};
-					});
+					})() as unknown as { opened: boolean };
+
+					if (opened === true) {
+					}
 
 					Plasma.arrow(Vector3.zero, new Vector3(10, 0, 0));
 					// create a plasma arrow

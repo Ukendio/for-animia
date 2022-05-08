@@ -11,9 +11,7 @@ export function projectiles_fly(world: World): void {
 
 		const cf = transform.cf.add(velocity);
 
-		transform = transform.patch({
-			cf,
-		});
+		transform = transform.patch({ cf });
 
 		if (transform.cf.Position.sub(projectile.goal).Magnitude <= vel_offset) {
 			world.despawn(id);

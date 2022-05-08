@@ -1,4 +1,4 @@
-import { World } from "@rbxts/matter";
+import { AnyEntity, Entity, InferComponents, World } from "@rbxts/matter";
 import { Vec } from "@rbxts/rust-classes";
 import { Renderable, Target, Mob, WantsMelee } from "shared/components";
 
@@ -30,6 +30,7 @@ export function mobs_move(world: World): void {
 			model.Humanoid.MoveTo(closest_position);
 
 			if (closest_position.sub(current_position).Magnitude < 4) {
+				const a = world.get(id, WantsMelee);
 				if (world.get(id, WantsMelee)) {
 					break;
 				}

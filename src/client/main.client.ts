@@ -9,6 +9,11 @@ import { ice_arrows } from "./systems/souls/gray/ice_arrows";
 import projectiles_follow_trackers from "./systems/projectiles_follow_trackers";
 import Plasma from "@rbxts/plasma";
 import { players_have_overheads } from "./systems/players_have_overheads";
+import { spawn_fireball } from "./systems/souls/fire_person/spawn_fireball";
+import { projectiles_fly } from "shared/systems/projectiles_fly";
+import { predict_effects } from "shared/systems/predict_effects";
+import { things_collide } from "shared/systems/things_collide";
+import { spawn_effects } from "./systems/spawn_effects";
 
 export interface Controls {
 	equip_soul_1: Enum.KeyCode;
@@ -25,6 +30,10 @@ export interface Controls {
 	use_ability_3: Enum.KeyCode;
 	use_ability_4: Enum.KeyCode;
 	dash: [Enum.KeyCode, Enum.KeyCode];
+}
+
+export interface Agency {
+	in_anim: boolean;
 }
 
 const world = new World();
@@ -64,6 +73,11 @@ loop.scheduleSystems([
 	ice_arrows,
 	projectiles_follow_trackers,
 	players_have_overheads,
+	spawn_fireball,
+	projectiles_fly,
+	predict_effects,
+	spawn_effects,
+	things_collide,
 ]);
 
 loop.begin({ default: RunService.Heartbeat });

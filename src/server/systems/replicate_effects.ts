@@ -1,4 +1,4 @@
-import { useEvent, World } from "@rbxts/matter";
+import { AnyEntity, useEvent, World } from "@rbxts/matter";
 import { Option } from "@rbxts/rust-classes";
 import { match } from "@rbxts/variant";
 import { Effect } from "shared/components";
@@ -14,7 +14,7 @@ export function replicate_effects(world: World): void {
 			Damage: () => {
 				world.spawn(
 					Effect({
-						creator: Option.wrap(creator),
+						creator: Option.some(plr),
 						variant,
 						target: Option.wrap(target),
 						pos: Option.wrap(pos),
@@ -24,6 +24,6 @@ export function replicate_effects(world: World): void {
 			default: () => replicate_fx.SendToAllPlayersExcept(plr, effect),
 		});
 
-		const { creator, variant, target, pos } = effect;
+		const { variant, target, pos } = effect;
 	}
 }

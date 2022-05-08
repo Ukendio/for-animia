@@ -1,20 +1,30 @@
 import { New } from "@rbxts/fusion";
-import { Entity, InferComponents, World } from "@rbxts/matter";
+import { AnyEntity, World } from "@rbxts/matter";
 import { Option, Vec } from "@rbxts/rust-classes";
-import { Renderable, Lifetime, Transform } from "shared/components";
-import { compose_effects } from "shared/effects_db/emitter";
+import { Renderable, Lifetime, Collision, Transform, DamageArea, ImpactEffect, Effect } from "shared/components";
+import { EffectVariant } from "..";
+import { compose_effects } from "../emitter";
 
 export function explosion(
 	world: World,
+	creator: Option<Player>,
 	pos: Option<Vector3>,
 	size: NumberSequence,
-): Entity<InferComponents<[typeof Renderable, typeof Lifetime, typeof Transform]>> {
-	const model = compose_effects(Vec.fromPtr([explosion_1(size)])).once(1);
+): AnyEntity {
+	const position = pos.unwrapOr(new Vector3(0, -9999, 0));
+	const model = compose_effects(Vec.fromPtr([explosion_1(size)]), position).once(1);
 
 	return world.spawn(
 		Renderable({ model }),
-		Lifetime({ remaining_time: 2 }),
-		Transform({ cf: new CFrame(pos.unwrapOr(new Vector3(0, -9000, 0))) }),
+		Lifetime({ remaining_time: 10 }),
+		Collision(),
+		Transform({ cf: new CFrame(position) }),
+		DamageArea(),
+		ImpactEffect({
+			effects: [
+				Effect({ creator, variant: EffectVariant.Damage(10), target: Option.none(), pos: Option.none() }),
+			],
+		}),
 	);
 }
 

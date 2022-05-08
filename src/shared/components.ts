@@ -1,6 +1,7 @@
-import { AnyEntity, Component, component } from "@rbxts/matter";
+import { AnyEntity, component } from "@rbxts/matter";
 import { Option, Vec } from "@rbxts/rust-classes";
-import { EffectVariant } from "./effects_db";
+import variantModule, { fields, TypeNames, VariantOf } from "@rbxts/variant";
+import { EffectVariant } from "shared/effects";
 import { souls_db } from "./souls_db";
 
 export const Ability = component<{ name: string }>();
@@ -11,31 +12,35 @@ export const CombatStats = component<{
 	damage: number;
 	defense: number;
 	soul_power: number;
+	stunned?: boolean;
 }>();
 
 export const Counter = component<{ idx: number }>();
 
+export const Shape = variantModule({
+	Box: fields(),
+	Radius: fields(),
+	Cylinder: fields(),
+	Sphere: fields(),
+	Disc: fields(),
+	Custom: (part: BasePart) => part,
+});
+
+export type Shape<T extends TypeNames<typeof Shape> = undefined> = VariantOf<typeof Shape, T>;
+
 export const Collision = component<{
+	shape: Shape;
 	blacklist: Array<Instance>;
 	size: Vector3;
 	collided?: boolean;
 }>();
 
-export enum Shape {
-	Box,
-	Radius,
-	Cylinder,
-	Sphere,
-	Disc,
-	Custom,
-}
-
-export const DamageArea = component<{ shape: Shape }>();
+export const DamageArea = component();
 
 export const Effect = component<{
-	creator: Option<AnyEntity>;
+	creator: Option<Player>;
 	variant: EffectVariant;
-	target: Option<AnyEntity>;
+	target: Option<Model>;
 	pos: Option<Vector3>;
 }>();
 
@@ -61,9 +66,7 @@ export const Mastery = component<{ lvl: number; exp: number }>();
 
 export const Mob = component();
 
-export const Projectile = component<{
-	goal: Vector3;
-}>();
+export const Projectile = component<{ goal: Vector3 }>();
 
 export const Prompt = component<{ prompt: ProximityPrompt }>();
 
@@ -79,7 +82,7 @@ export const Steer = component<{ cached?: boolean; direction: Vector3 }>();
 
 export const Strafing = component<{ direction: Enum.KeyCode }>();
 
-export const SufferDamage = component<{ damage: number; source: Option<AnyEntity> }>();
+export const SufferDamage = component<{ damage: number; src: Option<Player> }>();
 
 export const Target = component();
 
@@ -87,7 +90,11 @@ export const Team = component<{ players: Vec<AnyEntity> }>();
 
 export const Tracker = component<{ target: Instance }>();
 
-export const Transform = component<{ cf: CFrame; do_not_reconcile?: boolean }>();
+export const Transform = component<{
+	cf: CFrame;
+
+	do_not_reconcile?: boolean;
+}>();
 
 export const TweenProps = component<{ data: TweenInfo }>();
 

@@ -1,12 +1,11 @@
-import { AnyEntity } from "@rbxts/matter";
 import { Option } from "@rbxts/rust-classes";
 import { variantModule, VariantOf } from "@rbxts/variant";
 import { TypeNames } from "@rbxts/variant/out/types";
 
 export type EffectPayload = {
-	creator: Option<AnyEntity>;
+	creator: Option<Player>;
 	variant: EffectVariant;
-	target: Option<AnyEntity>;
+	target: Option<Model>;
 	pos: Option<Vector3>;
 };
 
@@ -16,6 +15,7 @@ export const EffectVariant = variantModule({
 	KnockBack: (force: Vector3) => ({ force }),
 	Slow: (slow: number) => ({ slow }),
 	Track: (attach: Vector3) => ({ attach }),
+	Stun: (duration: number) => ({ duration }),
 });
 
 export type EffectVariant<T extends TypeNames<typeof EffectVariant> = undefined> = VariantOf<typeof EffectVariant, T>;

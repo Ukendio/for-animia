@@ -1,9 +1,9 @@
 import { AnyEntity } from "@rbxts/matter";
-import { EffectVariant } from "./effects_db";
+import { EffectVariant } from "shared/effects";
 
 type SerializedMappedEffect = {
-	creator?: AnyEntity;
 	variant: EffectVariant;
-	target?: AnyEntity;
+	target?: Model;
 	pos?: Vector3;
+	creator?: Player;
 };

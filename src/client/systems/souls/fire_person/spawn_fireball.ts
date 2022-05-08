@@ -1,12 +1,12 @@
 import { useEvent, World } from "@rbxts/matter";
-import { Option } from "@rbxts/rust-classes";
 import { Players, UserInputService } from "@rbxts/services";
-import { fireball } from "shared/effects_db/effects/fireball";
+import { fireball } from "shared/effects/bin/fireball";
 import { Controls } from "client/main.client";
 import { Renderable, Soul } from "shared/components";
+import { Option } from "@rbxts/rust-classes";
 
 export function spawn_fireball(world: World, controls: Controls): void {
-	for (const [id, { model }, soul] of world.query(Renderable, Soul)) {
+	for (const [, { model }, soul] of world.query(Renderable, Soul)) {
 		if (soul.name !== "Fire Person") continue;
 
 		for (const [, { KeyCode }] of useEvent(UserInputService, "InputBegan")) {
@@ -14,7 +14,7 @@ export function spawn_fireball(world: World, controls: Controls): void {
 				const cf = model.GetPivot();
 				const goal = Players.GetPlayerFromCharacter(model)!.GetMouse().Hit.Position;
 
-				fireball(world, Option.some(id), cf, goal);
+				fireball(world, Option.some(Players.LocalPlayer), cf, goal);
 			}
 		}
 	}

@@ -601,21 +601,6 @@ type MarcusFix = Model & {
 	};
 };
 
-interface ReplicatedStorage extends Instance {
-	Assets: Folder & {
-		ArcherModel: ArcherModel;
-		Dummy: Dummy;
-		ArrowModel: ArrowModel;
-		Islands: Folder;
-		Particles: Particles;
-		MarcusFix: MarcusFix;
-	};
-}
-
-interface Workspace extends Instance {
-	Effects: Folder;
-}
-
 type IterableSignal<T extends { Connect: Callback }> = RBXScriptSignal<Parameters<T["Connect"]>[0]>;
 
 type Enumerate<T extends { [index: string]: Callback }> = ReturnType<T[keyof T]>;

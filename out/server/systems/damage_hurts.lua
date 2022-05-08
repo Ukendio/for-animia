@@ -4,6 +4,7 @@ local Effect = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "co
 local function damage_hurts(world)
 	for _, _binding in world:query(Effect) do
 		local variant = _binding.variant
+		local target = _binding.target
 		if variant.type ~= "Damage" then
 			continue
 		end

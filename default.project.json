@@ -22,6 +22,9 @@
 			},
 			"Assets": {
 				"$path": "assets.rbxm"
+			},
+			"stories": {
+				"$path": "out/stories"
 			}
 		},
 		"StarterPlayer": {

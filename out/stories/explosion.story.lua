@@ -6,26 +6,19 @@ local World = _matter.World
 local Option = TS.import(script, TS.getModule(script, "@rbxts", "rust-classes").out).Option
 local RunService = TS.import(script, TS.getModule(script, "@rbxts", "services")).RunService
 local effects_have_lifetimes = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "systems", "effects_have_lifetimes").effects_have_lifetimes
-local projectiles_fly = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "systems", "projectiles_fly").projectiles_fly
-local things_collide = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "systems", "things_collide").things_collide
-local Renderable = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components").Renderable
 local remove_missing_models = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "systems", "remove_missing_models").remove_missing_models
 local update_transforms = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "systems", "update_transforms")
-local fireball = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "effects_db", "effects", "fireball").fireball
-local predict_effects = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "systems", "predict_effects").predict_effects
+local explosion = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "effects", "bin", "explosion").explosion
 return function(target)
 	local world = World.new()
 	local loop = Loop.new(world)
-	loop:scheduleSystems({ things_collide, projectiles_fly, effects_have_lifetimes, predict_effects, remove_missing_models, update_transforms })
+	loop:scheduleSystems({ effects_have_lifetimes, remove_missing_models, update_transforms })
 	local connections = loop:begin({
 		default = RunService.Heartbeat,
 	})
-	local id = fireball(world, Option:none(), CFrame.new(Vector3.new(0, 10, 0)), Vector3.new(140, 10, 0))
+	explosion(world, Option:none(), Option:some(Vector3.new(0, 50, 0)), NumberSequence.new(10, 10))
 	return function()
-		if world:contains(id) then
-			world:get(id, Renderable).model:Destroy()
-		end
-		world:clear()
 		connections.default:Disconnect()
+		world:clear()
 	end
 end

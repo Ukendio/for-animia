@@ -26,7 +26,7 @@
 	},
 	"dependencies": {
 		"@rbxts/fusion": "^0.2.0-dev-a5a9d0a",
-		"@rbxts/matter": "^0.1.2-ts.1",
+		"@rbxts/matter": "github:Ukendio/Matter",
 		"@rbxts/net": "^3.0.0",
 		"@rbxts/netto": "^0.0.6",
 		"@rbxts/plasma": "^0.1.0-ts.1",

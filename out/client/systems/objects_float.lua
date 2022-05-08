@@ -19,7 +19,16 @@ local function objects_float(world)
 	for id, float_record, _binding in world:queryChanged(Float, Renderable) do
 		local model = _binding.model
 		if float_record.new ~= nil then
-			if float_record.new.force ~= float_record.old.force and float_record.new.cached then
+			local _exp = float_record.new.force
+			local _result = float_record.old
+			if _result ~= nil then
+				_result = _result.force
+			end
+			local _condition = _exp ~= _result
+			if _condition then
+				_condition = float_record.new.cached
+			end
+			if _condition then
 				local root = model:FindFirstChild("HumanoidRootPart")
 				if not root then
 					continue

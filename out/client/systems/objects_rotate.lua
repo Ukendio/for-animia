@@ -24,7 +24,16 @@ local function objects_rotate(world, state)
 	for _, steer_record, _binding in world:queryChanged(Steer, Renderable) do
 		local model = _binding.model
 		if steer_record.new ~= nil then
-			if steer_record.new.direction ~= steer_record.old.direction and steer_record.new.cached then
+			local _exp = steer_record.new.direction
+			local _result = steer_record.old
+			if _result ~= nil then
+				_result = _result.direction
+			end
+			local _condition = _exp ~= _result
+			if _condition then
+				_condition = steer_record.new.cached
+			end
+			if _condition then
 				local root = model:FindFirstChild("HumanoidRootPart")
 				if not root then
 					continue

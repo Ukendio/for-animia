@@ -15,23 +15,8 @@ return function(target)
 	local root = Plasma.new(target)
 	local world = World.new()
 	local loop = Loop.new(world)
-	loop:scheduleSystems({ function() end })
-	local connections = loop:begin({
-		default = RunService.Heartbeat,
-	})
-	local origin = CFrame.new(Vector3.new(0, 10, 0))
-	local target_cf = origin
-	local cf = origin
-	local dummy = ReplicatedStorage.Assets.Dummy:Clone()
-	dummy:PivotTo(cf)
-	dummy.Parent = Workspace
-	local id = world:spawn(Renderable({
-		model = dummy,
-	}))
-	local elapsed = 0
-	local should_reconcile = false
-	local stack_automata = Vec:vec()
-	RunService.Heartbeat:Connect(function()
+	local origin, cf, should_reconcile, stack_automata, dummy, target_cf, elapsed
+	loop:scheduleSystems({ function()
 		Plasma.start(root, function()
 			Plasma.portal(Workspace, function()
 				return Plasma.arrow(origin.Position, cf.Position)
@@ -67,7 +52,23 @@ return function(target)
 			end
 			dummy:PivotTo(cf)
 		end)
-	end)
+	end })
+	local connections = loop:begin({
+		default = RunService.Heartbeat,
+	})
+	origin = CFrame.new(Vector3.new(0, 10, 0))
+	target_cf = origin
+	cf = origin
+	dummy = ReplicatedStorage.Assets.Dummy:Clone()
+	dummy:PivotTo(cf)
+	dummy.Parent = Workspace
+	world:spawn(Renderable({
+		model = dummy,
+	}))
+	elapsed = 0
+	should_reconcile = false
+	stack_automata = Vec:vec()
+	RunService.Heartbeat:Connect(function() end)
 	return function()
 		dummy:Destroy()
 		world:clear()

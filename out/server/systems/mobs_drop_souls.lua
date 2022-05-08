@@ -1,7 +1,6 @@
 -- Compiled with roblox-ts v1.3.3
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local useEvent = TS.import(script, TS.getModule(script, "@rbxts", "matter").src.lib).useEvent
-local Option = TS.import(script, TS.getModule(script, "@rbxts", "rust-classes").out).Option
 local _services = TS.import(script, TS.getModule(script, "@rbxts", "services"))
 local ReplicatedStorage = _services.ReplicatedStorage
 local Workspace = _services.Workspace
@@ -20,23 +19,22 @@ local function mobs_drop_souls(world)
 		if not humanoid then
 			continue
 		end
-		for _element in useEvent(humanoid, "Died") do
-			local _ = { _element }
-			suffer_damage.source:zip(Option:wrap(ReplicatedStorage.Assets:FindFirstChild(soul.name))):map(function(_param)
-				local src = _param[1]
-				local soul_model = _param[2]
+		for _ in useEvent(humanoid, "Died") do
+			local soul_model = ReplicatedStorage.Assets:FindFirstChild(soul.name)
+			suffer_damage.src:map(function(plr)
+				local src = plr:GetAttribute("entity_id")
 				local plr_mastery = world:get(src, Mastery)
-				soul_model.Parent = Workspace
 				world:insert(src, plr_mastery:patch({
 					exp = plr_mastery.exp + mastery.lvl,
 				}))
-				world:spawn(soul, Item(), Renderable({
-					model = soul_model,
-				}))
-				world:insert(id, Lifetime({
-					remaining_time = 3,
-				}))
 			end)
+			soul_model.Parent = Workspace
+			world:spawn(soul, Item(), Renderable({
+				model = soul_model,
+			}))
+			world:insert(id, Lifetime({
+				remaining_time = 3,
+			}))
 		end
 	end
 end

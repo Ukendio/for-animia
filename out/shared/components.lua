@@ -1,29 +1,23 @@
 -- Compiled with roblox-ts v1.3.3
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local component = TS.import(script, TS.getModule(script, "@rbxts", "matter").src.lib).component
+local _variant = TS.import(script, TS.getModule(script, "@rbxts", "variant").out)
+local variantModule = _variant.default
+local fields = _variant.fields
 local Ability = component()
 local CombatStats = component()
 local Counter = component()
+local Shape = variantModule({
+	Box = fields(),
+	Radius = fields(),
+	Cylinder = fields(),
+	Sphere = fields(),
+	Disc = fields(),
+	Custom = function(part)
+		return part
+	end,
+})
 local Collision = component()
-local Shape
-do
-	local _inverse = {}
-	Shape = setmetatable({}, {
-		__index = _inverse,
-	})
-	Shape.Box = 0
-	_inverse[0] = "Box"
-	Shape.Radius = 1
-	_inverse[1] = "Radius"
-	Shape.Cylinder = 2
-	_inverse[2] = "Cylinder"
-	Shape.Sphere = 3
-	_inverse[3] = "Sphere"
-	Shape.Disc = 4
-	_inverse[4] = "Disc"
-	Shape.Custom = 5
-	_inverse[5] = "Custom"
-end
 local DamageArea = component()
 local Effect = component()
 local Equipped = component()
@@ -59,8 +53,8 @@ return {
 	Ability = Ability,
 	CombatStats = CombatStats,
 	Counter = Counter,
-	Collision = Collision,
 	Shape = Shape,
+	Collision = Collision,
 	DamageArea = DamageArea,
 	Effect = Effect,
 	Equipped = Equipped,

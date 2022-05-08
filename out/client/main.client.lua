@@ -11,6 +11,11 @@ local ice_arrows = TS.import(script, script.Parent, "systems", "souls", "gray", 
 local projectiles_follow_trackers = TS.import(script, script.Parent, "systems", "projectiles_follow_trackers")
 local Plasma = TS.import(script, TS.getModule(script, "@rbxts", "plasma").out)
 local players_have_overheads = TS.import(script, script.Parent, "systems", "players_have_overheads").players_have_overheads
+local spawn_fireball = TS.import(script, script.Parent, "systems", "souls", "fire_person", "spawn_fireball").spawn_fireball
+local projectiles_fly = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "systems", "projectiles_fly").projectiles_fly
+local predict_effects = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "systems", "predict_effects").predict_effects
+local things_collide = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "systems", "things_collide").things_collide
+local spawn_effects = TS.import(script, script.Parent, "systems", "spawn_effects").spawn_effects
 local world = World.new()
 local key = function(key)
 	return Enum.KeyCode[key]
@@ -36,7 +41,7 @@ local controls = {
 }
 local root = Plasma.new(game)
 local loop = Loop.new(world, controls, root)
-loop:scheduleSystems({ remove_missing_models, update_transforms, spawn_player, ice_arrows, projectiles_follow_trackers, players_have_overheads })
+loop:scheduleSystems({ remove_missing_models, update_transforms, spawn_player, ice_arrows, projectiles_follow_trackers, players_have_overheads, spawn_fireball, projectiles_fly, predict_effects, spawn_effects, things_collide })
 loop:begin({
 	default = RunService.Heartbeat,
 })

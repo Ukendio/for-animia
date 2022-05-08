@@ -10,11 +10,12 @@ local function players_are_targets(world)
 	local _exp = Players:GetPlayers()
 	local _arg0 = function(player)
 		for _, character in useEvent(player, "CharacterAdded") do
-			world:spawn(Target(), Renderable({
+			local id = world:spawn(Target(), Renderable({
 				model = character,
 			}), Soul({
 				name = "Deku",
 			}))
+			player:SetAttribute("entity_id", id)
 		end
 		for id in world:query(Target):without(Renderable) do
 			world:despawn(id)

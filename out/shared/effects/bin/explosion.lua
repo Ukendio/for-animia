@@ -1,21 +1,36 @@
 -- Compiled with roblox-ts v1.3.3
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local New = TS.import(script, TS.getModule(script, "@rbxts", "fusion").src).New
-local Vec = TS.import(script, TS.getModule(script, "@rbxts", "rust-classes").out).Vec
+local _rust_classes = TS.import(script, TS.getModule(script, "@rbxts", "rust-classes").out)
+local Option = _rust_classes.Option
+local Vec = _rust_classes.Vec
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components")
 local Renderable = _components.Renderable
 local Lifetime = _components.Lifetime
+local Collision = _components.Collision
 local Transform = _components.Transform
-local compose_effects = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "effects_db", "emitter").compose_effects
+local DamageArea = _components.DamageArea
+local ImpactEffect = _components.ImpactEffect
+local Effect = _components.Effect
+local EffectVariant = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "effects").EffectVariant
+local compose_effects = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "effects", "emitter").compose_effects
 local explosion_1
-local function explosion(world, pos, size)
-	local model = compose_effects(Vec:fromPtr({ explosion_1(size) })).once(1)
+local function explosion(world, creator, pos, size)
+	local position = pos:unwrapOr(Vector3.new(0, -9999, 0))
+	local model = compose_effects(Vec:fromPtr({ explosion_1(size) }), position).once(1)
 	return world:spawn(Renderable({
 		model = model,
 	}), Lifetime({
-		remaining_time = 2,
-	}), Transform({
-		cf = CFrame.new(pos:unwrapOr(Vector3.new(0, -9000, 0))),
+		remaining_time = 10,
+	}), Collision(), Transform({
+		cf = CFrame.new(position),
+	}), DamageArea(), ImpactEffect({
+		effects = { Effect({
+			creator = creator,
+			variant = EffectVariant.Damage(10),
+			target = Option:none(),
+			pos = Option:none(),
+		}) },
 	}))
 end
 function explosion_1(size)

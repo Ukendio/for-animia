@@ -48,8 +48,10 @@ local function players_have_overheads(world, controls, root)
 						return {
 							opened = opened,
 						}
-					end)
+					end)()
 					local opened = _binding_1.opened
+					if opened == true then
+					end
 					Plasma.arrow(Vector3.zero, Vector3.new(10, 0, 0))
 					-- create a plasma arrow
 					Plasma.arrow(Vector3.zero, Vector3.new(10, 0, 0))

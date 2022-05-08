@@ -5,8 +5,7 @@ local Renderable = TS.import(script, game:GetService("ReplicatedStorage"), "TS",
 local function remove_missing_models(world)
 	for id, _binding in world:query(Renderable) do
 		local model = _binding.model
-		for _element, _element_1, _element_2 in useEvent(model, "AncestryChanged") do
-			local _ = { _element, _element_1, _element_2 }
+		for _ in useEvent(model, "AncestryChanged") do
 			if model:IsDescendantOf(game) == false then
 				world:remove(id, Renderable)
 				break

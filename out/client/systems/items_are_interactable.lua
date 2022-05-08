@@ -12,8 +12,7 @@ local function items_are_interactable(world)
 	for player_entity in world:query(Target, Renderable, CombatStats) do
 		for item_entity, _binding in world:query(Prompt, Item, Renderable) do
 			local prompt = _binding.prompt
-			for _element, _element_1 in useEvent(prompt, "Triggered") do
-				local _ = { _element, _element_1 }
+			for _ in useEvent(prompt, "Triggered") do
 				world:insert(player_entity, WantsPickUp({
 					collected_by = player_entity,
 					item = item_entity,

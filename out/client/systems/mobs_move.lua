@@ -27,6 +27,7 @@ local function mobs_move(world)
 		if closest_position then
 			model.Humanoid:MoveTo(closest_position)
 			if (closest_position - current_position).Magnitude < 4 then
+				local a = world:get(id, WantsMelee)
 				if world:get(id, WantsMelee) then
 					break
 				end

@@ -9,11 +9,11 @@ local create_fx = remotes.Server:Get("create_fx")
 local replicate_fx = remotes.Server:Get("replicate_fx")
 local function replicate_effects(world)
 	for _, plr, effect in useEvent("create_fx", create_fx) do
-		local creator, variant, target, pos
+		local variant, target, pos
 		match(effect.variant, {
 			Damage = function()
 				world:spawn(Effect({
-					creator = Option:wrap(creator),
+					creator = Option:some(plr),
 					variant = variant,
 					target = Option:wrap(target),
 					pos = Option:wrap(pos),
@@ -24,7 +24,6 @@ local function replicate_effects(world)
 			end,
 		})
 		local _binding = effect
-		creator = _binding.creator
 		variant = _binding.variant
 		target = _binding.target
 		pos = _binding.pos

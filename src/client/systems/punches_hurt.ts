@@ -1,6 +1,6 @@
 import { useEvent, useThrottle, World } from "@rbxts/matter";
 import { UserInputService } from "@rbxts/services";
-import { Controls } from "client/main.client";
+import { Controls } from "client/controls";
 import { Target, Renderable, CombatStats, KnockBack, Shape, Transform, Collision, WantsMelee } from "shared/components";
 import { use_anim } from "shared/hooks/use_anim";
 
@@ -9,7 +9,7 @@ import { use_anim } from "shared/hooks/use_anim";
 const animation = new Instance("Animation");
 animation.AnimationId = "rbxassetid://9006471997";
 
-export function players_throw_punches(world: World, state: Controls): void {
+export function punches_hurt(world: World, state: Controls): void {
 	if (useThrottle(3)) {
 		for (const [id, renderable, combat_stats] of world.query(Renderable, CombatStats, Target)) {
 			for (const [_, { UserInputType }] of useEvent(UserInputService, "InputBegan")) {

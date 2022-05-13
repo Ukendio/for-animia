@@ -1,7 +1,7 @@
 import { useEvent, useThrottle, World } from "@rbxts/matter";
 import { HashMap } from "@rbxts/rust-classes";
 import { Players, ReplicatedStorage, UserInputService } from "@rbxts/services";
-import { Controls } from "client/main.client";
+import { Controls } from "client/controls";
 import { InBackpack, Mastery, Renderable, Soul, Target } from "shared/components";
 
 const soul_mastery_cache = HashMap.empty<ReturnType<typeof Soul>, ReturnType<typeof Mastery>>();

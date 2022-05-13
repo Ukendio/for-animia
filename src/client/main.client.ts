@@ -7,64 +7,16 @@ import update_transforms from "shared/systems/update_transforms";
 import spawn_player from "./systems/spawn_player";
 import { ice_arrows } from "./systems/souls/gray/ice_arrows";
 import projectiles_follow_trackers from "./systems/projectiles_follow_trackers";
-import Plasma from "@rbxts/plasma";
-import { players_have_overheads } from "./systems/players_have_overheads";
 import { spawn_fireball } from "./systems/souls/fire_person/spawn_fireball";
 import { projectiles_fly } from "shared/systems/projectiles_fly";
 import { predict_effects } from "shared/systems/predict_effects";
 import { things_collide } from "shared/systems/things_collide";
 import { spawn_effects } from "./systems/spawn_effects";
-
-export interface Controls {
-	equip_soul_1: Enum.KeyCode;
-	equip_soul_2: Enum.KeyCode;
-	equip_soul_3: Enum.KeyCode;
-	jump: Enum.KeyCode;
-	strafe_left: Enum.KeyCode;
-	strafe_right: Enum.KeyCode;
-	m1: Enum.UserInputType;
-	interact: Enum.KeyCode;
-	toggle_menu: Enum.KeyCode;
-	use_ability_1: Enum.KeyCode;
-	use_ability_2: Enum.KeyCode;
-	use_ability_3: Enum.KeyCode;
-	use_ability_4: Enum.KeyCode;
-	dash: [Enum.KeyCode, Enum.KeyCode];
-}
-
-export interface Agency {
-	in_anim: boolean;
-}
+import { controls } from "./controls";
 
 const world = new World();
 
-const key = <T extends keyof typeof Enum.KeyCode>(key: T): Enum.KeyCode => Enum.KeyCode[key] as Enum.KeyCode;
-
-function input_type<T extends keyof Writable<typeof Enum.UserInputType>>(
-	key: typeof Enum.UserInputType[T] extends Callback ? never : T,
-): Enum.UserInputType {
-	return Enum.UserInputType[key] as Enum.UserInputType;
-}
-
-const controls: Controls = {
-	equip_soul_1: key("Z"),
-	equip_soul_2: key("X"),
-	equip_soul_3: key("C"),
-	jump: key("Space"),
-	strafe_left: key("A"),
-	strafe_right: key("D"),
-	m1: input_type("MouseButton1"),
-	interact: key("E"),
-	toggle_menu: key("G"),
-	use_ability_1: key("One"),
-	use_ability_2: key("Two"),
-	use_ability_3: key("Three"),
-	use_ability_4: key("Four"),
-	dash: [key("Q"), key("E")],
-};
-
-const root = new Plasma(game);
-const loop = new Loop(world, controls, root);
+const loop = new Loop(world, controls);
 
 loop.scheduleSystems([
 	remove_missing_models,
@@ -72,7 +24,6 @@ loop.scheduleSystems([
 	spawn_player,
 	ice_arrows,
 	projectiles_follow_trackers,
-	players_have_overheads,
 	spawn_fireball,
 	projectiles_fly,
 	predict_effects,

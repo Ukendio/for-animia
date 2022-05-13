@@ -3,21 +3,23 @@ local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_incl
 local useEvent = TS.import(script, TS.getModule(script, "@rbxts", "matter").src.lib).useEvent
 local Players = TS.import(script, TS.getModule(script, "@rbxts", "services")).Players
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components")
-local Target = _components.Target
+local Agency = _components.Agency
 local Renderable = _components.Renderable
 local Soul = _components.Soul
-local function players_are_targets(world)
+local function players_have_agency(world)
 	local _exp = Players:GetPlayers()
 	local _arg0 = function(player)
 		for _, character in useEvent(player, "CharacterAdded") do
-			local id = world:spawn(Target(), Renderable({
+			local id = world:spawn(Agency({
+				player = player,
+			}), Renderable({
 				model = character,
 			}), Soul({
 				name = "Deku",
 			}))
 			player:SetAttribute("entity_id", id)
 		end
-		for id in world:query(Target):without(Renderable) do
+		for id in world:query(Agency):without(Renderable) do
 			world:despawn(id)
 		end
 	end
@@ -26,5 +28,5 @@ local function players_are_targets(world)
 	end
 end
 return {
-	players_are_targets = players_are_targets,
+	players_have_agency = players_have_agency,
 }

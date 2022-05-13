@@ -1,7 +1,7 @@
 import { useEvent, World } from "@rbxts/matter";
 import { Players, ReplicatedStorage, UserInputService, Workspace } from "@rbxts/services";
 import { todo } from "@rbxts/todo";
-import { Controls } from "client/main.client";
+import { Controls } from "client/controls";
 import { Projectile, Renderable, Soul, Tracker, Transform, TweenProps } from "shared/components";
 import { remotes } from "shared/remotes";
 

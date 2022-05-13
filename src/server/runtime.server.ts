@@ -1,6 +1,6 @@
 import { Loop, World } from "@rbxts/matter";
 import { RunService } from "@rbxts/services";
-import { players_are_targets } from "./systems/players_are_targets";
+import { players_have_agency } from "./systems/players_have_agency";
 import { remove_missing_models } from "shared/systems/remove_missing_models";
 import { spawn_mobs } from "./systems/spawn_mobs";
 import update_transforms from "shared/systems/update_transforms";
@@ -14,7 +14,7 @@ const world = new World();
 const loop = new Loop(world);
 
 loop.scheduleSystems([
-	players_are_targets,
+	players_have_agency,
 	remove_missing_models,
 	remove_missing_trackers,
 	update_transforms,

@@ -1,9 +1,9 @@
 import { useEvent, World } from "@rbxts/matter";
 import { Players, UserInputService } from "@rbxts/services";
 import { fireball } from "shared/effects/bin/fireball";
-import { Controls } from "client/main.client";
 import { Renderable, Soul } from "shared/components";
 import { Option } from "@rbxts/rust-classes";
+import { Controls } from "client/controls";
 
 export function spawn_fireball(world: World, controls: Controls): void {
 	for (const [, { model }, soul] of world.query(Renderable, Soul)) {

@@ -1,6 +1,6 @@
 import { World } from "@rbxts/matter";
 import { UserInputService, Workspace } from "@rbxts/services";
-import { Controls } from "client/main.client";
+import { Controls } from "client/controls";
 import { Steer, Renderable } from "shared/components";
 import { get_mass_of_model } from "shared/get_mass_of_model";
 

@@ -4,8 +4,15 @@ local component = TS.import(script, TS.getModule(script, "@rbxts", "matter").src
 local _variant = TS.import(script, TS.getModule(script, "@rbxts", "variant").out)
 local variantModule = _variant.default
 local fields = _variant.fields
+--[[
+	*
+	* TODO:
+	* Add Attack component
+	* Add fn extract_ability(AbilityInput::{Primary, Secondary, Auxillary(n: number)}) {}
+]]
 local Ability = component()
 local Agency = component()
+local Block = component()
 local CombatStats = component()
 local Counter = component()
 local Shape = variantModule({
@@ -58,9 +65,12 @@ local Velocity = component()
 local WantsMelee = component()
 local WantsOpenInventory = component()
 local WantsPickUp = component()
+-- make a new component for Player with a field for health
+-- also make a type for it
 return {
 	Ability = Ability,
 	Agency = Agency,
+	Block = Block,
 	CombatStats = CombatStats,
 	Counter = Counter,
 	Shape = Shape,

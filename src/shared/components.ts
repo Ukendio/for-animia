@@ -1,5 +1,6 @@
 import { AnyEntity, Component, component } from "@rbxts/matter";
 import { Option, Vec } from "@rbxts/rust-classes";
+import { TestBootstrap } from "@rbxts/testez";
 import variantModule, { fields, match, payload, TypeNames, VariantCreator, VariantOf } from "@rbxts/variant";
 import { EffectVariant } from "shared/effects";
 import { souls_db } from "./souls_db";
@@ -176,3 +177,6 @@ export type WantsOpenInventory = ReturnType<typeof WantsOpenInventory>;
 
 export const WantsPickUp = component<{ item: AnyEntity; collected_by: AnyEntity }>();
 export type WantsPickUp = ReturnType<typeof WantsPickUp>;
+
+// make a new component for Player with a field for health
+// also make a type for it

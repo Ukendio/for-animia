@@ -13,7 +13,7 @@ local use_anim = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "
 -- animation id 9006471997
 local animation = Instance.new("Animation")
 animation.AnimationId = "rbxassetid://9006471997"
-local function players_throw_punches(world, state)
+local function punches_hurt(world, state)
 	if useThrottle(3) then
 		for id, renderable, combat_stats in world:query(Renderable, CombatStats, Target) do
 			for _, _binding in useEvent(UserInputService, "InputBegan") do
@@ -41,5 +41,5 @@ local function players_throw_punches(world, state)
 	end
 end
 return {
-	players_throw_punches = players_throw_punches,
+	punches_hurt = punches_hurt,
 }

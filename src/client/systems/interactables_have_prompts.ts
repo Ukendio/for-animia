@@ -1,5 +1,5 @@
 import { World } from "@rbxts/matter";
-import { Controls } from "client/main.client";
+import { Controls } from "client/controls";
 import { Item, Renderable, Prompt } from "shared/components";
 
 export function InteractablesHavePrompt(world: World, state: Controls): void {

@@ -1,8 +1,8 @@
 import { None, useEvent, World } from "@rbxts/matter";
 import { Option } from "@rbxts/rust-classes";
 import { Players, UserInputService } from "@rbxts/services";
-import { Agency, Controls } from "client/main.client";
 import {
+	Agency,
 	Collision,
 	CombatStats,
 	Effect,
@@ -19,6 +19,7 @@ import {
 import { EffectVariant } from "shared/effects";
 import { souls_db } from "shared/souls_db";
 import { use_anim } from "shared/hooks/use_anim";
+import { Controls } from "client/controls";
 
 // animation id 9006471997
 

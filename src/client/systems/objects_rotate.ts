@@ -1,8 +1,6 @@
 import { World } from "@rbxts/matter";
-import { UserInputService, Workspace } from "@rbxts/services";
 import { Controls } from "client/controls";
 import { Steer, Renderable } from "shared/components";
-import { get_mass_of_model } from "shared/get_mass_of_model";
 
 export function objects_rotate(world: World, state: Controls): void {
 	for (let [id, steer, { model }] of world.query(Steer, Renderable)) {
@@ -22,10 +20,14 @@ export function objects_rotate(world: World, state: Controls): void {
 		}
 	}
 
-	for (let [, steer_record, { model }] of world.queryChanged(Steer, Renderable)) {
+	for (let [id, steer_record] of world.queryChanged(Steer)) {
+		const renderable = world.get(id, Renderable);
+
+		if (!renderable) continue;
+
 		if (steer_record.new !== undefined) {
 			if (steer_record.new.direction !== steer_record.old?.direction && steer_record.new.cached) {
-				const root = model.FindFirstChild("HumanoidRootPart") as Part;
+				const root = renderable.model.FindFirstChild("HumanoidRootPart") as Part;
 
 				if (!root) continue;
 
@@ -33,7 +35,7 @@ export function objects_rotate(world: World, state: Controls): void {
 				body_gyro.CFrame = new CFrame(root.Position, steer_record.new.direction);
 			}
 		} else {
-			const root = model.FindFirstChild("HumanoidRootPart");
+			const root = renderable.model.FindFirstChild("HumanoidRootPart");
 
 			if (!root) continue;
 

@@ -27,9 +27,13 @@ export function players_change_souls(world: World, controls: Controls): void {
 			}
 		}
 	}
-	for (const [id, soul_record, { model }, mastery] of world.queryChanged(Soul, Renderable, Mastery, Target)) {
+	for (const [id, soul_record] of world.queryChanged(Soul)) {
+		const [renderable, mastery, target] = world.get(id, Renderable, Mastery, Target);
+
+		if (renderable === undefined || mastery === undefined || target === undefined) continue;
+
 		if (soul_record.new && soul_record.new !== soul_record.old) {
-			const player = Players.GetPlayerFromCharacter(model);
+			const player = Players.GetPlayerFromCharacter(renderable.model);
 			if (!player) continue;
 
 			const soul_model = ReplicatedStorage.Assets.FindFirstChild(soul_record.new.name) as Model;

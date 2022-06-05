@@ -1,6 +1,6 @@
 -- Compiled with roblox-ts v1.3.3
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local useEvent = TS.import(script, TS.getModule(script, "@rbxts", "matter").src.lib).useEvent
+local useEvent = TS.import(script, TS.getModule(script, "@rbxts", "matter").lib).useEvent
 local _services = TS.import(script, TS.getModule(script, "@rbxts", "services"))
 local ReplicatedStorage = _services.ReplicatedStorage
 local Workspace = _services.Workspace

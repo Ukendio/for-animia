@@ -1,6 +1,6 @@
 -- Compiled with roblox-ts v1.3.3
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local useEvent = TS.import(script, TS.getModule(script, "@rbxts", "matter").src.lib).useEvent
+local useEvent = TS.import(script, TS.getModule(script, "@rbxts", "matter").lib).useEvent
 local Players = TS.import(script, TS.getModule(script, "@rbxts", "services")).Players
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components")
 local Agency = _components.Agency
@@ -10,9 +10,7 @@ local function players_have_agency(world)
 	local _exp = Players:GetPlayers()
 	local _arg0 = function(player)
 		for _, character in useEvent(player, "CharacterAdded") do
-			local id = world:spawn(Agency({
-				player = player,
-			}), Renderable({
+			local id = world:spawn(Agency(player), Renderable({
 				model = character,
 			}), Soul({
 				name = "Deku",

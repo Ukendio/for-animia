@@ -1,19 +1,22 @@
 -- Compiled with roblox-ts v1.3.3
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components")
+local Agency = _components.Agency
 local Mass = _components.Mass
 local Renderable = _components.Renderable
-local Target = _components.Target
 local function apply_mass(world)
-	for _, mass_record, _binding in world:queryChanged(Mass, Renderable, Target) do
-		local model = _binding.model
+	for id, mass_record in world:queryChanged(Mass) do
+		local renderable, mass = world:get(id, Renderable, Agency)
+		if renderable == nil or mass == nil then
+			continue
+		end
 		if mass_record.new then
-			for _1, v in ipairs(model:GetDescendants()) do
+			for _, v in ipairs(renderable.model:GetDescendants()) do
 				if v:IsA("BasePart") then
-					local _binding_1 = mass_record.new
-					local density = _binding_1.density
-					local friction = _binding_1.friction
-					local elasticity = _binding_1.elasticity
+					local _binding = mass_record.new
+					local density = _binding.density
+					local friction = _binding.friction
+					local elasticity = _binding.elasticity
 					v.CustomPhysicalProperties = PhysicalProperties.new(density, friction, elasticity)
 				end
 			end

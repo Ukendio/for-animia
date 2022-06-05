@@ -1,6 +1,6 @@
 -- Compiled with roblox-ts v1.3.3
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local useThrottle = TS.import(script, TS.getModule(script, "@rbxts", "matter").src.lib).useThrottle
+local useThrottle = TS.import(script, TS.getModule(script, "@rbxts", "matter").lib).useThrottle
 local _services = TS.import(script, TS.getModule(script, "@rbxts", "services"))
 local Lighting = _services.Lighting
 local Workspace = _services.Workspace

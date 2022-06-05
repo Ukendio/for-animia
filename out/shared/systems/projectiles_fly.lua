@@ -1,6 +1,6 @@
 -- Compiled with roblox-ts v1.3.3
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local useDeltaTime = TS.import(script, TS.getModule(script, "@rbxts", "matter").src.lib).useDeltaTime
+local useDeltaTime = TS.import(script, TS.getModule(script, "@rbxts", "matter").lib).useDeltaTime
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components")
 local Projectile = _components.Projectile
 local Transform = _components.Transform

@@ -1,6 +1,6 @@
 -- Compiled with roblox-ts v1.3.3
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local useHookState = TS.import(script, TS.getModule(script, "@rbxts", "matter").src.lib).useHookState
+local useHookState = TS.import(script, TS.getModule(script, "@rbxts", "matter").lib).useHookState
 local Queue = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "queue").Queue
 local function cleanup(data)
 	data.connection:Disconnect()

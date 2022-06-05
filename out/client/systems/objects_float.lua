@@ -16,8 +16,11 @@ local function objects_float(world)
 			}))
 		end
 	end
-	for id, float_record, _binding in world:queryChanged(Float, Renderable) do
-		local model = _binding.model
+	for id, float_record in world:queryChanged(Float) do
+		local renderable = world:get(id, Renderable)
+		if not renderable then
+			continue
+		end
 		if float_record.new ~= nil then
 			local _exp = float_record.new.force
 			local _result = float_record.old
@@ -29,7 +32,7 @@ local function objects_float(world)
 				_condition = float_record.new.cached
 			end
 			if _condition then
-				local root = model:FindFirstChild("HumanoidRootPart")
+				local root = renderable.model:FindFirstChild("HumanoidRootPart")
 				if not root then
 					continue
 				end
@@ -37,7 +40,7 @@ local function objects_float(world)
 				body_force.Force = float_record.new.force
 			end
 		else
-			local root = model:FindFirstChild("HumanoidRootPart")
+			local root = renderable.model:FindFirstChild("HumanoidRootPart")
 			if not root then
 				continue
 			end

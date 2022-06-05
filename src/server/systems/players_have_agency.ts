@@ -5,7 +5,7 @@ import { Agency, Renderable, Soul } from "shared/components";
 export function players_have_agency(world: World): void {
 	Players.GetPlayers().forEach((player) => {
 		for (const [_, character] of useEvent(player, "CharacterAdded")) {
-			const id = world.spawn(Agency({ player }), Renderable({ model: character }), Soul({ name: "Deku" }));
+			const id = world.spawn(Agency(player), Renderable({ model: character }), Soul({ name: "Deku" }));
 
 			player.SetAttribute("entity_id", id);
 		}

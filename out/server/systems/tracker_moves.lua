@@ -1,6 +1,6 @@
 -- Compiled with roblox-ts v1.3.3
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local useDeltaTime = TS.import(script, TS.getModule(script, "@rbxts", "matter").src.lib).useDeltaTime
+local useDeltaTime = TS.import(script, TS.getModule(script, "@rbxts", "matter").lib).useDeltaTime
 local Workspace = TS.import(script, TS.getModule(script, "@rbxts", "services")).Workspace
 local todo = TS.import(script, TS.getModule(script, "@rbxts", "todo").out).todo
 local quad_beizer = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "beizer").quad_beizer

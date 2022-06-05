@@ -26,9 +26,7 @@ function projectiles_follow_trackers(world: World): void {
 					}
 				});
 			});
-		} else {
-			world.despawn(id);
-		}
+		} else world.despawn(id);
 	}
 }
 

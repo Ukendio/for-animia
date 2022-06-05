@@ -1,6 +1,6 @@
 -- Compiled with roblox-ts v1.3.3
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local _matter = TS.import(script, TS.getModule(script, "@rbxts", "matter").src.lib)
+local _matter = TS.import(script, TS.getModule(script, "@rbxts", "matter").lib)
 local Loop = _matter.Loop
 local World = _matter.World
 local Option = TS.import(script, TS.getModule(script, "@rbxts", "rust-classes").out).Option

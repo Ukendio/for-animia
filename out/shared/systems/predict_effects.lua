@@ -16,11 +16,6 @@ local function system(world)
 		world:insert(id, Replicate())
 	end
 end
-for e, combat in useSync(CombatStats) do
-end
-useSync(CombatStats, function(e, c)
-	return {}
-end)
 local predict_effects = {
 	priority = 100,
 	system = system,

@@ -21,8 +21,11 @@ local function objects_rotate(world, state)
 			body_gyro.CFrame = CFrame.new(root.Position, steer.direction)
 		end
 	end
-	for _, steer_record, _binding in world:queryChanged(Steer, Renderable) do
-		local model = _binding.model
+	for id, steer_record in world:queryChanged(Steer) do
+		local renderable = world:get(id, Renderable)
+		if not renderable then
+			continue
+		end
 		if steer_record.new ~= nil then
 			local _exp = steer_record.new.direction
 			local _result = steer_record.old
@@ -34,7 +37,7 @@ local function objects_rotate(world, state)
 				_condition = steer_record.new.cached
 			end
 			if _condition then
-				local root = model:FindFirstChild("HumanoidRootPart")
+				local root = renderable.model:FindFirstChild("HumanoidRootPart")
 				if not root then
 					continue
 				end
@@ -42,7 +45,7 @@ local function objects_rotate(world, state)
 				body_gyro.CFrame = CFrame.new(root.Position, steer_record.new.direction)
 			end
 		else
-			local root = model:FindFirstChild("HumanoidRootPart")
+			local root = renderable.model:FindFirstChild("HumanoidRootPart")
 			if not root then
 				continue
 			end

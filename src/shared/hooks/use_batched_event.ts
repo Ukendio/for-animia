@@ -1,6 +1,5 @@
 import { useHookState } from "@rbxts/matter";
-import { InferSignalParameters } from "@rbxts/matter/src/lib/hooks/useEvent";
-import { HashMap } from "@rbxts/rust-classes";
+import { InferSignalParameters } from "@rbxts/matter/lib/hooks/useEvent";
 import { Queue } from "shared/queue";
 
 interface ConnectionData<T> {

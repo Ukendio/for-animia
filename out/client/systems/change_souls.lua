@@ -1,6 +1,6 @@
 -- Compiled with roblox-ts v1.3.3
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local _matter = TS.import(script, TS.getModule(script, "@rbxts", "matter").src.lib)
+local _matter = TS.import(script, TS.getModule(script, "@rbxts", "matter").lib)
 local useEvent = _matter.useEvent
 local useThrottle = _matter.useThrottle
 local HashMap = TS.import(script, TS.getModule(script, "@rbxts", "rust-classes").out).HashMap
@@ -36,10 +36,13 @@ local function players_change_souls(world, controls)
 			end
 		end
 	end
-	for id, soul_record, _binding, mastery in world:queryChanged(Soul, Renderable, Mastery, Target) do
-		local model = _binding.model
+	for id, soul_record in world:queryChanged(Soul) do
+		local renderable, mastery, target = world:get(id, Renderable, Mastery, Target)
+		if renderable == nil or (mastery == nil or target == nil) then
+			continue
+		end
 		if soul_record.new and soul_record.new ~= soul_record.old then
-			local player = Players:GetPlayerFromCharacter(model)
+			local player = Players:GetPlayerFromCharacter(renderable.model)
 			if not player then
 				continue
 			end

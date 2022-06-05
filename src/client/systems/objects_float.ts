@@ -13,10 +13,14 @@ export function objects_float(world: World): void {
 		}
 	}
 
-	for (let [id, float_record, { model }] of world.queryChanged(Float, Renderable)) {
+	for (let [id, float_record] of world.queryChanged(Float)) {
+		const renderable = world.get(id, Renderable);
+
+		if (!renderable) continue;
+
 		if (float_record.new !== undefined) {
 			if (float_record.new.force !== float_record.old?.force && float_record.new.cached) {
-				const root = model.FindFirstChild("HumanoidRootPart");
+				const root = renderable.model.FindFirstChild("HumanoidRootPart");
 
 				if (!root) continue;
 
@@ -24,7 +28,7 @@ export function objects_float(world: World): void {
 				body_force.Force = float_record.new.force;
 			}
 		} else {
-			const root = model.FindFirstChild("HumanoidRootPart");
+			const root = renderable.model.FindFirstChild("HumanoidRootPart");
 
 			if (!root) continue;
 

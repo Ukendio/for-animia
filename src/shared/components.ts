@@ -14,7 +14,7 @@ import { souls_db } from "./souls_db";
 export const Ability = component<{ name: string }>();
 export type Ability = ReturnType<typeof Ability>;
 
-export const Agency = component<{ player: Player }>();
+export const Agency = component<Player>();
 export type Agency = ReturnType<typeof Agency>;
 
 export const Block = component();
@@ -40,8 +40,29 @@ export const Shape = variantModule({
 	Cylinder: fields(),
 	Sphere: fields(),
 	Disc: fields(),
-	Custom: (part: BasePart) => part,
+	Custom: (n: number) => ({ n }),
 });
+
+export const Animal = variantModule({
+	dog: fields<{ name: string; favoriteBall?: string }>(),
+	cat: fields<{ name: string; furnitureDamaged: number }>(),
+	snake: (name: string, pattern = "striped") => ({ name, pattern }),
+});
+export type Animal<T extends TypeNames<typeof Animal> = undefined> = VariantOf<typeof Animal, T>;
+const describeAnimal = (animal: Animal): string =>
+	match(animal, {
+		cat: ({ name }) => `${name} is sleeping on a sunlit window sill.`,
+		dog: ({ name, favoriteBall }) =>
+			[`${name} is on the rug`, favoriteBall !== undefined ? `nuzzling a ${favoriteBall} ball.` : "."].join(" "),
+		snake: (s) => `${s.name} is enjoying the heat of the lamp on his ${s.pattern} skin`,
+	});
+
+match(Animal.snake("steve"), {
+	snake: (s) => s.name,
+	default: error,
+});
+
+print(describeAnimal(Animal.snake("steve")));
 
 export type Shape<T extends TypeNames<typeof Shape> = undefined> = VariantOf<typeof Shape, T>;
 
@@ -177,6 +198,3 @@ export type WantsOpenInventory = ReturnType<typeof WantsOpenInventory>;
 
 export const WantsPickUp = component<{ item: AnyEntity; collected_by: AnyEntity }>();
 export type WantsPickUp = ReturnType<typeof WantsPickUp>;
-
-// make a new component for Player with a field for health
-// also make a type for it

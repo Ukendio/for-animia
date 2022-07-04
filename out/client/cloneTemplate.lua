@@ -1,4 +1,4 @@
--- Compiled with roblox-ts v1.3.3-dev-5633519
+-- Compiled with roblox-ts v1.3.3-dev-d657049
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local _fusion = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "fusion", "src")
 local Children = _fusion.Children

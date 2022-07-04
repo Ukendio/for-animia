@@ -1,35 +1,15 @@
--- Compiled with roblox-ts v1.3.3
+-- Compiled with roblox-ts v1.3.3-dev-d657049
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local variantModule = TS.import(script, TS.getModule(script, "@rbxts", "variant").out).variantModule
+local variantModule = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "variant", "out").variantModule
 local EffectVariant = variantModule({
+	Dash = function(direction)
+		return {
+			direction = direction,
+		}
+	end,
 	Damage = function(damage)
 		return {
 			damage = damage,
-		}
-	end,
-	Explosion = function(size)
-		return {
-			size = size,
-		}
-	end,
-	KnockBack = function(force)
-		return {
-			force = force,
-		}
-	end,
-	Slow = function(slow)
-		return {
-			slow = slow,
-		}
-	end,
-	Track = function(attach)
-		return {
-			attach = attach,
-		}
-	end,
-	Stun = function(duration)
-		return {
-			duration = duration,
 		}
 	end,
 })

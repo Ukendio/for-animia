@@ -1,8 +1,9 @@
+import { AnyComponent } from "@rbxts/matter";
 import Net from "@rbxts/net";
+import { EffectPayload } from "./effects";
+import { ComponentNames } from "./serde";
 
-import type { SerializedMappedEffect } from "./serde";
-
-export const remotes = Net.Definitions.Create({
-	create_fx: Net.Definitions.ClientToServerEvent<[SerializedMappedEffect]>(),
-	replicate_fx: Net.Definitions.ServerToClientEvent<[SerializedMappedEffect]>(),
+export = Net.CreateDefinitions({
+	MatterRemote: Net.Definitions.ServerToClientEvent<[Map<string, Map<ComponentNames, { data: AnyComponent }>>]>(),
+	CreateFx: Net.Definitions.ClientToServerEvent<[EffectPayload]>(),
 });

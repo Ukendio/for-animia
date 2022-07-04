@@ -1,21 +1,18 @@
-import { Option } from "@rbxts/rust-classes";
 import { variantModule, VariantOf } from "@rbxts/variant";
 import { TypeNames } from "@rbxts/variant/out/types";
+import { DashDirection } from "./bin/dash";
 
 export type EffectPayload = {
-	creator: Option<Player>;
+	source?: Player;
 	variant: EffectVariant;
-	target: Option<Model>;
-	pos: Option<Vector3>;
+	target?: Model;
+	pos?: Vector3;
+	predictionGUID: string;
 };
 
 export const EffectVariant = variantModule({
+	Dash: (direction: DashDirection) => ({ direction }),
 	Damage: (damage: number) => ({ damage }),
-	Explosion: (size: NumberSequence) => ({ size }),
-	KnockBack: (force: Vector3) => ({ force }),
-	Slow: (slow: number) => ({ slow }),
-	Track: (attach: Vector3) => ({ attach }),
-	Stun: (duration: number) => ({ duration }),
 });
 
 export type EffectVariant<T extends TypeNames<typeof EffectVariant> = undefined> = VariantOf<typeof EffectVariant, T>;

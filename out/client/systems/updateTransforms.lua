@@ -1,4 +1,4 @@
--- Compiled with roblox-ts v1.3.3-dev-d657049
+-- Compiled with roblox-ts v1.3.3-dev-5633519
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components")
 local Renderable = _components.Renderable

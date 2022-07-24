@@ -1,10 +1,10 @@
 -- Compiled with roblox-ts v1.3.3-dev-d657049
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local _components = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components")
+local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
 local DebugAdornment = _components.DebugAdornment
 local Renderable = _components.Renderable
-local Components = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components")
-local cloneTemplate = TS.import(script, script.Parent.Parent, "cloneTemplate")
+local Components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
+local cloneTemplate = TS.import(script, game:GetService("ReplicatedStorage"), "Client", "cloneTemplate")
 warn("Press ALT + F4 to toggle debug overlay")
 local function debugVision(world, state, ui)
 	local transparency = ui.slider(1)
@@ -37,7 +37,8 @@ local function debugVision(world, state, ui)
 			})
 			world:insert(id, debugAdornment)
 		end
-		local text = ""
+		local text = "Entity: " .. tostring(id)
+		text ..= "\n"
 		for name, component in pairs(Components) do
 			local data = world:get(id, component)
 			if data then

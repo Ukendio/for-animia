@@ -1,5 +1,5 @@
 import { World } from "@rbxts/matter";
-import { ClientState } from "client/index.client";
+import { ClientState } from "client/game.client";
 import { DebugAdornment, Renderable } from "shared/components";
 import * as Components from "shared/components";
 import cloneTemplate from "client/cloneTemplate";
@@ -38,7 +38,8 @@ function debugVision(world: World, state: ClientState, ui: Widgets): void {
 			world.insert(id, debugAdornment);
 		}
 
-		let text = "";
+		let text = "Entity: " + id;
+		text += "\n";
 
 		for (const [name, component] of pairs(Components)) {
 			const data = world.get(id, component);

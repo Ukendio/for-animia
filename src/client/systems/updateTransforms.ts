@@ -15,4 +15,7 @@ function updateTransforms(world: World): void {
 	}
 }
 
-export = updateTransforms;
+export = {
+	event: "fixed",
+	system: updateTransforms,
+};

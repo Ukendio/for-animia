@@ -1,6 +1,9 @@
 import { component } from "@rbxts/matter";
 import { EffectPayload } from "./effects";
 
+export const Agency = component<Player>();
+export type Agency = ReturnType<typeof Agency>;
+
 export const Charge = component<{ charge: number }>("Charge");
 export type Charge = ReturnType<typeof Charge>;
 
@@ -25,6 +28,12 @@ export type Effect = ReturnType<typeof Effect>;
 
 export const ImpactEffect = component<{ effects: Array<Effect> }>("ImpactEffect");
 export type ImpactEffect = ReturnType<typeof ImpactEffect>;
+
+export const Lifetime = component<{ spawnedAt: number; length: number }>();
+export type Lifetime = ReturnType<typeof Lifetime>;
+
+export const Mob = component<{ action: string }>();
+export type Mob = ReturnType<typeof Mob>;
 
 export const Projectile = component<{ direction: Vector3; filter: Array<Instance> }>("Projectile");
 export type Projectile = ReturnType<typeof Projectile>;

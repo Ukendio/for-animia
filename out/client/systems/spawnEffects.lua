@@ -2,9 +2,9 @@
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local useThrottle = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "matter", "lib").useThrottle
 local Players = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Players
-local Effect = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components").Effect
-local replicate_fx_on_client = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "effects", "replicate_fx_on_client").replicate_fx_on_client
-local remotes = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "remotes")
+local Effect = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components").Effect
+local replicate_fx_on_client = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "effects", "replicate_fx_on_client").replicate_fx_on_client
+local remotes = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "remotes")
 local remoteEvent = remotes.Client:Get("CreateFx")
 local predictionGUIDBuffer = {}
 local function spawnEffects(world)
@@ -25,4 +25,7 @@ local function spawnEffects(world)
 		table.clear(predictionGUIDBuffer)
 	end
 end
-return spawnEffects
+return {
+	event = "fixed",
+	system = spawnEffects,
+}

@@ -1,6 +1,6 @@
 import { useEvent, World } from "@rbxts/matter";
 import { HttpService, Players, UserInputService } from "@rbxts/services";
-import { ClientState } from "client/index.client";
+import { ClientState } from "client/game.client";
 import { Effect } from "shared/components";
 import { EffectVariant } from "shared/effects";
 import { DashDirection } from "shared/effects/bin/dash";
@@ -31,4 +31,7 @@ function dashInDirection(world: World, state: ClientState): void {
 	}
 }
 
-export = dashInDirection;
+export = {
+	event: "fixed",
+	system: dashInDirection,
+};

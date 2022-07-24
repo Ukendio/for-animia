@@ -40,6 +40,8 @@ export function receiveReplication(world: World): void {
 
 				entityIdMap.set(serverEntityId, clientEntityId);
 			} else {
+				if (!world.contains(clientEntityId)) continue;
+
 				if (componentsToInsert.size() > 0) {
 					world.insert(clientEntityId, ...componentsToInsert);
 				}

@@ -1,6 +1,6 @@
 -- Compiled with roblox-ts v1.3.3-dev-d657049
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local _components = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components")
+local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
 local Renderable = _components.Renderable
 local Transform = _components.Transform
 local function updateTransforms(world)
@@ -17,4 +17,7 @@ local function updateTransforms(world)
 		end
 	end
 end
-return updateTransforms
+return {
+	event = "fixed",
+	system = updateTransforms,
+}

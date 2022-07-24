@@ -2,11 +2,13 @@
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local useEvent = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "matter", "lib").useEvent
 local Players = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Players
-local Effect = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components").Effect
-local remotes = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "remotes")
+local Effect = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components").Effect
+local remotes = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "remotes")
+local Renderable = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components").Renderable
 local remoteEvent = remotes.Server:Get("MatterRemote")
 local REPLICATED_COMPONENTS = {
 	[Effect] = true,
+	[Renderable] = true,
 }
 local function replication(world)
 	for _, plr in useEvent(Players, "PlayerAdded") do

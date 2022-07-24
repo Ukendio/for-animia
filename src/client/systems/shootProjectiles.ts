@@ -1,8 +1,8 @@
 import { useEvent, World } from "@rbxts/matter";
 import { Widgets } from "@rbxts/plasma";
 import { Players, UserInputService, Workspace } from "@rbxts/services";
-import { ClientState } from "client/index.client";
-import { Collision, ImpactEffect, Projectile, Renderable, Transform, Velocity } from "shared/components";
+import { ClientState } from "client/game.client";
+import { Collision, ImpactEffect, Lifetime, Projectile, Renderable, Transform, Velocity } from "shared/components";
 
 const player = Players.LocalPlayer;
 const mouse = player.GetMouse();
@@ -29,12 +29,15 @@ function shootProjectiles(world: World, state: ClientState, ui: Widgets): void {
 				Projectile({ direction: mouse.Hit.Position.sub(cf.Position).Unit, filter: [player.Character!] }),
 				Renderable({ model }),
 				Transform({ cf }),
-				Velocity({ speed: 15 }),
+				Velocity({ speed: 50 }),
 				Collision({ size: model.PrimaryPart.Size }),
-				ImpactEffect({ effects: [] }),
+				Lifetime({ spawnedAt: os.clock(), length: 5 }),
 			);
 		}
 	}
 }
 
-export = shootProjectiles;
+export = {
+	event: "fixed",
+	system: shootProjectiles,
+};

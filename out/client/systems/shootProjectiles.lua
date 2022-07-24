@@ -5,9 +5,9 @@ local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts
 local Players = _services.Players
 local UserInputService = _services.UserInputService
 local Workspace = _services.Workspace
-local _components = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components")
+local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
 local Collision = _components.Collision
-local ImpactEffect = _components.ImpactEffect
+local Lifetime = _components.Lifetime
 local Projectile = _components.Projectile
 local Renderable = _components.Renderable
 local Transform = _components.Transform
@@ -42,13 +42,17 @@ local function shootProjectiles(world, state, ui)
 			}), Transform({
 				cf = cf,
 			}), Velocity({
-				speed = 15,
+				speed = 50,
 			}), Collision({
 				size = model.PrimaryPart.Size,
-			}), ImpactEffect({
-				effects = {},
+			}), Lifetime({
+				spawnedAt = os.clock(),
+				length = 5,
 			}))
 		end
 	end
 end
-return shootProjectiles
+return {
+	event = "fixed",
+	system = shootProjectiles,
+}

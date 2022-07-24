@@ -12,6 +12,11 @@ local EffectVariant = variantModule({
 			damage = damage,
 		}
 	end,
+	InvincibilityFrame = function(duration)
+		return {
+			duration = duration,
+		}
+	end,
 })
 return {
 	EffectVariant = EffectVariant,

@@ -5,9 +5,9 @@ local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts
 local HttpService = _services.HttpService
 local Players = _services.Players
 local UserInputService = _services.UserInputService
-local Effect = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components").Effect
-local EffectVariant = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "effects").EffectVariant
-local DashDirection = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "effects", "bin", "dash").DashDirection
+local Effect = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components").Effect
+local EffectVariant = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "effects").EffectVariant
+local DashDirection = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "effects", "bin", "dash").DashDirection
 local function dashInDirection(world, state)
 	for _, _binding, gameProcessedEvent in useEvent(UserInputService, "InputBegan") do
 		local KeyCode = _binding.KeyCode
@@ -37,4 +37,7 @@ local function dashInDirection(world, state)
 		state.lastInput = KeyCode
 	end
 end
-return dashInDirection
+return {
+	event = "fixed",
+	system = dashInDirection,
+}

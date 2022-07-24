@@ -1,7 +1,7 @@
 import { useDeltaTime, World } from "@rbxts/matter";
 import Plasma, { Widgets } from "@rbxts/plasma";
 import { HttpService, Workspace } from "@rbxts/services";
-import { ClientState } from "client/index.client";
+import { ClientState } from "client/game.client";
 import { Collision, Effect, ImpactEffect, Projectile, SplashDamage, Transform, Velocity } from "shared/components";
 import { EffectVariant } from "shared/effects";
 
@@ -87,4 +87,7 @@ function hitScanEffect(world: World, state: ClientState, ui: Widgets): void {
 	}
 }
 
-export = hitScanEffect;
+export = {
+	event: "fixed",
+	system: hitScanEffect,
+};

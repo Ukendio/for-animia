@@ -1,7 +1,7 @@
 import { useEvent, World } from "@rbxts/matter";
 import { Renderable } from "shared/components";
 
-function removingMissingModel(world: World): void {
+function removingMissingModels(world: World): void {
 	for (const [id, { model }] of world.query(Renderable)) {
 		for (const [_] of useEvent(model, "AncestryChanged")) {
 			if (model.IsDescendantOf(game) === false) {
@@ -24,4 +24,7 @@ function removingMissingModel(world: World): void {
 	}
 }
 
-export = removingMissingModel;
+export = {
+	event: "fixed",
+	system: removingMissingModels,
+};

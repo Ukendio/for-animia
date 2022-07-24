@@ -3,7 +3,7 @@ local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_incl
 local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
 local HttpService = _services.HttpService
 local Workspace = _services.Workspace
-local _components = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "components")
+local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
 local Collision = _components.Collision
 local Effect = _components.Effect
 local ImpactEffect = _components.ImpactEffect
@@ -11,7 +11,7 @@ local Projectile = _components.Projectile
 local SplashDamage = _components.SplashDamage
 local Transform = _components.Transform
 local Velocity = _components.Velocity
-local EffectVariant = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "effects").EffectVariant
+local EffectVariant = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "effects").EffectVariant
 local raycastParams = RaycastParams.new()
 raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
 local overlapParams = OverlapParams.new()
@@ -93,4 +93,7 @@ local function hitScanEffect(world, state, ui)
 		end
 	end
 end
-return hitScanEffect
+return {
+	event = "fixed",
+	system = hitScanEffect,
+}

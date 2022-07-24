@@ -2,8 +2,8 @@
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local LightningBolt = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "lightning-beams", "src", "LightningBolt")
 local Workspace = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Workspace
-local dust = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "effects", "bin", "dust").dust
-local LightningSparks = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "effects", "bin", "lightningSparks").LightningSparks
+local dust = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "effects", "bin", "dust").dust
+local LightningSparks = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "effects", "bin", "lightningSparks").LightningSparks
 local DashDirection
 do
 	local _inverse = {}

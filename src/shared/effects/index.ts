@@ -13,6 +13,7 @@ export type EffectPayload = {
 export const EffectVariant = variantModule({
 	Dash: (direction: DashDirection) => ({ direction }),
 	Damage: (damage: number) => ({ damage }),
+	InvincibilityFrame: (duration: number) => ({ duration }),
 });
 
 export type EffectVariant<T extends TypeNames<typeof EffectVariant> = undefined> = VariantOf<typeof EffectVariant, T>;

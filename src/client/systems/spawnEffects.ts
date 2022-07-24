@@ -29,4 +29,7 @@ function spawnEffects(world: World): void {
 	}
 }
 
-export = spawnEffects;
+export = {
+	event: "fixed",
+	system: spawnEffects,
+};

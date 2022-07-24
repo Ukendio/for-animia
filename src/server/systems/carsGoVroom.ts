@@ -1,8 +1,10 @@
 import { World, DebugWidgets } from "@rbxts/matter";
-import { ClientState } from "client/index.client";
+import { ClientState } from "client/game.client";
 import { Charge, Renderable, Target } from "shared/components";
 
 function carsGoVroom(world: World, _: ClientState, ui: DebugWidgets): void {
+	return;
+
 	if (ui.checkbox("Disable Physical movers").checked() === true) {
 		for (const [, renderable] of world.query(Renderable, Charge)) {
 			const model = renderable.model.PrimaryPart! as Part & { VectorForce: VectorForce; Torque: Torque };

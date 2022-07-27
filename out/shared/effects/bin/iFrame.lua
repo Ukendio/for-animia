@@ -8,21 +8,23 @@ local function iFrame(duration, source)
 	if not humanoid then
 		return nil
 	end
-	for _, bodyPart in character:GetDescendants() do
-		if not bodyPart:IsA("BasePart") or bodyPart == character.PrimaryPart then
-			continue
+	for _, v in character:GetDescendants() do
+		if v:IsA("BasePart") and v ~= character.PrimaryPart then
+			v.CanQuery = false
+			v.Transparency = 1
+		elseif v:IsA("Decal") then
+			v.Transparency = 1
 		end
-		bodyPart.Transparency = 1
-		bodyPart.CanQuery = false
 	end
 	humanoid.WalkSpeed = 48
 	task.delay(duration, function()
-		for _, bodyPart in character:GetDescendants() do
-			if not bodyPart:IsA("BasePart") or bodyPart == character.PrimaryPart then
-				continue
+		for _, v in character:GetDescendants() do
+			if v:IsA("BasePart") and v ~= character.PrimaryPart then
+				v.CanQuery = true
+				v.Transparency = 0
+			elseif v:IsA("Decal") then
+				v.Transparency = 0
 			end
-			bodyPart.Transparency = 0
-			bodyPart.CanQuery = true
 		end
 		humanoid.WalkSpeed = 16
 	end)

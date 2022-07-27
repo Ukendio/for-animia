@@ -4,7 +4,7 @@ import * as Components from "shared/components";
 import { UnionComponentsMap } from "shared/serde";
 import { ComponentCtor } from "@rbxts/matter/lib/component";
 
-const remoteEvent = remotes.Client.Get("MatterRemote");
+const remoteEvent = remotes.Client.Get("Replication");
 
 export function receiveReplication(world: World): void {
 	const entityIdMap = new Map<string, AnyEntity>();
@@ -40,8 +40,6 @@ export function receiveReplication(world: World): void {
 
 				entityIdMap.set(serverEntityId, clientEntityId);
 			} else {
-				if (!world.contains(clientEntityId)) continue;
-
 				if (componentsToInsert.size() > 0) {
 					world.insert(clientEntityId, ...componentsToInsert);
 				}

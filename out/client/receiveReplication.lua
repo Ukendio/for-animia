@@ -2,7 +2,7 @@
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local remotes = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "remotes")
 local Components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
-local remoteEvent = remotes.Client:Get("MatterRemote")
+local remoteEvent = remotes.Client:Get("Replication")
 local function receiveReplication(world)
 	local entityIdMap = {}
 	remoteEvent:Connect(function(entities)
@@ -33,9 +33,6 @@ local function receiveReplication(world)
 				local _clientEntityId = clientEntityId
 				entityIdMap[serverEntityId] = _clientEntityId
 			else
-				if not world:contains(clientEntityId) then
-					continue
-				end
 				if #componentsToInsert > 0 then
 					world:insert(clientEntityId, unpack(componentsToInsert))
 				end

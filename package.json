@@ -27,10 +27,10 @@
 	"dependencies": {
 		"@rbxts/fusion": "^0.2.0-dev-a5a9d0a",
 		"@rbxts/lightning-beams": "^1.1.0-ts.2",
-		"@rbxts/matter": "github:ukendio/matter",
+		"@rbxts/matter": "^0.6.2-ts.0",
 		"@rbxts/net": "^3.0.3",
 		"@rbxts/netto": "^0.0.6",
-		"@rbxts/plasma": "github:ukendio/plasma",
+		"@rbxts/plasma": "^0.4.1-ts.0",
 		"@rbxts/promise-character": "^1.0.3",
 		"@rbxts/rewire": "^0.3.0",
 		"@rbxts/roact": "^1.4.2-ts.3",

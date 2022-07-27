@@ -1,14 +1,13 @@
 import { AnyComponent, useEvent, World } from "@rbxts/matter";
 import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { Players } from "@rbxts/services";
-import { Effect } from "shared/components";
+import { Effect, Renderable, Agency } from "shared/components";
 import remotes from "shared/remotes";
 import type { ComponentNames } from "shared/serde";
-import { Renderable } from "shared/components";
 
-const remoteEvent = remotes.Server.Get("MatterRemote");
+const remoteEvent = remotes.Server.Get("Replication");
 
-const REPLICATED_COMPONENTS = new Set<ComponentCtor>([Effect, Renderable]);
+const REPLICATED_COMPONENTS = new Set<ComponentCtor>([Effect, Renderable, Agency]);
 
 function replication(world: World): void {
 	for (const [, plr] of useEvent(Players, "PlayerAdded")) {

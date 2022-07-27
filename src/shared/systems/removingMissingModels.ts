@@ -1,5 +1,5 @@
 import { useEvent, World } from "@rbxts/matter";
-import { Renderable } from "shared/components";
+import { DebugAdornment, Renderable } from "shared/components";
 
 function removingMissingModels(world: World): void {
 	for (const [id, { model }] of world.query(Renderable)) {
@@ -15,7 +15,7 @@ function removingMissingModels(world: World): void {
 		}
 	}
 
-	for (const [_, modelRecord] of world.queryChanged(Renderable)) {
+	for (const [, modelRecord] of world.queryChanged(Renderable)) {
 		if (modelRecord.new === undefined) {
 			if (modelRecord.old && modelRecord.old.model) {
 				modelRecord.old.model.Destroy();

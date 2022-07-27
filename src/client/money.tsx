@@ -1,7 +1,6 @@
 import Roact from "@rbxts/roact";
 import { useState, withHooks } from "@rbxts/roact-hooked";
 import { Players } from "@rbxts/services";
-import { VariantModule } from "@rbxts/variant";
 import ShadowedButton from "./shadowedButton";
 
 const player = Players.LocalPlayer;

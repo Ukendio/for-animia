@@ -4,30 +4,28 @@ local start = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", 
 local emitEffects = TS.import(script, game:GetService("ServerScriptService"), "Game", "emitEffects").emitEffects
 local setupTags = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "setupTags").setupTags
 local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
-local Workspace = _services.Workspace
 local Players = _services.Players
 local ReplicatedStorage = _services.ReplicatedStorage
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
-local Charge = _components.Charge
+local Agency = _components.Agency
 local Renderable = _components.Renderable
-local Target = _components.Target
 local promiseR15 = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "promise-character").default
+local trackLineSight = TS.import(script, game:GetService("ServerScriptService"), "Game", "trackLineSight")
 local world = start({ script.systems, ReplicatedStorage.Shared.systems }, {})
 emitEffects(world)
 setupTags(world)
-world:spawn(Renderable({
-	model = Workspace:FindFirstChild("Lambo"),
-}), Charge({
-	charge = 100,
-}))
-local function characterAdded(character)
-	promiseR15(character):andThen(function(model)
-		world:spawn(Renderable({
-			model = model,
-		}), Target())
-	end)
-end
+trackLineSight(world)
 local function playerAdded(player)
+	local function characterAdded(character)
+		promiseR15(character):andThen(function(model)
+			world:spawn(Renderable({
+				model = model,
+			}), Agency({
+				player = player,
+				lineSight = Vector3.zero,
+			}))
+		end)
+	end
 	if player.Character then
 		characterAdded(player.Character)
 	end

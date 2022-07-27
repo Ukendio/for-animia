@@ -13,8 +13,11 @@ local IFRAME_DURATION = 0.5
 local COOLDOWN = IFRAME_DURATION + 2.5
 local player = Players.LocalPlayer
 local function iFrame(world)
-	for _, _binding in useEvent(UserInputService, "InputBegan") do
+	for _, _binding, gameProcessedEvent in useEvent(UserInputService, "InputBegan") do
 		local KeyCode = _binding.KeyCode
+		if gameProcessedEvent then
+			continue
+		end
 		if KeyCode == Enum.KeyCode.E then
 			if useThrottle(COOLDOWN) then
 				if not player.Character then

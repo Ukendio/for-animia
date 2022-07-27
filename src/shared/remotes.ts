@@ -4,6 +4,7 @@ import { EffectPayload } from "./effects";
 import { ComponentNames } from "./serde";
 
 export = Net.CreateDefinitions({
-	MatterRemote: Net.Definitions.ServerToClientEvent<[Map<string, Map<ComponentNames, { data: AnyComponent }>>]>(),
+	Replication: Net.Definitions.ServerToClientEvent<[Map<string, Map<ComponentNames, { data: AnyComponent }>>]>(),
 	CreateFx: Net.Definitions.ClientToServerEvent<[EffectPayload]>(),
+	TrackLineSight: Net.Definitions.ClientToServerEvent<[Vector3]>(),
 });

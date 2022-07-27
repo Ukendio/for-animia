@@ -8,7 +8,7 @@ local receiveReplication = TS.import(script, game:GetService("ReplicatedStorage"
 local player = Players.LocalPlayer
 local state = {
 	debugEnabled = true,
-	character = player.Character or (player.CharacterAdded:Wait()),
+	character = (player.Character or (player.CharacterAdded:Wait())),
 	lastInput = nil,
 }
 local world = start({ ReplicatedStorage.Client.systems, ReplicatedStorage.Shared.systems }, state)

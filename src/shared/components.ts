@@ -1,7 +1,7 @@
 import { component } from "@rbxts/matter";
 import { EffectPayload } from "./effects";
 
-export const Agency = component<Player>();
+export const Agency = component<{ player: Player; lineSight: Vector3 }>("Agency");
 export type Agency = ReturnType<typeof Agency>;
 
 export const Charge = component<{ charge: number }>("Charge");
@@ -19,7 +19,9 @@ export type CombatStats = ReturnType<typeof CombatStats>;
 
 export const DebugAdornment = component<{
 	label: BillboardGui & { TextLabel: TextLabel };
-	highlight?: Highlight;
+	highlight: Highlight;
+	lineBox: ScreenGui & { topLeft: Frame; topRight: Frame; bottomLeft: Frame; bottomRight: Frame };
+	lineSight: Part;
 }>("DebugAdornment");
 export type DebugAdornment = ReturnType<typeof DebugAdornment>;
 
@@ -43,9 +45,6 @@ export type Renderable = ReturnType<typeof Renderable>;
 
 export const SplashDamage = component<{ radius: number; damage: number }>();
 export type SplashDamage = ReturnType<typeof SplashDamage>;
-
-export const Target = component("Target");
-export type Target = ReturnType<typeof Target>;
 
 export const Transform = component<{ cf: CFrame; doNotReconcile?: boolean }>("Transform");
 export type Transform = ReturnType<typeof Transform>;

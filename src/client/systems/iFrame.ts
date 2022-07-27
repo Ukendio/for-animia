@@ -9,7 +9,9 @@ const COOLDOWN = IFRAME_DURATION + 2.5;
 const player = Players.LocalPlayer;
 
 function iFrame(world: World): void {
-	for (const [, { KeyCode }] of useEvent(UserInputService, "InputBegan")) {
+	for (const [, { KeyCode }, gameProcessedEvent] of useEvent(UserInputService, "InputBegan")) {
+		if (gameProcessedEvent) continue;
+
 		if (KeyCode === Enum.KeyCode.E) {
 			if (useThrottle(COOLDOWN)) {
 				if (!player.Character) continue;

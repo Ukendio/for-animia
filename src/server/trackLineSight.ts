@@ -3,7 +3,7 @@ import { Agency } from "shared/components";
 import remotes from "shared/remotes";
 
 const remoteEvent = remotes.Server.Get("TrackLineSight");
-print(remoteEvent);
+
 export = (world: World): void => {
 	remoteEvent.Connect((player, lineSight) => {
 		world.optimizeQueries();

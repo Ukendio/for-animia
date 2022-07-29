@@ -10,8 +10,6 @@ function mobsMove(world: World): void {
 
 	for (const [id, mob] of world.query(Mob, Renderable)) {
 		let [closestPosition, closestDistance] = [undefined! as Vector3, undefined! as number];
-
-        
 	}
 }
 

@@ -14,6 +14,7 @@
 		"Adornee",
 		"bahmutov",
 		"beizer",
+		"deref",
 		"Interactables",
 		"ipairs",
 		"Lambo",
@@ -25,5 +26,8 @@
 		"Stringable",
 		"Topo",
 		"traceback"
+	],
+	"robloxLsp.diagnostics.disable": [
+		"trailing-space"
 	]
 }

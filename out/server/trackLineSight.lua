@@ -3,7 +3,6 @@ local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_incl
 local Agency = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components").Agency
 local remotes = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "remotes")
 local remoteEvent = remotes.Server:Get("TrackLineSight")
-print(remoteEvent)
 return function(world)
 	remoteEvent:Connect(function(player, lineSight)
 		world:optimizeQueries()

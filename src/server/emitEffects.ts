@@ -6,7 +6,6 @@ const remoteEvent = remotes.Server.Get("CreateFx");
 
 export function emitEffects(world: World): void {
 	remoteEvent.Connect((_, effect) => {
-		print(effect);
 		world.spawn(Effect(effect));
 	});
 }

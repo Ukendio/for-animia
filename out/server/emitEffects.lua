@@ -5,7 +5,6 @@ local remotes = TS.import(script, game:GetService("ReplicatedStorage"), "Shared"
 local remoteEvent = remotes.Server:Get("CreateFx")
 local function emitEffects(world)
 	remoteEvent:Connect(function(_, effect)
-		print(effect)
 		world:spawn(Effect(effect))
 	end)
 end

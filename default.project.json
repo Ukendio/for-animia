@@ -1,0 +1,161 @@
+{
+	"name": "roblox-ts-game",
+	"globIgnorePaths": ["**/package.json", "**/tsconfig.json"],
+	"tree": {
+		"$className": "DataModel",
+		"ServerScriptService": {
+			"$className": "ServerScriptService",
+			"Game": {
+				"$path": "out/server"
+			}
+		},
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
+			"rbxts_include": {
+				"$path": "include",
+				"node_modules": {
+					"$className": "Folder",
+					"@rbxts": {
+						"$path": "node_modules/@rbxts"
+					}
+				}
+			},
+			"Shared": {
+				"$path": "out/shared"
+			},
+			"Client": {
+				"$path": "out/client"
+			}
+		},
+		"StarterPlayer": {
+			"$className": "StarterPlayer",
+			"StarterPlayerScripts": {
+				"$className": "StarterPlayerScripts",
+				"Game": {
+					"$path": "out/client/game.client.lua"
+				}
+			}
+		},
+		"Workspace": {
+			"$className": "Workspace",
+			"$properties": {
+				"FilteringEnabled": true
+			},
+			"Baseplate": {
+				"$className": "Part",
+				"$properties": {
+					"Anchored": true,
+					"Material": "Glass",
+					"Position": {
+						"Vector3": [0, -8, 0]
+					},
+					"Size": {
+						"Vector3": [2048, 16, 2048]
+					},
+					"Locked": true
+				},
+				"texture": {
+					"$className": "Texture",
+					"$properties": {
+						"Color3": {
+							"Color3": [0.831373, 0.913725, 1]
+						},
+						"StudsPerTileU": 10,
+						"StudsPerTileV": 10,
+						"Texture": "http://www.roblox.com/asset/?id=7045573215",
+						"ZIndex": 1,
+						"Face": {
+							"Enum": 1
+						}
+					}
+				}
+			}
+		},
+		"HttpService": {
+			"$className": "HttpService",
+			"$properties": {
+				"HttpEnabled": true
+			}
+		},
+		"SoundService": {
+			"$className": "SoundService",
+			"$properties": {
+				"RespectFilteringEnabled": true
+			}
+		},
+		"Lighting": {
+			"$className": "Lighting",
+			"$properties": {
+				"Ambient": {
+					"Color3": [0.415686, 0.415686, 0.415686]
+				},
+				"Brightness": 2,
+				"GlobalShadows": true,
+				"GeographicLatitude": -44.283,
+				"TimeOfDay": "00:19:27",
+				"Technology": {
+					"Enum": 4
+				},
+				"ShadowSoftness": 0,
+				"OutdoorAmbient": {
+					"Color3": [0.976471, 0.976471, 0.976471]
+				}
+			},
+			"SunRays": {
+				"$className": "SunRaysEffect",
+				"$properties": {
+					"Intensity": 0.085,
+					"Spread": 0.11
+				}
+			},
+			"ColorCorrection": {
+				"$className": "ColorCorrectionEffect",
+				"$properties": {
+					"Saturation": 0
+				}
+			},
+			"Bloom": {
+				"$className": "BloomEffect",
+				"$properties": {
+					"Intensity": 2.5,
+					"Size": 25,
+					"Threshold": 1.8
+				}
+			},
+			"Sky": {
+				"$className": "Sky",
+				"$properties": {
+					"MoonAngularSize": 11,
+					"MoonTextureId": "rbxasset://sky/moon.jpg",
+					"SkyboxBk": "http://www.roblox.com/asset/?id=150335574",
+					"SkyboxDn": "http://www.roblox.com/asset/?id=150335585",
+					"SkyboxFt": "http://www.roblox.com/asset/?id=150335628",
+					"SkyboxLf": "http://www.roblox.com/asset/?id=150335620",
+					"SkyboxRt": "http://www.roblox.com/asset/?id=150335610",
+					"SkyboxUp": "http://www.roblox.com/asset/?id=150335642",
+					"StarCount": 1334,
+					"SunAngularSize": 21,
+					"SunTextureId": "rbxasset://sky/sun.jpg"
+				}
+			},
+			"Atmosphere": {
+				"$className": "Atmosphere",
+				"$properties": {
+					"Density": 0.386,
+					"Color": {
+						"Color3": [0.780392, 0.666667, 0.419608]
+					},
+					"Decay": {
+						"Color3": [0.360784, 0.235294, 0.0509804]
+					}
+				}
+			},
+			"Blur": {
+				"$className": "BlurEffect",
+				"$properties": {
+					"Size": 2
+				}
+			}
+		}
+	}
+}

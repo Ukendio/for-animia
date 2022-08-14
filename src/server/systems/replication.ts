@@ -1,11 +1,12 @@
 import { AnyComponent, useEvent, World } from "@rbxts/matter";
 import { ComponentCtor } from "@rbxts/matter/lib/component";
-import { Players } from "@rbxts/services";
+import { Players, ReplicatedStorage } from "@rbxts/services";
 import { Effect, Renderable, Agency } from "shared/components";
-import remotes from "shared/remotes";
 import type { ComponentNames } from "shared/serde";
 
-const remoteEvent = remotes.Server.Get("Replication");
+const remoteEvent = new Instance("RemoteEvent");
+remoteEvent.Name = "Replication";
+remoteEvent.Parent = ReplicatedStorage;
 
 const REPLICATED_COMPONENTS = new Set<ComponentCtor>([Effect, Renderable, Agency]);
 
@@ -24,7 +25,7 @@ function replication(world: World): void {
 			}
 		}
 
-		remoteEvent.SendToPlayer(plr, payload);
+		remoteEvent.FireClient(plr, payload);
 	}
 
 	const changes = new Map<string, Map<ComponentNames, { data: AnyComponent }>>();
@@ -45,7 +46,7 @@ function replication(world: World): void {
 	}
 
 	if (next(changes)[0] !== undefined) {
-		remoteEvent.SendToAllPlayers(changes);
+		remoteEvent.FireAllClients(changes);
 	}
 }
 

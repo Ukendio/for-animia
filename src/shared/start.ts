@@ -2,11 +2,14 @@ import { Debugger, Loop, World, AnySystem, AnyEntity } from "@rbxts/matter";
 import { Players, RunService, UserInputService } from "@rbxts/services";
 import { Context, HotReloader } from "@rbxts/rewire";
 import Plasma from "@rbxts/plasma";
-import type { ClientState } from "client/game.client";
 //import { ChickynoidClient, ChickynoidServer } from "./chickynoid/types";
 import { Renderable } from "./components";
+import { ClientState } from "./playerState";
 
-export function start<S extends object>(containers: Array<Instance>, state: S): LuaTuple<[World, S]> {
+export function start<S extends object>(
+	containers: Array<Instance>,
+	state: S,
+): (...plugins: Array<(world: World, state: S) => void>) => World {
 	const world = new World();
 
 	const myDebugger = new Debugger(Plasma);
@@ -67,10 +70,17 @@ export function start<S extends object>(containers: Array<Instance>, state: S): 
 
 	myDebugger.autoInitialize(loop);
 
-	loop.begin({
-		default: RunService.IsClient() ? RunService.RenderStepped : RunService.Heartbeat,
-		fixed: RunService.Heartbeat,
-	});
+	const events: {
+		default: RBXScriptSignal;
+		fixed?: RBXScriptSignal;
+	} = RunService.IsClient()
+		? {
+				default: RunService.RenderStepped,
+				fixed: RunService.Heartbeat,
+		  }
+		: { default: RunService.Heartbeat };
+
+	loop.begin(events);
 
 	//let chickynoid: typeof ChickynoidClient | typeof ChickynoidServer = ChickynoidClient;
 	if (RunService.IsClient()) {
@@ -87,5 +97,11 @@ export function start<S extends object>(containers: Array<Instance>, state: S): 
 
 	//(chickynoid as typeof ChickynoidClient & typeof ChickynoidServer).Setup();
 
-	return $tuple(world, state);
+	return function (...plugins: Array<(world: World, state: S) => void>): World {
+		for (const plugin of plugins) {
+			plugin(world, state);
+		}
+
+		return world;
+	};
 }

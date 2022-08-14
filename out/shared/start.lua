@@ -1,4 +1,4 @@
--- Compiled with roblox-ts v1.3.3-dev-d657049
+-- Compiled with roblox-ts v1.3.3-dev-230088d
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local _matter = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "matter", "lib")
 local Debugger = _matter.Debugger
@@ -65,10 +65,13 @@ local function start(containers, state)
 	loop:scheduleSystems(firstRunSystems)
 	firstRunSystems = nil
 	myDebugger:autoInitialize(loop)
-	loop:begin({
-		default = if RunService:IsClient() then RunService.RenderStepped else RunService.Heartbeat,
+	local events = if RunService:IsClient() then {
+		default = RunService.RenderStepped,
 		fixed = RunService.Heartbeat,
-	})
+	} else {
+		default = RunService.Heartbeat,
+	}
+	loop:begin(events)
 	-- let chickynoid: typeof ChickynoidClient | typeof ChickynoidServer = ChickynoidClient;
 	if RunService:IsClient() then
 		UserInputService.InputBegan:Connect(function(input)
@@ -79,7 +82,13 @@ local function start(containers, state)
 		end)
 	end
 	-- (chickynoid as typeof ChickynoidClient & typeof ChickynoidServer).Setup();
-	return world, state
+	return function(...)
+		local plugins = { ... }
+		for _, plugin in plugins do
+			plugin(world, state)
+		end
+		return world
+	end
 end
 return {
 	start = start,

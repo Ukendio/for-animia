@@ -1,4 +1,4 @@
--- Compiled with roblox-ts v1.3.3-dev-d657049
+-- Compiled with roblox-ts v1.3.3-dev-230088d
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local useThrottle = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "matter", "lib").useThrottle
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
@@ -9,14 +9,13 @@ local Components = TS.import(script, game:GetService("ReplicatedStorage"), "Shar
 local cloneTemplate = TS.import(script, game:GetService("ReplicatedStorage"), "Client", "cloneTemplate")
 local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
 local Players = _services.Players
+local ReplicatedStorage = _services.ReplicatedStorage
 local Workspace = _services.Workspace
 local _linebox = TS.import(script, game:GetService("ReplicatedStorage"), "Client", "linebox")
 local createLineBox = _linebox.createLineBox
 local updateLineBox = _linebox.updateLineBox
-local remotes = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "remotes")
 local camera = Workspace.CurrentCamera
-local remoteEvent = remotes.Client:Get("TrackLineSight")
-print(remoteEvent)
+local remoteEvent = ReplicatedStorage:WaitForChild("TrackLineOfSight")
 warn("Press ALT + F4 to toggle debug overlay")
 local raycastParams = RaycastParams.new()
 raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
@@ -109,9 +108,9 @@ local function espVision(world, state, ui)
 	local result = Workspace:Raycast(cf.Position, camera.CFrame.LookVector * 500, raycastParams)
 	if useThrottle(0.03) then
 		if result and result.Position then
-			remoteEvent:SendToServer(result.Position)
+			remoteEvent:FireServer(result.Position)
 		else
-			remoteEvent:SendToServer(camera.CFrame.LookVector * 500)
+			remoteEvent:FireServer(camera.CFrame.LookVector * 500)
 		end
 	end
 end

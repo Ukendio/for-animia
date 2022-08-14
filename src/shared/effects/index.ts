@@ -3,7 +3,7 @@ import { TypeNames } from "@rbxts/variant/out/types";
 import { DashDirection } from "./bin/dash";
 
 export type EffectPayload = {
-	source?: Player;
+	source: Player;
 	variant: EffectVariant;
 	target?: Model;
 	pos?: Vector3;

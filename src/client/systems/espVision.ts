@@ -1,17 +1,15 @@
 import { useThrottle, World } from "@rbxts/matter";
-import { ClientState } from "client/game.client";
 import { DebugAdornment, Renderable, Agency } from "shared/components";
 import * as Components from "shared/components";
 import cloneTemplate from "client/cloneTemplate";
 import { Widgets } from "@rbxts/plasma";
-import { Players, Workspace } from "@rbxts/services";
+import { Players, ReplicatedStorage, Workspace } from "@rbxts/services";
 import { CharacterRigR15 } from "@rbxts/promise-character";
 import { createLineBox, updateLineBox } from "client/linebox";
-import remotes from "shared/remotes";
+import { ClientState } from "shared/playerState";
 
 const camera = Workspace.CurrentCamera!;
-const remoteEvent = remotes.Client.Get("TrackLineSight");
-print(remoteEvent);
+const remoteEvent = ReplicatedStorage.WaitForChild("TrackLineOfSight") as RemoteEvent;
 
 warn("Press ALT + F4 to toggle debug overlay");
 
@@ -126,9 +124,9 @@ function espVision(world: World, state: ClientState, ui: Widgets): void {
 
 	if (useThrottle(0.03)) {
 		if (result && result.Position) {
-			remoteEvent.SendToServer(result.Position);
+			remoteEvent.FireServer(result.Position);
 		} else {
-			remoteEvent.SendToServer(camera.CFrame.LookVector.mul(500));
+			remoteEvent.FireServer(camera.CFrame.LookVector.mul(500));
 		}
 	}
 }

@@ -1,14 +1,16 @@
 import { useEvent, World } from "@rbxts/matter";
 import { HttpService, Players, UserInputService } from "@rbxts/services";
-import { ClientState } from "client/game.client";
 import { Effect } from "shared/components";
 import { EffectVariant } from "shared/effects";
 import { DashDirection } from "shared/effects/bin/dash";
+import { InputMapperMessage } from "shared/inputMapperMessage";
+import { ClientState } from "shared/playerState";
 
 function dashInDirection(world: World, state: ClientState): void {
-	for (const [, { KeyCode }, gameProcessedEvent] of useEvent(UserInputService, "InputBegan")) {
-		if (gameProcessedEvent) continue;
+	if (state.inputBuffer.isEmpty()) return;
 
+	const input = state.inputBuffer[0];
+	if (input.type === InputMapperMessage.KeyDown.type) {
 		let direction = DashDirection.Forward;
 
 		if (UserInputService.IsKeyDown(Enum.KeyCode.A)) direction = DashDirection.Left;
@@ -17,7 +19,7 @@ function dashInDirection(world: World, state: ClientState): void {
 
 		if (UserInputService.MouseBehavior !== Enum.MouseBehavior.LockCenter) direction = DashDirection.Forward;
 
-		if (KeyCode === Enum.KeyCode.Q) {
+		if (input.key === Enum.KeyCode.Q) {
 			world.spawn(
 				Effect({
 					source: Players.LocalPlayer,
@@ -26,8 +28,6 @@ function dashInDirection(world: World, state: ClientState): void {
 				}),
 			);
 		}
-
-		state.lastInput = KeyCode;
 	}
 }
 

@@ -1,26 +1,28 @@
-import { useThrottle, World } from "@rbxts/matter";
-import { Players } from "@rbxts/services";
+import { log, useThrottle, World } from "@rbxts/matter";
+import { Players, ReplicatedStorage } from "@rbxts/services";
 import { Effect } from "shared/components";
 import { replicate_fx_on_client } from "shared/effects/replicate_fx_on_client";
-import remotes from "shared/remotes";
+import { ClientState } from "shared/playerState";
 
-const remoteEvent = remotes.Client.Get("CreateFx");
+const remoteEvent = ReplicatedStorage.WaitForChild("CreateFX") as RemoteEvent;
 
 const predictionGUIDBuffer = new Set<string>();
 
-function spawnEffects(world: World): void {
+function spawnEffects(world: World, state: ClientState): void {
 	for (let [id, effect] of world.query(Effect)) {
-		if (predictionGUIDBuffer.has(effect.predictionGUID)) {
+		const predictionGUID = effect.predictionGUID;
+		if (predictionGUIDBuffer.has(predictionGUID)) {
 			world.despawn(id);
 			continue;
 		}
 
-		predictionGUIDBuffer.add(effect.predictionGUID);
+		predictionGUIDBuffer.add(predictionGUID);
 
 		replicate_fx_on_client(world, effect);
 
 		if (effect.source === Players.LocalPlayer) {
-			remoteEvent.SendToServer(effect);
+			remoteEvent.FireServer(effect);
+			log(effect);
 		}
 	}
 

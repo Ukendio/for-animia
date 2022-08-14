@@ -1,6 +1,7 @@
--- Compiled with roblox-ts v1.3.3-dev-d657049
+-- Compiled with roblox-ts v1.3.3-dev-230088d
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local useEvent = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "matter", "lib").useEvent
+local RunService = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").RunService
 local Renderable = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components").Renderable
 local function removingMissingModels(world)
 	for id, _binding in world:query(Renderable) do
@@ -24,6 +25,6 @@ local function removingMissingModels(world)
 	end
 end
 return {
-	event = "fixed",
+	event = if RunService:IsClient() then "fixed" else "default",
 	system = removingMissingModels,
 }

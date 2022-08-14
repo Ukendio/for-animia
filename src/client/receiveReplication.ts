@@ -1,15 +1,19 @@
-import { AnyComponent, AnyEntity, World } from "@rbxts/matter";
-import remotes from "shared/remotes";
+import { AnyComponent, World } from "@rbxts/matter";
 import * as Components from "shared/components";
-import { UnionComponentsMap } from "shared/serde";
+import { ComponentNames, UnionComponentsMap } from "shared/serde";
 import { ComponentCtor } from "@rbxts/matter/lib/component";
+import { ReplicatedStorage } from "@rbxts/services";
+import { t } from "@rbxts/t";
+import { ClientState } from "shared/playerState";
 
-const remoteEvent = remotes.Client.Get("Replication");
+const remoteEvent = ReplicatedStorage.WaitForChild("Replication") as RemoteEvent;
 
-export function receiveReplication(world: World): void {
-	const entityIdMap = new Map<string, AnyEntity>();
+export function receiveReplication(world: World, state: ClientState): void {
+	const entityIdMap = state.entityIdMap;
 
-	remoteEvent.Connect((entities) => {
+	remoteEvent.OnClientEvent.Connect((entities: Map<string, Map<ComponentNames, { data: AnyComponent }>>) => {
+		assert(t.map(t.string, t.table)(entities));
+
 		for (const [serverEntityId, componentMap] of entities) {
 			let clientEntityId = entityIdMap.get(serverEntityId);
 

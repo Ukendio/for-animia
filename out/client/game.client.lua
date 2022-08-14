@@ -1,4 +1,4 @@
--- Compiled with roblox-ts v1.3.3-dev-d657049
+-- Compiled with roblox-ts v1.3.3-dev-230088d
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
 local Players = _services.Players
@@ -9,7 +9,7 @@ local player = Players.LocalPlayer
 local state = {
 	debugEnabled = true,
 	character = (player.Character or (player.CharacterAdded:Wait())),
-	lastInput = nil,
+	inputBuffer = {},
+	entityIdMap = {},
 }
-local world = start({ ReplicatedStorage.Client.systems, ReplicatedStorage.Shared.systems }, state)
-receiveReplication(world)
+start({ ReplicatedStorage.Client.systems, ReplicatedStorage.Shared.systems }, state)(receiveReplication)

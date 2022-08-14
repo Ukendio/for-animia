@@ -1,7 +1,8 @@
--- Compiled with roblox-ts v1.3.3-dev-d657049
+-- Compiled with roblox-ts v1.3.3-dev-230088d
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
 local HttpService = _services.HttpService
+local Players = _services.Players
 local Workspace = _services.Workspace
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
 local Collision = _components.Collision
@@ -80,6 +81,7 @@ local function hitScanEffect(world, state, ui)
 								variant = EffectVariant.Damage(10),
 								predictionGUID = HttpService:GenerateGUID(false),
 								target = target,
+								source = Players.LocalPlayer,
 							}))
 						end
 						for _k, _v in spatialQueryResult do
@@ -88,7 +90,7 @@ local function hitScanEffect(world, state, ui)
 					end
 				end
 				world:despawn(id)
-				return nil
+				break
 			end
 		end
 	end

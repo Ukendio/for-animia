@@ -1,7 +1,6 @@
 import { log, useDeltaTime, useEvent, World } from "@rbxts/matter";
 import { Widgets } from "@rbxts/plasma";
 import { Players, UserInputService, Workspace } from "@rbxts/services";
-import { ClientState } from "client/game.client";
 import {
 	Collision,
 	Effect,
@@ -12,6 +11,7 @@ import {
 	Transform,
 	Velocity,
 } from "shared/components";
+import { ClientState } from "shared/playerState";
 
 const player = Players.LocalPlayer;
 const mouse = player.GetMouse();

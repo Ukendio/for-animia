@@ -25,6 +25,9 @@
 			},
 			"Client": {
 				"$path": "out/client"
+			},
+			"Assets": {
+				"$path": "assets.rbxm"
 			}
 		},
 		"StarterPlayer": {

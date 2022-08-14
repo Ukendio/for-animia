@@ -1,5 +1,6 @@
 import { component } from "@rbxts/matter";
 import { EffectPayload } from "./effects";
+import { InputMapperMessage } from "./inputMapperMessage";
 
 export const Agency = component<{ player: Player; lineSight: Vector3 }>("Agency");
 export type Agency = ReturnType<typeof Agency>;
@@ -16,6 +17,8 @@ export const CombatStats = component<{
 	damage: number;
 }>("CombatStats");
 export type CombatStats = ReturnType<typeof CombatStats>;
+
+export const Command = component<{ input: InputMapperMessage }>("Command");
 
 export const DebugAdornment = component<{
 	label: BillboardGui & { TextLabel: TextLabel };
@@ -34,7 +37,7 @@ export type ImpactEffect = ReturnType<typeof ImpactEffect>;
 export const Lifetime = component<{ spawnedAt: number; length: number }>();
 export type Lifetime = ReturnType<typeof Lifetime>;
 
-export const Mob = component<{ action: string }>();
+export const Mob = component<{ action: string; targetPosition: Vector3 }>();
 export type Mob = ReturnType<typeof Mob>;
 
 export const Projectile = component<{ direction: Vector3; filter: Array<Instance> }>("Projectile");
@@ -51,3 +54,6 @@ export type Transform = ReturnType<typeof Transform>;
 
 export const Velocity = component<{ speed: number }>("Velocity");
 export type Velocity = ReturnType<typeof Velocity>;
+
+export const Zone = component<{ maxCapacity: number; population: number }>("Zone");
+export type Zone = ReturnType<typeof Zone>;

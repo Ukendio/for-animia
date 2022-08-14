@@ -1,9 +1,7 @@
 import { useDeltaTime, World } from "@rbxts/matter";
-import { Widgets } from "@rbxts/plasma";
-import { ClientState } from "client/game.client";
 import { Projectile, Transform, Velocity } from "shared/components";
 
-function projectilesFly(world: World, _: ClientState, ui: Widgets): void {
+function projectilesFly(world: World): void {
 	for (let [id, transform, vel, projectile] of world.query(Transform, Velocity, Projectile)) {
 		const velOffset = vel.speed * useDeltaTime();
 

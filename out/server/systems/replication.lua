@@ -1,13 +1,16 @@
--- Compiled with roblox-ts v1.3.3-dev-d657049
+-- Compiled with roblox-ts v1.3.3-dev-230088d
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local useEvent = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "matter", "lib").useEvent
-local Players = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Players
+local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
+local Players = _services.Players
+local ReplicatedStorage = _services.ReplicatedStorage
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
 local Effect = _components.Effect
 local Renderable = _components.Renderable
 local Agency = _components.Agency
-local remotes = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "remotes")
-local remoteEvent = remotes.Server:Get("Replication")
+local remoteEvent = Instance.new("RemoteEvent")
+remoteEvent.Name = "Replication"
+remoteEvent.Parent = ReplicatedStorage
 local REPLICATED_COMPONENTS = {
 	[Effect] = true,
 	[Renderable] = true,
@@ -30,7 +33,7 @@ local function replication(world)
 				end
 			end
 		end
-		remoteEvent:SendToPlayer(plr, payload)
+		remoteEvent:FireClient(plr, payload)
 	end
 	local changes = {}
 	for component in REPLICATED_COMPONENTS do
@@ -52,7 +55,7 @@ local function replication(world)
 		end
 	end
 	if (next(changes)) ~= nil then
-		remoteEvent:SendToAllPlayers(changes)
+		remoteEvent:FireAllClients(changes)
 	end
 end
 return {

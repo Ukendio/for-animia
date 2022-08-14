@@ -1,4 +1,4 @@
--- Compiled with roblox-ts v1.3.3-dev-d657049
+-- Compiled with roblox-ts v1.3.3-dev-230088d
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local match = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "variant", "out").match
 local dash = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "effects", "bin", "dash").dash
@@ -13,7 +13,7 @@ local function replicate_fx_on_client(world, _param)
 			local direction = _param_1.direction
 			return dash(direction, source)
 		end,
-		Damage = error,
+		Damage = function() end,
 		InvincibilityFrame = function(_param_1)
 			local duration = _param_1.duration
 			if not source then

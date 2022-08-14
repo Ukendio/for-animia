@@ -7,7 +7,7 @@ import { iFrame } from "./bin/iFrame";
 export function replicate_fx_on_client(world: World, { source, variant, target, pos }: Effect): void {
 	match(variant, {
 		Dash: ({ direction }) => dash(direction, source),
-		Damage: error,
+		Damage: () => {},
 		InvincibilityFrame: ({ duration }) => {
 			if (!source) return;
 

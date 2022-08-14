@@ -1,9 +1,9 @@
 import { World } from "@rbxts/matter";
 import { Widgets } from "@rbxts/plasma";
-import { HttpService, Workspace } from "@rbxts/services";
-import { ClientState } from "client/game.client";
+import { HttpService, Players, Workspace } from "@rbxts/services";
 import { Collision, Effect, ImpactEffect, Projectile, SplashDamage, Transform, Velocity } from "shared/components";
 import { EffectVariant } from "shared/effects";
+import { ClientState } from "shared/playerState";
 
 const raycastParams = new RaycastParams();
 raycastParams.FilterType = Enum.RaycastFilterType.Blacklist;
@@ -73,6 +73,7 @@ function hitScanEffect(world: World, state: ClientState, ui: Widgets): void {
 									variant: EffectVariant.Damage(10),
 									predictionGUID: HttpService.GenerateGUID(false),
 									target: target,
+									source: Players.LocalPlayer,
 								}),
 							);
 						});
@@ -80,8 +81,7 @@ function hitScanEffect(world: World, state: ClientState, ui: Widgets): void {
 				}
 
 				world.despawn(id);
-
-				return;
+				break;
 			}
 		}
 	}

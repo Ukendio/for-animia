@@ -29,5 +29,6 @@
 	],
 	"robloxLsp.diagnostics.disable": [
 		"trailing-space"
-	]
+	],
+	"files.eol": "\n"
 }

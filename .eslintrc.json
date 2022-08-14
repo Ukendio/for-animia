@@ -7,7 +7,7 @@
 		"sourceType": "module",
 		"project": "./tsconfig.json"
 	},
-	"plugins": ["@typescript-eslint", "roblox-ts", "prettier"],
+	"plugins": ["@typescript-eslint", "roblox-ts", "prettier", "@kapouer/no-return-in-loop"],
 	"extends": ["plugin:@typescript-eslint/recommended", "plugin:roblox-ts/recommended", "plugin:prettier/recommended"],
 	"rules": {
 		"prettier/prettier": [
@@ -23,6 +23,7 @@
 		],
 		"prefer-const": "off",
 		"@typescript-eslint/explicit-function-return-type": "warn",
-		"@typescript-eslint/explicit-member-accessibility": "warn"
+		"@typescript-eslint/explicit-member-accessibility": "warn",
+		"@kapouer/no-return-in-loop/no-return-in-loop": "error"
 	}
 }

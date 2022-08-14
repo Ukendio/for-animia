@@ -1,5 +1,5 @@
-export function iFrame(duration: number, source: Player): void {
-	const character = source.Character;
+export function iFrame(duration: number, player: Player): void {
+	const character = player.Character;
 
 	if (!character) return;
 

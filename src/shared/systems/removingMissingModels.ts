@@ -1,4 +1,5 @@
 import { useEvent, World } from "@rbxts/matter";
+import { RunService } from "@rbxts/services";
 import { DebugAdornment, Renderable } from "shared/components";
 
 function removingMissingModels(world: World): void {
@@ -25,6 +26,6 @@ function removingMissingModels(world: World): void {
 }
 
 export = {
-	event: "fixed",
+	event: RunService.IsClient() ? "fixed" : "default",
 	system: removingMissingModels,
 };

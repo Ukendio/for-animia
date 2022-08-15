@@ -25,9 +25,12 @@
 			},
 			"Client": {
 				"$path": "out/client"
+<<<<<<< HEAD
 			},
 			"Assets": {
 				"$path": "assets.rbxm"
+=======
+>>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 			}
 		},
 		"StarterPlayer": {

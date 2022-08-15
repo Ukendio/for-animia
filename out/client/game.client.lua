@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 -- Compiled with roblox-ts v1.3.3-dev-230088d
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local Option = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "rust-classes", "out").Option
@@ -6,12 +7,20 @@ local Players = _services.Players
 local ReplicatedStorage = _services.ReplicatedStorage
 local Effect = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components").Effect
 local EffectVariant = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "effects").EffectVariant
+=======
+-- Compiled with roblox-ts v1.3.3-dev-d657049
+local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
+local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
+local Players = _services.Players
+local ReplicatedStorage = _services.ReplicatedStorage
+>>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 local start = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "start").start
 local receiveReplication = TS.import(script, game:GetService("ReplicatedStorage"), "Client", "receiveReplication").receiveReplication
 local player = Players.LocalPlayer
 local state = {
 	debugEnabled = true,
 	character = (player.Character or (player.CharacterAdded:Wait())),
+<<<<<<< HEAD
 	entityIdMap = {},
 	commandRecord = {},
 	abilities = {
@@ -46,3 +55,9 @@ local state = {
 	},
 }
 start({ ReplicatedStorage.Client.systems, ReplicatedStorage.Shared.systems }, state)(receiveReplication)
+=======
+	lastInput = nil,
+}
+local world = start({ ReplicatedStorage.Client.systems, ReplicatedStorage.Shared.systems }, state)
+receiveReplication(world)
+>>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a

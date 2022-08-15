@@ -4,7 +4,7 @@ import { Context, HotReloader } from "@rbxts/rewire";
 import Plasma from "@rbxts/plasma";
 //import { ChickynoidClient, ChickynoidServer } from "./chickynoid/types";
 import { Renderable } from "./components";
-import { ClientState } from "./playerState";
+import { ClientState } from "./clientState";
 
 export function start<S extends object>(
 	containers: Array<Instance>,

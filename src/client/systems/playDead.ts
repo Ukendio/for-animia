@@ -1,7 +1,7 @@
 import { useEvent, World } from "@rbxts/matter";
 import { UserInputService } from "@rbxts/services";
 import { death } from "shared/effects/bin/death";
-import { ClientState } from "shared/playerState";
+import { ClientState } from "shared/clientState";
 
 function playDead(world: World, state: ClientState): void {
 	for (const [, { KeyCode }, gpe] of useEvent(UserInputService, "InputBegan")) {

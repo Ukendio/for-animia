@@ -4,7 +4,7 @@ import { ComponentNames, UnionComponentsMap } from "shared/serde";
 import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { ReplicatedStorage } from "@rbxts/services";
 import { t } from "@rbxts/t";
-import { ClientState } from "shared/playerState";
+import { ClientState } from "shared/clientState";
 
 const remoteEvent = ReplicatedStorage.WaitForChild("Replication") as RemoteEvent;
 

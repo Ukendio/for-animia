@@ -53,6 +53,7 @@ local function shootProjectiles(world, state, ui)
 			}), Lifetime({
 				spawnedAt = os.clock(),
 				length = 5,
+				elapsed = 0,
 			}))
 		end
 	end

@@ -1,37 +1,75 @@
-import { log, useEvent, World } from "@rbxts/matter";
-import { HttpService, Players, UserInputService } from "@rbxts/services";
-import { match } from "@rbxts/variant";
+import { useThrottle, World } from "@rbxts/matter";
+import { HttpService, Players, Workspace } from "@rbxts/services";
 import { Effect } from "shared/components";
 import { EffectVariant } from "shared/effects";
-import { InputMapperMessage } from "shared/inputMapperMessage";
-import { ClientState } from "shared/playerState";
+import { ClientState } from "shared/clientState";
+import { match } from "@rbxts/variant";
 
-const player = Players.LocalPlayer;
-const mouse = player.GetMouse();
+const abilityMap = new Map<Enum.KeyCode, keyof ClientState["abilities"]>([
+	[Enum.KeyCode.One, "ability1"],
+	[Enum.KeyCode.Two, "ability2"],
+	[Enum.KeyCode.Three, "ability3"],
+	[Enum.KeyCode.Four, "ability4"],
+]);
 
-function attack(world: World, state: ClientState): void {
-	if (state.inputBuffer.isEmpty()) return;
+const spatialQueryParams = new OverlapParams();
+spatialQueryParams.FilterType = Enum.RaycastFilterType.Blacklist;
 
-	const input = state.inputBuffer[0];
+const basicAttackCooldown = 0.125;
 
-	if (input.type === InputMapperMessage.PointerClick.type) {
-		log(input);
-		const target = mouse.Target?.Parent as Model;
+function attack(world: World, client: ClientState): void {
+	const input = client.commandRecord.new;
+	if (input) {
+		match(input, {
+			// basic m1 attacks
+			PointerClick: () => {
+				const root = client.character.FindFirstChild("HumanoidRootPart") as Part;
+				if (!root) return;
 
-		if (target?.FindFirstChild("Humanoid")) {
-			if (state.character.GetPivot().Position.sub(target.GetPivot().Position).Magnitude < 12) {
-				world.spawn(
-					Effect({
-						predictionGUID: HttpService.GenerateGUID(false),
-						variant: EffectVariant.Damage(10),
-						target: target,
-						source: Players.LocalPlayer,
+				const origo = root.CFrame;
+
+				spatialQueryParams.FilterDescendantsInstances = [client.character];
+
+				const targets = new Set(
+					Workspace.GetPartBoundsInBox(
+						origo.add(root.CFrame.LookVector.mul(4)),
+						new Vector3(4, 4, 4),
+						spatialQueryParams,
+					).mapFiltered((v) => {
+						if (v.Parent?.FindFirstChild("Humanoid")) {
+							return v.Parent as Model;
+						}
 					}),
 				);
-			}
-		}
 
-		state.inputBuffer.shift();
+				if (useThrottle(basicAttackCooldown)) {
+					for (const target of targets) {
+						world.spawn(
+							Effect({
+								predictionGUID: HttpService.GenerateGUID(false),
+								variant: EffectVariant.Damage(10),
+								target: target,
+								source: Players.LocalPlayer,
+							}),
+						);
+					}
+				}
+			},
+			// abilities
+			KeyDown: ({ key }) => {
+				const abilityName = abilityMap.get(key);
+
+				if (abilityName) {
+					client.abilities[abilityName].map((ability) => {
+						if (useThrottle(ability.cooldown + ability.channelTime, ability.effect.variant.type)) {
+							// We need a new GUID to treat so that the prediction buffer doesn't see this effect
+							world.spawn(ability.effect.patch({ predictionGUID: HttpService.GenerateGUID(false) }));
+						}
+					});
+				}
+			},
+			default: () => {},
+		});
 	}
 }
 

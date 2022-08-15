@@ -15,6 +15,7 @@ local InputMapperMessage = variantModule({
 	DoubleClick = {},
 	PointerMove = {},
 	PointerClick = {},
+	HoldRelease = {},
 })
 return {
 	InputMapperMessage = InputMapperMessage,

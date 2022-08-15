@@ -4,45 +4,15 @@ local LightningBolt = TS.import(script, game:GetService("ReplicatedStorage"), "r
 local Workspace = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Workspace
 local dust = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "effects", "bin", "dust").dust
 local LightningSparks = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "effects", "bin", "lightningSparks").LightningSparks
-local DashDirection
-do
-	local _inverse = {}
-	DashDirection = setmetatable({}, {
-		__index = _inverse,
-	})
-	DashDirection.Forward = 0
-	_inverse[0] = "Forward"
-	DashDirection.Left = 1
-	_inverse[1] = "Left"
-	DashDirection.Right = 2
-	_inverse[2] = "Right"
-	DashDirection.Back = 3
-	_inverse[3] = "Back"
-end
-local InverseDirectionMap = {
-	[DashDirection.Forward] = function(n)
-		return n, -n, CFrame.new(0, 0, n)
-	end,
-	[DashDirection.Left] = function(n)
-		return -n, n, CFrame.new(-n, 0, 0)
-	end,
-	[DashDirection.Right] = function(n)
-		return n, n, CFrame.new(n, 0, 0)
-	end,
-	[DashDirection.Back] = function(n)
-		return -n, -n, CFrame.new(0, 0, -n)
-	end,
-}
-local function dash(direction, source)
-	local _result = source
-	if _result ~= nil then
-		_result = _result.Character
-		if _result ~= nil then
-			_result = _result:FindFirstChild("HumanoidRootPart")
-		end
+local RANGE = 12
+local function dash(source)
+	local character = source.Character
+	if not character then
+		return nil
 	end
-	local root = _result
-	if not root then
+	local root = character:FindFirstChild("HumanoidRootPart")
+	local humanoid = character:FindFirstChild("Humanoid")
+	if not root or not humanoid then
 		return nil
 	end
 	local raycastParams = RaycastParams.new()
@@ -52,25 +22,19 @@ local function dash(direction, source)
 	attachment0.Parent = Workspace.Terrain
 	local attachment1 = Instance.new("Attachment")
 	attachment1.Parent = Workspace.Terrain
-	local range, tpd = InverseDirectionMap[direction](12)
-	local _fn = Workspace
-	local _exp = root.Position
-	local _lookVector = root.CFrame.LookVector
-	local _range = range
-	local raycastResult = _fn:Raycast(_exp, _lookVector * _range, raycastParams)
+	local desiredDirection = (if humanoid.MoveDirection.Magnitude > 0 then humanoid.MoveDirection else root.CFrame.LookVector) * 12
+	local raycastResult = Workspace:Raycast(root.Position, root.CFrame.LookVector * 12, raycastParams)
+	local cf = root.CFrame + desiredDirection
 	if raycastResult then
-		local _position = root.Position
-		local _position_1 = raycastResult.Position
-		tpd = -(_position - _position_1).Magnitude
+		local _fn = CFrame
+		local _exp = raycastResult.Position
+		local _position = raycastResult.Position
+		local _arg0 = root.CFrame.LookVector * 12
+		cf = _fn.lookAt(_exp, _position + _arg0)
 	end
-	local _, _1, cf = InverseDirectionMap[direction](tpd)
 	attachment0.CFrame = root.CFrame
-	local _cFrame = root.CFrame
-	local _cf = cf
-	attachment1.CFrame = _cFrame * _cf
-	local _cFrame_1 = root.CFrame
-	local _cf_1 = cf
-	root.CFrame = _cFrame_1 * _cf_1
+	attachment1.CFrame = cf
+	root:PivotTo(cf)
 	local bolt = LightningBolt.new(attachment0, attachment1, 22)
 	bolt.CurveSize0, bolt.CurveSize1 = 0, 0
 	bolt.ContractFrom = 0.1
@@ -107,5 +71,4 @@ local function dash(direction, source)
 end
 return {
 	dash = dash,
-	DashDirection = DashDirection,
 }

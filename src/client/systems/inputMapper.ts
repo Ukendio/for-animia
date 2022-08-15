@@ -1,31 +1,25 @@
-import { log, useEvent, World } from "@rbxts/matter";
+import { log, useEvent, useThrottle, World } from "@rbxts/matter";
 import { UserInputService } from "@rbxts/services";
 import { InputMapperMessage } from "shared/inputMapperMessage";
-import { ClientState } from "shared/playerState";
+import { ClientState } from "shared/clientState";
 
-function inputMapper(_: World, state: ClientState): void {
-	state.inputBuffer.shift();
-
+function inputMapper(_: World, { commandRecord }: ClientState): void {
 	for (const [, input, gpe] of useEvent(UserInputService, "InputBegan")) {
 		if (gpe) continue;
 
 		if (input.KeyCode !== Enum.KeyCode.Unknown) {
-			state.inputBuffer.push(InputMapperMessage.KeyDown(input.KeyCode));
+			commandRecord.new = InputMapperMessage.KeyDown(input.KeyCode);
+			return undefined;
 		} else if (input.UserInputType === Enum.UserInputType.MouseButton1) {
-			state.inputBuffer.push(InputMapperMessage.PointerClick);
+			commandRecord.new = InputMapperMessage.PointerClick;
+			return undefined;
 		}
 	}
 
-	for (const [, input, gpe] of useEvent(UserInputService, "InputEnded")) {
-		if (gpe) continue;
-
-		if (input.KeyCode !== Enum.KeyCode.Unknown) {
-			state.inputBuffer.push(InputMapperMessage.KeyUp(input.KeyCode));
-		}
-	}
+	commandRecord.new = undefined;
 }
 
 export = {
-	priority: math.huge,
+	event: "default",
 	system: inputMapper,
 };

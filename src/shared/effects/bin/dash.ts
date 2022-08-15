@@ -3,24 +3,16 @@ import { Workspace } from "@rbxts/services";
 import { dust } from "./dust";
 import { LightningSparks } from "./lightningSparks";
 
-export enum DashDirection {
-	Forward,
-	Left,
-	Right,
-	Back,
-}
+const RANGE = 12;
 
-const InverseDirectionMap = {
-	[DashDirection.Forward]: (n: number): LuaTuple<[number, number, CFrame]> => $tuple(n, -n, new CFrame(0, 0, n)),
-	[DashDirection.Left]: (n: number): LuaTuple<[number, number, CFrame]> => $tuple(-n, n, new CFrame(-n, 0, 0)),
-	[DashDirection.Right]: (n: number): LuaTuple<[number, number, CFrame]> => $tuple(n, n, new CFrame(n, 0, 0)),
-	[DashDirection.Back]: (n: number): LuaTuple<[number, number, CFrame]> => $tuple(-n, -n, new CFrame(0, 0, -n)),
-};
+export function dash(source: Player): void {
+	const character = source.Character;
+	if (!character) return;
 
-export function dash(direction: DashDirection, source?: Player): void {
-	const root = source?.Character?.FindFirstChild("HumanoidRootPart") as Part;
+	const root = character.FindFirstChild("HumanoidRootPart") as Part;
+	const humanoid = character.FindFirstChild("Humanoid") as Humanoid;
 
-	if (!root) return;
+	if (!root || !humanoid) return;
 
 	const raycastParams = new RaycastParams();
 	raycastParams.FilterType = Enum.RaycastFilterType.Blacklist;
@@ -32,19 +24,21 @@ export function dash(direction: DashDirection, source?: Player): void {
 	const attachment1 = new Instance("Attachment");
 	attachment1.Parent = Workspace.Terrain;
 
-	let [range, tpd] = InverseDirectionMap[direction](12);
+	const desiredDirection = (
+		humanoid.MoveDirection.Magnitude > 0 ? humanoid.MoveDirection : root.CFrame.LookVector
+	).mul(12);
 
-	const raycastResult = Workspace.Raycast(root.Position, root.CFrame.LookVector.mul(range), raycastParams);
+	const raycastResult = Workspace.Raycast(root.Position, root.CFrame.LookVector.mul(12), raycastParams);
+
+	let cf = root.CFrame.add(desiredDirection);
 
 	if (raycastResult) {
-		tpd = -root.Position.sub(raycastResult.Position).Magnitude;
+		cf = CFrame.lookAt(raycastResult.Position, raycastResult.Position.add(root.CFrame.LookVector));
 	}
 
-	let [, , cf] = InverseDirectionMap[direction](tpd);
-
 	attachment0.CFrame = root.CFrame;
-	attachment1.CFrame = root.CFrame.mul(cf);
-	root.CFrame = root.CFrame.mul(cf);
+	attachment1.CFrame = cf;
+	root.PivotTo(cf);
 
 	const bolt = new LightningBolt(attachment0, attachment1, 22);
 	[bolt.CurveSize0, bolt.CurveSize1] = [0, 0];

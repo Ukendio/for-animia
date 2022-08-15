@@ -8,6 +8,7 @@ export const InputMapperMessage = variantModule({
 	DoubleClick: {},
 	PointerMove: {},
 	PointerClick: {},
+	HoldRelease: {},
 });
 
 export type InputMapperMessage<T extends TypeNames<typeof InputMapperMessage> = undefined> = VariantOf<

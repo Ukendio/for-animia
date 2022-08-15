@@ -13,6 +13,8 @@ local Renderable = _components.Renderable
 local Zone = _components.Zone
 local promiseR15 = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "promise-character").default
 local trackLineSight = TS.import(script, game:GetService("ServerScriptService"), "Game", "trackLineSight")
+local setPartCollisionGroup = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "setCharacterCollisionGroup").setPartCollisionGroup
+local setupPhysicsCollisionRemove = TS.import(script, game:GetService("ServerScriptService"), "Game", "physicsGroupCollide").setupPhysicsCollisionRemove
 local state = {}
 local world = start({ script.systems, ReplicatedStorage.Shared.systems }, state)(emitEffects, setupTags, trackLineSight)
 world:spawn(Zone({
@@ -33,6 +35,7 @@ local function playerAdded(player)
 				damage = 10,
 			}))
 			character:SetAttribute("entityId", playerId)
+			setPartCollisionGroup(character, "Agency")
 		end)
 	end
 	if player.Character then
@@ -44,3 +47,4 @@ Players.PlayerAdded:Connect(playerAdded)
 for _, player in Players:GetPlayers() do
 	playerAdded(player)
 end
+setupPhysicsCollisionRemove()

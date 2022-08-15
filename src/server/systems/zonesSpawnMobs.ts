@@ -1,6 +1,7 @@
 import { log, useThrottle, World } from "@rbxts/matter";
 import { ReplicatedStorage, Workspace } from "@rbxts/services";
 import { CombatStats, Mob, Renderable, Transform, Zone } from "shared/components";
+import { setPartCollisionGroup } from "shared/setCharacterCollisionGroup";
 import removingMissingModels from "shared/systems/removingMissingModels";
 
 function heightFromGround(root?: BasePart): number {
@@ -14,23 +15,21 @@ function heightFromGround(root?: BasePart): number {
 function zonesSpawnMobs(world: World): void {
 	for (const [id, zone] of world.query(Zone)) {
 		if (useThrottle(15)) {
-			if (zone.maxCapacity - zone.population <= 1) continue;
-			log(zone.maxCapacity - zone.population);
+			if (zone.maxCapacity - zone.population < 1) continue;
 
 			world.spawn(
-				Mob(),
+				Mob({ residentOf: id }),
 				CombatStats({
 					hp: 100,
 					maxHp: 100,
 					damage: 5,
 				}),
 				Transform({
-					cf: new CFrame(new Vector3(math.random(-150, 150), 3, math.random(-150, 150))),
+					cf: new CFrame(new Vector3(math.random(-15, 15), 3, math.random(-15, 15))),
 				}),
 			);
 
 			world.insert(id, zone.patch({ population: zone.population + 1 }));
-			log(id, zone.population);
 		}
 	}
 
@@ -46,6 +45,17 @@ function zonesSpawnMobs(world: World): void {
 			}),
 		);
 		model.SetAttribute("entityId", id);
+		setPartCollisionGroup(model, "Agency");
+	}
+
+	for (const [, mobRecord] of world.queryChanged(Mob)) {
+		const zoneId = mobRecord.old?.residentOf;
+		if (mobRecord.new === undefined && zoneId) {
+			const zone = world.get(zoneId, Zone);
+			if (zone) {
+				world.insert(zoneId, zone.patch({ population: zone.population - 1 }));
+			}
+		}
 	}
 }
 

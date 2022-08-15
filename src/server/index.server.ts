@@ -5,6 +5,8 @@ import { Players, ReplicatedStorage } from "@rbxts/services";
 import { Agency, CombatStats, Renderable, Zone } from "shared/components";
 import promiseR15 from "@rbxts/promise-character";
 import trackLineSight from "./trackLineSight";
+import { setPartCollisionGroup } from "shared/setCharacterCollisionGroup";
+import { setupPhysicsCollisionRemove } from "./physicsGroupCollide";
 
 declare const script: { systems: Folder };
 export interface ServerState {}
@@ -29,6 +31,8 @@ function playerAdded(player: Player): void {
 			);
 
 			character.SetAttribute("entityId", playerId);
+
+			setPartCollisionGroup(character, "Agency");
 		});
 	}
 
@@ -40,3 +44,5 @@ Players.PlayerAdded.Connect(playerAdded);
 for (const player of Players.GetPlayers()) {
 	playerAdded(player);
 }
+
+setupPhysicsCollisionRemove();

@@ -6,7 +6,7 @@ import { Widgets } from "@rbxts/plasma";
 import { Players, ReplicatedStorage, Workspace } from "@rbxts/services";
 import { CharacterRigR15 } from "@rbxts/promise-character";
 import { createLineBox, updateLineBox } from "client/linebox";
-import { ClientState } from "shared/playerState";
+import { ClientState } from "shared/clientState";
 
 const camera = Workspace.CurrentCamera!;
 const remoteEvent = ReplicatedStorage.WaitForChild("TrackLineOfSight") as RemoteEvent;

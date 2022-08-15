@@ -11,7 +11,7 @@ import {
 	Transform,
 	Velocity,
 } from "shared/components";
-import { ClientState } from "shared/playerState";
+import { ClientState } from "shared/clientState";
 
 const player = Players.LocalPlayer;
 const mouse = player.GetMouse();
@@ -43,7 +43,7 @@ function shootProjectiles(world: World, state: ClientState, ui: Widgets): void {
 				Transform({ cf }),
 				Velocity({ speed: 50 }),
 				Collision({ size: model.PrimaryPart.Size }),
-				Lifetime({ spawnedAt: os.clock(), length: 5 }),
+				Lifetime({ spawnedAt: os.clock(), length: 5, elapsed: 0 }),
 			);
 		}
 	}

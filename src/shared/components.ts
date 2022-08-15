@@ -1,6 +1,5 @@
-import { component } from "@rbxts/matter";
+import { component, Entity } from "@rbxts/matter";
 import { EffectPayload } from "./effects";
-import { InputMapperMessage } from "./inputMapperMessage";
 
 export const Agency = component<{ player: Player; lineSight: Vector3 }>("Agency");
 export type Agency = ReturnType<typeof Agency>;
@@ -18,8 +17,6 @@ export const CombatStats = component<{
 }>("CombatStats");
 export type CombatStats = ReturnType<typeof CombatStats>;
 
-export const Command = component<{ input: InputMapperMessage }>("Command");
-
 export const DebugAdornment = component<{
 	label: BillboardGui & { TextLabel: TextLabel };
 	highlight: Highlight;
@@ -34,10 +31,10 @@ export type Effect = ReturnType<typeof Effect>;
 export const ImpactEffect = component<{ effects: Array<Effect> }>("ImpactEffect");
 export type ImpactEffect = ReturnType<typeof ImpactEffect>;
 
-export const Lifetime = component<{ spawnedAt: number; length: number }>();
+export const Lifetime = component<{ spawnedAt: number; length: number; elapsed: number }>("Lifetime");
 export type Lifetime = ReturnType<typeof Lifetime>;
 
-export const Mob = component<{ action: string; targetPosition: Vector3 }>();
+export const Mob = component<{ action?: string; targetPosition?: Vector3; residentOf: Entity<[Zone]> }>("Mob");
 export type Mob = ReturnType<typeof Mob>;
 
 export const Projectile = component<{ direction: Vector3; filter: Array<Instance> }>("Projectile");
@@ -46,7 +43,7 @@ export type Projectile = ReturnType<typeof Projectile>;
 export const Renderable = component<{ model: Model }>("Renderable");
 export type Renderable = ReturnType<typeof Renderable>;
 
-export const SplashDamage = component<{ radius: number; damage: number }>();
+export const SplashDamage = component<{ radius: number; damage: number }>("SplashDamage");
 export type SplashDamage = ReturnType<typeof SplashDamage>;
 
 export const Transform = component<{ cf: CFrame; doNotReconcile?: boolean }>("Transform");

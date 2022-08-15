@@ -9,9 +9,8 @@ local function replicate_fx_on_client(world, _param)
 	local target = _param.target
 	local pos = _param.pos
 	match(variant, {
-		Dash = function(_param_1)
-			local direction = _param_1.direction
-			return dash(direction, source)
+		Dash = function()
+			return dash(source)
 		end,
 		Damage = function() end,
 		InvincibilityFrame = function(_param_1)

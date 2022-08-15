@@ -2,11 +2,7 @@
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local variantModule = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "variant", "out").variantModule
 local EffectVariant = variantModule({
-	Dash = function(direction)
-		return {
-			direction = direction,
-		}
-	end,
+	Dash = {},
 	Damage = function(damage)
 		return {
 			damage = damage,

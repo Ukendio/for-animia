@@ -3,7 +3,7 @@ import { Widgets } from "@rbxts/plasma";
 import { HttpService, Players, Workspace } from "@rbxts/services";
 import { Collision, Effect, ImpactEffect, Projectile, SplashDamage, Transform, Velocity } from "shared/components";
 import { EffectVariant } from "shared/effects";
-import { ClientState } from "shared/playerState";
+import { ClientState } from "shared/clientState";
 
 const raycastParams = new RaycastParams();
 raycastParams.FilterType = Enum.RaycastFilterType.Blacklist;

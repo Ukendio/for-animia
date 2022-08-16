@@ -17,6 +17,18 @@ local function inputMapper(_, _param)
 			return nil
 		end
 	end
+	for _1, input, gpe in useEvent(UserInputService, "InputEnded") do
+		if gpe then
+			continue
+		end
+		if input.KeyCode ~= Enum.KeyCode.Unknown then
+			commandRecord.new = InputMapperMessage.KeyUp(input.KeyCode)
+			return nil
+		elseif input.UserInputType == Enum.UserInputType.MouseButton1 then
+			commandRecord.new = InputMapperMessage.HoldRelease
+			return nil
+		end
+	end
 	commandRecord.new = nil
 end
 return {

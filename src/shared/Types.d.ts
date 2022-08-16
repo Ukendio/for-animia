@@ -1,6 +1,7 @@
 interface ReplicatedStorage extends Instance {
 	Shared: Folder & {
 		systems: Folder;
+		tests: Folder;
 	};
 
 	Client: Folder & {

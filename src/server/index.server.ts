@@ -53,5 +53,4 @@ for (const player of Players.GetPlayers()) {
 }
 
 setupPhysicsCollisionRemove();
-
 testBootStrapper(script.tests.GetChildren());

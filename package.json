@@ -26,6 +26,7 @@
 	},
 	"dependencies": {
 		"@kapouer/eslint-plugin-no-return-in-loop": "^1.0.0",
+		"@rbxts/fitumi": "^1.0.11",
 		"@rbxts/fusion": "^0.2.0-dev-a5a9d0a",
 		"@rbxts/lightning-beams": "^1.1.0-ts.2",
 		"@rbxts/matter": "^0.6.2-ts.0",

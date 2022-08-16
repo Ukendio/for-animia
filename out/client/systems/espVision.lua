@@ -4,7 +4,7 @@ local useThrottle = TS.import(script, game:GetService("ReplicatedStorage"), "rbx
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
 local DebugAdornment = _components.DebugAdornment
 local Renderable = _components.Renderable
-local Agency = _components.Agency
+local Client = _components.Client
 local Components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
 local cloneTemplate = TS.import(script, game:GetService("ReplicatedStorage"), "Client", "cloneTemplate")
 local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
@@ -42,8 +42,8 @@ local function espVision(world, state, ui)
 			end
 		end
 	end
-	for id, renderable, agency in world:query(Renderable, Agency) do
-		if agency.player == Players.LocalPlayer then
+	for id, renderable, client in world:query(Renderable, Client) do
+		if client.player == Players.LocalPlayer then
 			continue
 		end
 		local model = renderable.model
@@ -92,7 +92,7 @@ local function espVision(world, state, ui)
 			debugAdornment.label.TextLabel.Text = text
 			debugAdornment.label.TextLabel.TextTransparency = transparency
 			debugAdornment.highlight.OutlineTransparency = transparency
-			local from, to = model.Head.Position, agency.lineSight
+			local from, to = model.Head.Position, client.lineSight
 			debugAdornment.lineSight.CFrame = CFrame.new((from + to) / 2, to)
 			debugAdornment.lineSight.Size = Vector3.new(0.1, 0.1, (to - from).Magnitude)
 			debugAdornment.lineSight.Transparency = transparency

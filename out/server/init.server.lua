@@ -7,7 +7,7 @@ local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts
 local Players = _services.Players
 local ReplicatedStorage = _services.ReplicatedStorage
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
-local Agency = _components.Agency
+local Client = _components.Client
 local CombatStats = _components.CombatStats
 local Renderable = _components.Renderable
 local Zone = _components.Zone
@@ -15,6 +15,7 @@ local promiseR15 = TS.import(script, game:GetService("ReplicatedStorage"), "rbxt
 local trackLineSight = TS.import(script, game:GetService("ServerScriptService"), "Game", "trackLineSight")
 local setPartCollisionGroup = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "setCharacterCollisionGroup").setPartCollisionGroup
 local setupPhysicsCollisionRemove = TS.import(script, game:GetService("ServerScriptService"), "Game", "physicsGroupCollide").setupPhysicsCollisionRemove
+local testBootStrapper = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "testBoostrapper").testBootStrapper
 local state = {}
 local world = start({ script.systems, ReplicatedStorage.Shared.systems }, state)(emitEffects, setupTags, trackLineSight)
 world:spawn(Zone({
@@ -26,9 +27,12 @@ local function playerAdded(player)
 		promiseR15(character):andThen(function(model)
 			local playerId = world:spawn(Renderable({
 				model = model,
-			}), Agency({
+			}), Client({
 				player = player,
 				lineSight = Vector3.zero,
+				document = {
+					rewardsMultiplier = 1,
+				},
 			}), CombatStats({
 				hp = 100,
 				maxHp = 100,
@@ -48,3 +52,4 @@ for _, player in Players:GetPlayers() do
 	playerAdded(player)
 end
 setupPhysicsCollisionRemove()
+testBootStrapper(script.tests:GetChildren())

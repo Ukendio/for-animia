@@ -1,11 +1,21 @@
 import { component, Entity } from "@rbxts/matter";
 import { EffectPayload } from "./effects";
 
-export const Agency = component<{ player: Player; lineSight: Vector3; rewardsMultiplier: number }>("Agency");
-export type Agency = ReturnType<typeof Agency>;
+export const Agent = component<{ action?: string; targetPosition?: Vector3; residentOf: Entity<[Zone]> }>("Mob");
+export type Agent = ReturnType<typeof Agent>;
 
 export const Charge = component<{ charge: number }>("Charge");
 export type Charge = ReturnType<typeof Charge>;
+
+export const Client = component<{
+	player: Player;
+	lineSight: Vector3;
+	document: {
+		rewardsMultiplier: number;
+		bonusMultiplier?: number;
+	};
+}>("Client");
+export type Client = ReturnType<typeof Client>;
 
 export const Collision = component<{ size: Vector3 }>("Collision");
 export type Collision = ReturnType<typeof Collision>;
@@ -33,9 +43,6 @@ export type ImpactEffect = ReturnType<typeof ImpactEffect>;
 
 export const Lifetime = component<{ spawnedAt: number; length: number; elapsed: number }>("Lifetime");
 export type Lifetime = ReturnType<typeof Lifetime>;
-
-export const Mob = component<{ action?: string; targetPosition?: Vector3; residentOf: Entity<[Zone]> }>("Mob");
-export type Mob = ReturnType<typeof Mob>;
 
 export const Projectile = component<{ direction: Vector3; filter: Array<Instance> }>("Projectile");
 export type Projectile = ReturnType<typeof Projectile>;

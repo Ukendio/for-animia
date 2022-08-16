@@ -5,16 +5,16 @@ local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts
 local Players = _services.Players
 local ReplicatedStorage = _services.ReplicatedStorage
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
+local Client = _components.Client
 local Effect = _components.Effect
 local Renderable = _components.Renderable
-local Agency = _components.Agency
 local remoteEvent = Instance.new("RemoteEvent")
 remoteEvent.Name = "Replication"
 remoteEvent.Parent = ReplicatedStorage
 local REPLICATED_COMPONENTS = {
 	[Effect] = true,
 	[Renderable] = true,
-	[Agency] = true,
+	[Client] = true,
 }
 local function replication(world)
 	for _, plr in useEvent(Players, "PlayerAdded") do

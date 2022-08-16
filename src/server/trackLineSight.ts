@@ -1,7 +1,7 @@
 import { World } from "@rbxts/matter";
 import { ReplicatedStorage } from "@rbxts/services";
 import { t } from "@rbxts/t";
-import { Agency } from "shared/components";
+import { Client } from "shared/components";
 
 const remoteEvent = new Instance("RemoteEvent");
 remoteEvent.Name = "TrackLineOfSight";
@@ -13,9 +13,9 @@ function trackLineSight(world: World): void {
 
 		world.optimizeQueries();
 
-		for (const [id, agency] of world.query(Agency)) {
-			if (agency.player === player) {
-				world.insert(id, agency.patch({ lineSight: lineSight }));
+		for (const [id, client] of world.query(Client)) {
+			if (client.player === player) {
+				world.insert(id, client.patch({ lineSight: lineSight }));
 				break;
 			}
 		}

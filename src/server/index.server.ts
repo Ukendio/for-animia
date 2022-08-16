@@ -2,13 +2,14 @@ import { start } from "shared/start";
 import { emitEffects } from "server/emitEffects";
 import { setupTags } from "../shared/setupTags";
 import { Players, ReplicatedStorage } from "@rbxts/services";
-import { Agency, CombatStats, Renderable, Zone } from "shared/components";
+import { Client, CombatStats, Renderable, Zone } from "shared/components";
 import promiseR15 from "@rbxts/promise-character";
 import trackLineSight from "./trackLineSight";
 import { setPartCollisionGroup } from "shared/setCharacterCollisionGroup";
 import { setupPhysicsCollisionRemove } from "./physicsGroupCollide";
+import { testBootStrapper } from "shared/testBoostrapper";
 
-declare const script: { systems: Folder };
+declare const script: { systems: Folder; tests: Folder };
 export interface ServerState {}
 
 const state: ServerState = {};
@@ -22,7 +23,13 @@ function playerAdded(player: Player): void {
 		promiseR15(character).andThen((model) => {
 			const playerId = world.spawn(
 				Renderable({ model }),
-				Agency({ player, lineSight: Vector3.zero }),
+				Client({
+					player,
+					lineSight: Vector3.zero,
+					document: {
+						rewardsMultiplier: 1,
+					},
+				}),
 				CombatStats({
 					hp: 100,
 					maxHp: 100,
@@ -46,3 +53,5 @@ for (const player of Players.GetPlayers()) {
 }
 
 setupPhysicsCollisionRemove();
+
+testBootStrapper(script.tests.GetChildren());

@@ -6,7 +6,7 @@ local ReplicatedStorage = _services.ReplicatedStorage
 local Workspace = _services.Workspace
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
 local CombatStats = _components.CombatStats
-local Mob = _components.Mob
+local Agent = _components.Agent
 local Renderable = _components.Renderable
 local Transform = _components.Transform
 local Zone = _components.Zone
@@ -19,13 +19,13 @@ local function heightFromGround(root)
 	end
 	return height
 end
-local function zonesSpawnMobs(world)
+local function zonesSpawnAgents(world)
 	for id, zone in world:query(Zone) do
 		if useThrottle(15) then
 			if zone.maxCapacity - zone.population < 1 then
 				continue
 			end
-			world:spawn(Mob({
+			world:spawn(Agent({
 				residentOf = id,
 			}), CombatStats({
 				hp = 100,
@@ -39,7 +39,7 @@ local function zonesSpawnMobs(world)
 			}))
 		end
 	end
-	for id, transform in world:query(Transform, Mob):without(Renderable) do
+	for id, transform in world:query(Transform, Agent):without(Renderable) do
 		local model = ReplicatedStorage.Assets.Dummy:Clone()
 		model.Parent = Workspace
 		world:insert(id, Renderable({
@@ -50,7 +50,7 @@ local function zonesSpawnMobs(world)
 		model:SetAttribute("entityId", id)
 		setPartCollisionGroup(model, "Agency")
 	end
-	for _, mobRecord in world:queryChanged(Mob) do
+	for _, mobRecord in world:queryChanged(Agent) do
 		local _zoneId = mobRecord.old
 		if _zoneId ~= nil then
 			_zoneId = _zoneId.residentOf
@@ -68,6 +68,6 @@ local function zonesSpawnMobs(world)
 	end
 end
 return {
-	system = zonesSpawnMobs,
+	system = zonesSpawnAgents,
 	after = { removingMissingModels },
 }

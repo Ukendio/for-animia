@@ -29,8 +29,8 @@ local function dash(source)
 		local _fn = CFrame
 		local _exp = raycastResult.Position
 		local _position = raycastResult.Position
-		local _arg0 = root.CFrame.LookVector * 12
-		cf = _fn.lookAt(_exp, _position + _arg0)
+		local _lookVector = root.CFrame.LookVector
+		cf = _fn.lookAt(_exp, _position + _lookVector)
 	end
 	attachment0.CFrame = root.CFrame
 	attachment1.CFrame = cf

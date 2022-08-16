@@ -1,5 +1,5 @@
 import { useThrottle, World } from "@rbxts/matter";
-import { DebugAdornment, Renderable, Agency } from "shared/components";
+import { DebugAdornment, Renderable, Client } from "shared/components";
 import * as Components from "shared/components";
 import cloneTemplate from "client/cloneTemplate";
 import { Widgets } from "@rbxts/plasma";
@@ -42,8 +42,8 @@ function espVision(world: World, state: ClientState, ui: Widgets): void {
 		}
 	}
 
-	for (const [id, renderable, agency] of world.query(Renderable, Agency)) {
-		if (agency.player === Players.LocalPlayer) continue;
+	for (const [id, renderable, client] of world.query(Renderable, Client)) {
+		if (client.player === Players.LocalPlayer) continue;
 
 		const model = renderable.model as CharacterRigR15;
 		let debugAdornment = world.get(id, DebugAdornment);
@@ -100,7 +100,7 @@ function espVision(world: World, state: ClientState, ui: Widgets): void {
 
 			debugAdornment.highlight.OutlineTransparency = transparency;
 
-			const [from, to] = [model.Head.Position, agency.lineSight];
+			const [from, to] = [model.Head.Position, client.lineSight];
 
 			debugAdornment.lineSight.CFrame = new CFrame(from.add(to).div(2), to);
 			debugAdornment.lineSight.Size = new Vector3(0.1, 0.1, to.sub(from).Magnitude);

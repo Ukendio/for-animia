@@ -4,23 +4,23 @@ local _matter = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_i
 local useDeltaTime = _matter.useDeltaTime
 local useThrottle = _matter.useThrottle
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
-local Mob = _components.Mob
+local Agent = _components.Agent
 local Renderable = _components.Renderable
 local Transform = _components.Transform
 local RNG = Random.new()
 local function mobsMove(world)
-	for id, transform, mob in world:query(Transform, Mob, Renderable) do
+	for id, transform, agent in world:query(Transform, Agent, Renderable) do
 		if useThrottle(RNG:NextInteger(4, 5), id) then
 			local _cf = transform.cf
 			local _vector3 = Vector3.new(math.random(-16, 16), 0, math.random(-16, 16))
 			local targetPosition = (_cf + _vector3).Position
-			world:insert(id, mob:patch({
+			world:insert(id, agent:patch({
 				targetPosition = targetPosition,
 			}))
 		end
 	end
-	for id, mob, transform in world:query(Mob, Transform, Renderable) do
-		local targetPosition = mob.targetPosition
+	for id, agent, transform in world:query(Agent, Transform, Renderable) do
+		local targetPosition = agent.targetPosition
 		if transform and targetPosition then
 			local _cFrame = CFrame.new(transform.cf.Position, targetPosition)
 			local _cFrame_1 = CFrame.new(Vector3.new(0, 0, -16 * useDeltaTime()))

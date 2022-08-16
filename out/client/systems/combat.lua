@@ -17,7 +17,7 @@ local abilityMap = {
 local spatialQueryParams = OverlapParams.new()
 spatialQueryParams.FilterType = Enum.RaycastFilterType.Blacklist
 local basicAttackCooldown = 0.125
-local function attack(world, client)
+local function combat(world, client)
 	local input = client.commandRecord.new
 	if input then
 		match(input, {
@@ -87,5 +87,5 @@ local function attack(world, client)
 end
 return {
 	event = "fixed",
-	system = attack,
+	system = combat,
 }

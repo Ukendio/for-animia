@@ -17,7 +17,7 @@ spatialQueryParams.FilterType = Enum.RaycastFilterType.Blacklist;
 
 const basicAttackCooldown = 0.125;
 
-function attack(world: World, client: ClientState): void {
+function combat(world: World, client: ClientState): void {
 	const input = client.commandRecord.new;
 	if (input) {
 		match(input, {
@@ -75,5 +75,5 @@ function attack(world: World, client: ClientState): void {
 
 export = {
 	event: "fixed",
-	system: attack,
+	system: combat,
 };

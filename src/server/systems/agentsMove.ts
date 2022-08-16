@@ -2,7 +2,7 @@ import { useDeltaTime, useThrottle, World } from "@rbxts/matter";
 import { Agent, Renderable, Transform } from "shared/components";
 
 const RNG = new Random();
-function mobsMove(world: World): void {
+function agentsMove(world: World): void {
 	for (const [id, transform, agent] of world.query(Transform, Agent, Renderable)) {
 		if (useThrottle(RNG.NextInteger(4, 5), id)) {
 			const targetPosition = transform.cf.add(
@@ -35,4 +35,4 @@ function mobsMove(world: World): void {
 	}
 }
 
-export = mobsMove;
+export = agentsMove;

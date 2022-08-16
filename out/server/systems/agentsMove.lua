@@ -8,7 +8,7 @@ local Agent = _components.Agent
 local Renderable = _components.Renderable
 local Transform = _components.Transform
 local RNG = Random.new()
-local function mobsMove(world)
+local function agentsMove(world)
 	for id, transform, agent in world:query(Transform, Agent, Renderable) do
 		if useThrottle(RNG:NextInteger(4, 5), id) then
 			local _cf = transform.cf
@@ -36,4 +36,4 @@ local function mobsMove(world)
 		end
 	end
 end
-return mobsMove
+return agentsMove

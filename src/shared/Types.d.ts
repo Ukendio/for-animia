@@ -6,7 +6,6 @@ interface ReplicatedStorage extends Instance {
 	Client: Folder & {
 		systems: Folder;
 	};
-<<<<<<< HEAD
 
 	Assets: Assets;
 }
@@ -618,6 +617,3 @@ type Assets = Folder & {
 		};
 	};
 };
-=======
-}
->>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a

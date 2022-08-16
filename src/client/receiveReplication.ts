@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { AnyComponent, World } from "@rbxts/matter";
 import * as Components from "shared/components";
 import { ComponentNames, UnionComponentsMap } from "shared/serde";
@@ -15,20 +14,6 @@ export function receiveReplication(world: World, state: ClientState): void {
 	remoteEvent.OnClientEvent.Connect((entities: Map<string, Map<ComponentNames, { data: AnyComponent }>>) => {
 		assert(t.map(t.string, t.table)(entities));
 
-=======
-import { AnyComponent, AnyEntity, World } from "@rbxts/matter";
-import remotes from "shared/remotes";
-import * as Components from "shared/components";
-import { UnionComponentsMap } from "shared/serde";
-import { ComponentCtor } from "@rbxts/matter/lib/component";
-
-const remoteEvent = remotes.Client.Get("Replication");
-
-export function receiveReplication(world: World): void {
-	const entityIdMap = new Map<string, AnyEntity>();
-
-	remoteEvent.Connect((entities) => {
->>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 		for (const [serverEntityId, componentMap] of entities) {
 			let clientEntityId = entityIdMap.get(serverEntityId);
 

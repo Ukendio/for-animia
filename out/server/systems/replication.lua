@@ -1,28 +1,16 @@
-<<<<<<< HEAD
 -- Compiled with roblox-ts v1.3.3-dev-230088d
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local useEvent = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "matter", "lib").useEvent
 local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
 local Players = _services.Players
 local ReplicatedStorage = _services.ReplicatedStorage
-=======
--- Compiled with roblox-ts v1.3.3-dev-d657049
-local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local useEvent = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "matter", "lib").useEvent
-local Players = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Players
->>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
 local Effect = _components.Effect
 local Renderable = _components.Renderable
 local Agency = _components.Agency
-<<<<<<< HEAD
 local remoteEvent = Instance.new("RemoteEvent")
 remoteEvent.Name = "Replication"
 remoteEvent.Parent = ReplicatedStorage
-=======
-local remotes = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "remotes")
-local remoteEvent = remotes.Server:Get("Replication")
->>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 local REPLICATED_COMPONENTS = {
 	[Effect] = true,
 	[Renderable] = true,
@@ -45,11 +33,7 @@ local function replication(world)
 				end
 			end
 		end
-<<<<<<< HEAD
 		remoteEvent:FireClient(plr, payload)
-=======
-		remoteEvent:SendToPlayer(plr, payload)
->>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 	end
 	local changes = {}
 	for component in REPLICATED_COMPONENTS do
@@ -71,11 +55,7 @@ local function replication(world)
 		end
 	end
 	if (next(changes)) ~= nil then
-<<<<<<< HEAD
 		remoteEvent:FireAllClients(changes)
-=======
-		remoteEvent:SendToAllPlayers(changes)
->>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 	end
 end
 return {

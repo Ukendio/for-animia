@@ -8,10 +8,7 @@
 		"jsxFragmentFactory": "Roact.Fragment",
 		"module": "commonjs",
 		"moduleResolution": "Node",
-<<<<<<< HEAD
 		"moduleDetection": "force",
-=======
->>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 		"noLib": true,
 		"resolveJsonModule": true,
 		"forceConsistentCasingInFileNames": true,
@@ -27,10 +24,5 @@
 		"tsBuildInfoFile": "out/tsconfig.tsbuildinfo",
 		"experimentalDecorators": true,
 		"esModuleInterop": true,
-<<<<<<< HEAD
-=======
-
-		"moduleDetection": "force"
->>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 	}
 }

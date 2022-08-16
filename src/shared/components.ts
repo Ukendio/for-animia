@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { component, Entity } from "@rbxts/matter";
-=======
-import { component } from "@rbxts/matter";
->>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 import { EffectPayload } from "./effects";
 
 export const Agency = component<{ player: Player; lineSight: Vector3; rewardsMultiplier: number }>("Agency");
@@ -35,17 +31,10 @@ export type Effect = ReturnType<typeof Effect>;
 export const ImpactEffect = component<{ effects: Array<Effect> }>("ImpactEffect");
 export type ImpactEffect = ReturnType<typeof ImpactEffect>;
 
-<<<<<<< HEAD
 export const Lifetime = component<{ spawnedAt: number; length: number; elapsed: number }>("Lifetime");
 export type Lifetime = ReturnType<typeof Lifetime>;
 
 export const Mob = component<{ action?: string; targetPosition?: Vector3; residentOf: Entity<[Zone]> }>("Mob");
-=======
-export const Lifetime = component<{ spawnedAt: number; length: number }>();
-export type Lifetime = ReturnType<typeof Lifetime>;
-
-export const Mob = component<{ action: string }>();
->>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 export type Mob = ReturnType<typeof Mob>;
 
 export const Projectile = component<{ direction: Vector3; filter: Array<Instance> }>("Projectile");
@@ -54,11 +43,7 @@ export type Projectile = ReturnType<typeof Projectile>;
 export const Renderable = component<{ model: Model }>("Renderable");
 export type Renderable = ReturnType<typeof Renderable>;
 
-<<<<<<< HEAD
 export const SplashDamage = component<{ radius: number; damage: number }>("SplashDamage");
-=======
-export const SplashDamage = component<{ radius: number; damage: number }>();
->>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 export type SplashDamage = ReturnType<typeof SplashDamage>;
 
 export const Transform = component<{ cf: CFrame; doNotReconcile?: boolean }>("Transform");
@@ -66,9 +51,6 @@ export type Transform = ReturnType<typeof Transform>;
 
 export const Velocity = component<{ speed: number }>("Velocity");
 export type Velocity = ReturnType<typeof Velocity>;
-<<<<<<< HEAD
 
 export const Zone = component<{ maxCapacity: number; population: number }>("Zone");
 export type Zone = ReturnType<typeof Zone>;
-=======
->>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a

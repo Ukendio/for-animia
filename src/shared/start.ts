@@ -2,7 +2,6 @@ import { Debugger, Loop, World, AnySystem, AnyEntity } from "@rbxts/matter";
 import { Players, RunService, UserInputService } from "@rbxts/services";
 import { Context, HotReloader } from "@rbxts/rewire";
 import Plasma from "@rbxts/plasma";
-<<<<<<< HEAD
 //import { ChickynoidClient, ChickynoidServer } from "./chickynoid/types";
 import { Renderable } from "./components";
 import { ClientState } from "./clientState";
@@ -11,13 +10,6 @@ export function start<S extends object>(
 	containers: Array<Instance>,
 	state: S,
 ): (...plugins: Array<(world: World, state: S) => void>) => World {
-=======
-import type { ClientState } from "client/game.client";
-//import { ChickynoidClient, ChickynoidServer } from "./chickynoid/types";
-import { Renderable } from "./components";
-
-export function start<S extends object>(containers: Array<Instance>, state: S): LuaTuple<[World, S]> {
->>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 	const world = new World();
 
 	const myDebugger = new Debugger(Plasma);
@@ -78,7 +70,6 @@ export function start<S extends object>(containers: Array<Instance>, state: S): 
 
 	myDebugger.autoInitialize(loop);
 
-<<<<<<< HEAD
 	const events: {
 		default: RBXScriptSignal;
 		fixed?: RBXScriptSignal;
@@ -90,12 +81,6 @@ export function start<S extends object>(containers: Array<Instance>, state: S): 
 		: { default: RunService.Heartbeat };
 
 	loop.begin(events);
-=======
-	loop.begin({
-		default: RunService.IsClient() ? RunService.RenderStepped : RunService.Heartbeat,
-		fixed: RunService.Heartbeat,
-	});
->>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 
 	//let chickynoid: typeof ChickynoidClient | typeof ChickynoidServer = ChickynoidClient;
 	if (RunService.IsClient()) {
@@ -112,7 +97,6 @@ export function start<S extends object>(containers: Array<Instance>, state: S): 
 
 	//(chickynoid as typeof ChickynoidClient & typeof ChickynoidServer).Setup();
 
-<<<<<<< HEAD
 	return function (...plugins: Array<(world: World, state: S) => void>): World {
 		for (const plugin of plugins) {
 			plugin(world, state);
@@ -120,7 +104,4 @@ export function start<S extends object>(containers: Array<Instance>, state: S): 
 
 		return world;
 	};
-=======
-	return $tuple(world, state);
->>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 }

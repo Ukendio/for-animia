@@ -1,13 +1,11 @@
 -- Compiled with roblox-ts v1.3.3-dev-230088d
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
-local log = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "matter", "lib").log
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
 local CombatStats = _components.CombatStats
 local Effect = _components.Effect
 local EffectVariant = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "effects").EffectVariant
 local function damageHurts(world)
 	for id, effect in world:query(Effect) do
-		log(id)
 		local _binding = effect
 		local target = _binding.target
 		local source = _binding.source
@@ -17,7 +15,6 @@ local function damageHurts(world)
 			local targetId = target:GetAttribute("entityId"), source:GetAttribute("entityId")
 			if targetId ~= nil then
 				local targetCombatStats = world:get(targetId, CombatStats)
-				log("test")
 				world:insert(targetId, targetCombatStats:patch({
 					hp = targetCombatStats.hp - variant.damage,
 				}))

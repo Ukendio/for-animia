@@ -4,7 +4,6 @@ import { EffectVariant } from "shared/effects";
 
 function damageHurts(world: World): void {
 	for (const [id, effect] of world.query(Effect)) {
-		log(id);
 		const { target, source, variant } = effect;
 
 		if (variant.type === EffectVariant.Damage.type && target && source) {
@@ -15,7 +14,6 @@ function damageHurts(world: World): void {
 
 			if (targetId !== undefined) {
 				const targetCombatStats = world.get(targetId, CombatStats);
-				log("test");
 
 				world.insert(
 					targetId,

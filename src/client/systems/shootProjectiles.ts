@@ -1,6 +1,10 @@
 import { log, useDeltaTime, useEvent, World } from "@rbxts/matter";
 import { Widgets } from "@rbxts/plasma";
 import { Players, UserInputService, Workspace } from "@rbxts/services";
+<<<<<<< HEAD
+=======
+import { ClientState } from "client/game.client";
+>>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 import {
 	Collision,
 	Effect,
@@ -11,7 +15,10 @@ import {
 	Transform,
 	Velocity,
 } from "shared/components";
+<<<<<<< HEAD
 import { ClientState } from "shared/clientState";
+=======
+>>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 
 const player = Players.LocalPlayer;
 const mouse = player.GetMouse();
@@ -43,7 +50,11 @@ function shootProjectiles(world: World, state: ClientState, ui: Widgets): void {
 				Transform({ cf }),
 				Velocity({ speed: 50 }),
 				Collision({ size: model.PrimaryPart.Size }),
+<<<<<<< HEAD
 				Lifetime({ spawnedAt: os.clock(), length: 5, elapsed: 0 }),
+=======
+				Lifetime({ spawnedAt: os.clock(), length: 5 }),
+>>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 			);
 		}
 	}

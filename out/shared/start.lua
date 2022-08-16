@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 -- Compiled with roblox-ts v1.3.3-dev-230088d
+=======
+-- Compiled with roblox-ts v1.3.3-dev-d657049
+>>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local _matter = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "matter", "lib")
 local Debugger = _matter.Debugger
@@ -65,6 +69,7 @@ local function start(containers, state)
 	loop:scheduleSystems(firstRunSystems)
 	firstRunSystems = nil
 	myDebugger:autoInitialize(loop)
+<<<<<<< HEAD
 	local events = if RunService:IsClient() then {
 		default = RunService.RenderStepped,
 		fixed = RunService.Heartbeat,
@@ -72,6 +77,12 @@ local function start(containers, state)
 		default = RunService.Heartbeat,
 	}
 	loop:begin(events)
+=======
+	loop:begin({
+		default = if RunService:IsClient() then RunService.RenderStepped else RunService.Heartbeat,
+		fixed = RunService.Heartbeat,
+	})
+>>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 	-- let chickynoid: typeof ChickynoidClient | typeof ChickynoidServer = ChickynoidClient;
 	if RunService:IsClient() then
 		UserInputService.InputBegan:Connect(function(input)
@@ -82,6 +93,7 @@ local function start(containers, state)
 		end)
 	end
 	-- (chickynoid as typeof ChickynoidClient & typeof ChickynoidServer).Setup();
+<<<<<<< HEAD
 	return function(...)
 		local plugins = { ... }
 		for _, plugin in plugins do
@@ -89,6 +101,9 @@ local function start(containers, state)
 		end
 		return world
 	end
+=======
+	return world, state
+>>>>>>> 88d084f2bdeb776ac73f69a0f1481b4cfe8c8b1a
 end
 return {
 	start = start,

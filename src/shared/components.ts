@@ -1,7 +1,7 @@
 import { component, Entity } from "@rbxts/matter";
 import { EffectPayload } from "./effects";
 
-export const Agency = component<{ player: Player; lineSight: Vector3 }>("Agency");
+export const Agency = component<{ player: Player; lineSight: Vector3; rewardsMultiplier: number }>("Agency");
 export type Agency = ReturnType<typeof Agency>;
 
 export const Charge = component<{ charge: number }>("Charge");

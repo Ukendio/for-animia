@@ -50,8 +50,8 @@ function espVision(world: World, state: ClientState, ui: Widgets): void {
 
 		if (!debugAdornment) {
 			const label = cloneTemplate();
-			label.Parent = model;
 			label.Adornee = model;
+			label.Parent = model;
 
 			const highlight = new Instance("Highlight");
 			highlight.Parent = model;

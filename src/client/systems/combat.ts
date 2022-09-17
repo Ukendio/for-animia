@@ -1,79 +1,52 @@
-import { useThrottle, World } from "@rbxts/matter";
-import { HttpService, Players, Workspace } from "@rbxts/services";
-import { Effect } from "shared/components";
-import { EffectVariant } from "shared/effects";
-import { ClientState } from "shared/clientState";
+import { log, World } from "@rbxts/matter";
+import { UserInputService, Workspace } from "@rbxts/services";
 import { match } from "@rbxts/variant";
+import { ClientState } from "shared/clientState";
 
-const abilityMap = new Map<Enum.KeyCode, keyof ClientState["abilities"]>([
-	[Enum.KeyCode.One, "ability1"],
-	[Enum.KeyCode.Two, "ability2"],
-	[Enum.KeyCode.Three, "ability3"],
-	[Enum.KeyCode.Four, "ability4"],
-]);
+let stackAttack = 0;
+const resetAttackThreshold = 4;
 
-const spatialQueryParams = new OverlapParams();
-spatialQueryParams.FilterType = Enum.RaycastFilterType.Blacklist;
+const animationPool = [9722271, 8123412];
 
-const basicAttackCooldown = 0.125;
+function basicAttack(options?: { charge?: number }): void {
+	if (UserInputService.TouchEnabled) return;
+
+	stackAttack = 0;
+
+	log(stackAttack);
+}
 
 function combat(world: World, client: ClientState): void {
-	const input = client.commandRecord.new;
-	if (input) {
-		match(input, {
-			// basic m1 attacks
-			PointerClick: () => {
-				const root = client.character.FindFirstChild("HumanoidRootPart") as Part;
-				if (!root) return;
-
-				const origo = root.CFrame;
-
-				spatialQueryParams.FilterDescendantsInstances = [client.character];
-
-				const targets = new Set(
-					Workspace.GetPartBoundsInBox(
-						origo.add(root.CFrame.LookVector.mul(4)),
-						new Vector3(4, 4, 4),
-						spatialQueryParams,
-					).mapFiltered((v) => {
-						if (v.Parent?.FindFirstChild("Humanoid")) {
-							return v.Parent as Model;
-						}
-					}),
-				);
-
-				if (useThrottle(basicAttackCooldown)) {
-					for (const target of targets) {
-						world.spawn(
-							Effect({
-								predictionGUID: HttpService.GenerateGUID(false),
-								variant: EffectVariant.Damage(10),
-								target: target,
-								source: Players.LocalPlayer,
-							}),
-						);
-					}
+	if (client.lastProcessedCommand) {
+		match(client.lastProcessedCommand, {
+			HoldRelease: ({ duration }) => {
+				// aerial
+				if (client.character.Humanoid.FloorMaterial === undefined) {
+					const origin = client.character.HumanoidRootPart.Position;
+					const floor = Workspace.Raycast(origin, origin.add(new Vector3(0, 5)));
+					if (!floor) return;
+				}
+				// charged attack
+				else if (duration > 0.5) {
+					basicAttack({ charge: 10 });
+				} // normal attack
+				else {
+					basicAttack({});
 				}
 			},
-			// abilities
-			KeyDown: ({ key }) => {
-				const abilityName = abilityMap.get(key);
+			PointerClick: () => basicAttack(),
+			DoubleClick: () => {
+				stackAttack += 1;
 
-				if (abilityName) {
-					client.abilities[abilityName].map((ability) => {
-						if (useThrottle(ability.cooldown + ability.channelTime, ability.effect.variant.type)) {
-							// We need a new GUID to treat so that the prediction buffer doesn't see this effect
-							world.spawn(ability.effect.patch({ predictionGUID: HttpService.GenerateGUID(false) }));
-						}
-					});
+				if (stackAttack > resetAttackThreshold) {
+					stackAttack = 0;
 				}
+
+				log(stackAttack);
 			},
 			default: () => {},
 		});
 	}
 }
 
-export = {
-	event: "fixed",
-	system: combat,
-};
+export = { system: combat, event: "default" };

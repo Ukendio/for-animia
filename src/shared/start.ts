@@ -13,6 +13,7 @@ export function start<S extends object>(
 	const world = new World();
 
 	const myDebugger = new Debugger(Plasma);
+	myDebugger.enabled;
 
 	myDebugger.findInstanceFromEntity = (id): Model | undefined => {
 		if (!world.contains(id)) return;

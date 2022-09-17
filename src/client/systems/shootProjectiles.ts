@@ -1,16 +1,7 @@
 import { log, useDeltaTime, useEvent, World } from "@rbxts/matter";
 import { Widgets } from "@rbxts/plasma";
 import { Players, UserInputService, Workspace } from "@rbxts/services";
-import {
-	Collision,
-	Effect,
-	ImpactEffect,
-	Lifetime,
-	Projectile,
-	Renderable,
-	Transform,
-	Velocity,
-} from "shared/components";
+import { Collision, Lifetime, Projectile, Renderable, Transform, Velocity } from "shared/components";
 import { ClientState } from "shared/clientState";
 
 const player = Players.LocalPlayer;
@@ -55,8 +46,6 @@ function shootProjectiles(world: World, state: ClientState, ui: Widgets): void {
 		Velocity,
 		Renderable,
 	)) {
-		const impactEffect = world.get(id, ImpactEffect);
-
 		const payload: { target?: Model; pos?: Vector3 } = {};
 
 		if (collision.size.X >= 4 || collision.size.Y >= 4 || collision.size.Z >= 4) {
@@ -95,12 +84,6 @@ function shootProjectiles(world: World, state: ClientState, ui: Widgets): void {
 				if (instanceModel?.FindFirstChild("Humanoid")) {
 					payload.target = instanceModel;
 				}
-			}
-		}
-
-		if (impactEffect) {
-			for (const effect of impactEffect.effects) {
-				world.spawn(effect.patch(payload));
 			}
 		}
 

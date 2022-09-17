@@ -1,4 +1,5 @@
 import { useDeltaTime, World } from "@rbxts/matter";
+import { RunService } from "@rbxts/services";
 import { Lifetime } from "shared/components";
 
 function lifetimesDie(world: World): void {
@@ -11,4 +12,4 @@ function lifetimesDie(world: World): void {
 	}
 }
 
-export = lifetimesDie;
+export = { event: RunService.IsClient() ? "fixed" : "default", system: lifetimesDie };

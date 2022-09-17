@@ -1,9 +1,10 @@
 import { useDeltaTime, useThrottle, World } from "@rbxts/matter";
-import { Agent, Renderable, Transform } from "shared/components";
+import { t } from "@rbxts/t";
+import { Agent, Body, Renderable, Transform } from "shared/components";
 
 const RNG = new Random();
 function agentsMove(world: World): void {
-	for (const [id, transform, agent] of world.query(Transform, Agent, Renderable)) {
+	for (const [id, transform, agent] of world.query(Transform, Agent, Body)) {
 		if (useThrottle(RNG.NextInteger(4, 5), id)) {
 			const targetPosition = transform.cf.add(
 				new Vector3(math.random(-16, 16), 0, math.random(-16, 16)),
@@ -18,7 +19,7 @@ function agentsMove(world: World): void {
 		}
 	}
 
-	for (const [id, agent, transform] of world.query(Agent, Transform, Renderable)) {
+	for (const [id, agent, transform, body] of world.query(Agent, Transform, Body)) {
 		const targetPosition = agent.targetPosition;
 
 		if (transform && targetPosition) {

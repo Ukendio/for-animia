@@ -14,6 +14,7 @@ local Renderable = TS.import(script, game:GetService("ReplicatedStorage"), "Shar
 local function start(containers, state)
 	local world = World.new()
 	local myDebugger = Debugger.new(Plasma)
+	local _ = myDebugger.enabled
 	myDebugger.findInstanceFromEntity = function(id)
 		if not world:contains(id) then
 			return nil
@@ -84,7 +85,7 @@ local function start(containers, state)
 	-- (chickynoid as typeof ChickynoidClient & typeof ChickynoidServer).Setup();
 	return function(...)
 		local plugins = { ... }
-		for _, plugin in plugins do
+		for _1, plugin in plugins do
 			plugin(world, state)
 		end
 		return world

@@ -1,7 +1,6 @@
 -- Compiled with roblox-ts v1.3.3-dev-230088d
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local start = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "start").start
-local emitEffects = TS.import(script, game:GetService("ServerScriptService"), "Game", "emitEffects").emitEffects
 local setupTags = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "setupTags").setupTags
 local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services")
 local Players = _services.Players
@@ -17,7 +16,7 @@ local setPartCollisionGroup = TS.import(script, game:GetService("ReplicatedStora
 local setupPhysicsCollisionRemove = TS.import(script, game:GetService("ServerScriptService"), "Game", "physicsGroupCollide").setupPhysicsCollisionRemove
 local testBootStrapper = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "testBoostrapper").testBootStrapper
 local state = {}
-local world = start({ script.systems, ReplicatedStorage.Shared.systems }, state)(emitEffects, setupTags, trackLineSight)
+local world = start({ script.systems, ReplicatedStorage.Shared.systems }, state)(setupTags, trackLineSight)
 world:spawn(Zone({
 	maxCapacity = 5,
 	population = 0,

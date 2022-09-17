@@ -6,6 +6,7 @@ local Projectile = _components.Projectile
 local Transform = _components.Transform
 local Velocity = _components.Velocity
 local function projectilesFly(world)
+	local a = world:query(Transform, Velocity, Projectile):snapshot()
 	for id, transform, vel, projectile in world:query(Transform, Velocity, Projectile) do
 		local velOffset = vel.speed * useDeltaTime()
 		local unitDirection = projectile.direction

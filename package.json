@@ -28,7 +28,7 @@
 		"@rbxts/fitumi": "^1.0.11",
 		"@rbxts/fusion": "^0.2.0-dev-a5a9d0a",
 		"@rbxts/lightning-beams": "^1.1.0-ts.2",
-		"@rbxts/matter": "^0.6.2-ts.0",
+		"@rbxts/matter": "github:ukendio/matter",
 		"@rbxts/plasma": "^0.4.1-ts.0",
 		"@rbxts/promise-character": "^1.0.3",
 		"@rbxts/rewire": "^0.3.0",
@@ -39,6 +39,7 @@
 		"@rbxts/t": "^3.0.0",
 		"@rbxts/testez": "^0.3.1-ts.7",
 		"@rbxts/todo": "^1.0.1",
-		"@rbxts/variant": "^1.0.1"
+		"@rbxts/variant": "^1.0.1",
+		"@rbxts/wind-shake": "^1.0.0"
 	}
 }

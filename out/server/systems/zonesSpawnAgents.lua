@@ -7,9 +7,10 @@ local Workspace = _services.Workspace
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
 local CombatStats = _components.CombatStats
 local Agent = _components.Agent
-local Renderable = _components.Renderable
 local Transform = _components.Transform
 local Zone = _components.Zone
+local Collision = _components.Collision
+local Body = _components.Body
 local setPartCollisionGroup = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "setCharacterCollisionGroup").setPartCollisionGroup
 local removingMissingModels = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "systems", "removingMissingModels")
 local function heightFromGround(root)
@@ -20,32 +21,41 @@ local function heightFromGround(root)
 	return height
 end
 local function zonesSpawnAgents(world)
-	for id, zone in world:query(Zone) do
+	for id, zone, _binding, _binding_1 in world:query(Zone, Transform, Collision) do
+		local cf = _binding.cf
+		local size = _binding_1.size
 		if useThrottle(15) then
 			if zone.maxCapacity - zone.population < 1 then
 				continue
 			end
-			world:spawn(Agent({
+			local _fn = world
+			local _exp = Agent({
 				residentOf = id,
-			}), CombatStats({
+			})
+			local _exp_1 = CombatStats({
 				hp = 100,
 				maxHp = 100,
 				damage = 5,
-			}), Transform({
-				cf = CFrame.new(Vector3.new(math.random(-15, 15), 3, math.random(-15, 15))),
-			}))
+			})
+			local _object = {}
+			local _left = "cf"
+			local _vector3 = Vector3.new(math.random(-size.X, size.X), 3, math.random(-size.Z, size.Z))
+			_object[_left] = cf + _vector3
+			_fn:spawn(_exp, _exp_1, Transform(_object))
 			world:insert(id, zone:patch({
 				population = zone.population + 1,
 			}))
 		end
 	end
-	for id, transform in world:query(Transform, Agent):without(Renderable) do
+	for id, transform in world:query(Transform, Agent):without(Body) do
 		local model = ReplicatedStorage.Assets.Dummy:Clone()
+		local cf = CFrame.new(Vector3.new(transform.cf.Position.X, 3, transform.cf.Position.Z))
+		model:PivotTo(cf)
 		model.Parent = Workspace
-		world:insert(id, Renderable({
+		world:insert(id, Body({
 			model = model,
 		}), transform:patch({
-			cf = CFrame.new(Vector3.new(transform.cf.Position.X, 3, transform.cf.Position.Z)),
+			cf = cf,
 		}))
 		model:SetAttribute("entityId", id)
 		setPartCollisionGroup(model, "Agency")

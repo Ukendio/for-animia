@@ -33,6 +33,8 @@ local function receiveReplication(world, state)
 			end
 			if clientEntityId == nil then
 				clientEntityId = world:spawn(unpack(componentsToInsert))
+				print(componentMap)
+				print(unpack(componentsToInsert))
 				local _clientEntityId = clientEntityId
 				entityIdMap[serverEntityId] = _clientEntityId
 			else

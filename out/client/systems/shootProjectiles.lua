@@ -9,7 +9,6 @@ local UserInputService = _services.UserInputService
 local Workspace = _services.Workspace
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
 local Collision = _components.Collision
-local ImpactEffect = _components.ImpactEffect
 local Lifetime = _components.Lifetime
 local Projectile = _components.Projectile
 local Renderable = _components.Renderable
@@ -60,7 +59,6 @@ local function shootProjectiles(world, state, ui)
 	for id, projectile, collision, transform, _binding, _binding_1 in world:query(Projectile, Collision, Transform, Velocity, Renderable) do
 		local speed = _binding.speed
 		local model = _binding_1.model
-		local impactEffect = world:get(id, ImpactEffect)
 		local payload = {}
 		if collision.size.X >= 4 or (collision.size.Y >= 4 or collision.size.Z >= 4) then
 			overlapParams.FilterDescendantsInstances = { state.character, model }
@@ -102,11 +100,6 @@ local function shootProjectiles(world, state, ui)
 				if _result then
 					payload.target = instanceModel
 				end
-			end
-		end
-		if impactEffect then
-			for _, effect in impactEffect.effects do
-				world:spawn(effect:patch(payload))
 			end
 		end
 		if payload.pos then

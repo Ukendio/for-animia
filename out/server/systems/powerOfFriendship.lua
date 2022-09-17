@@ -8,34 +8,21 @@ local bonusPerFriend = 2 / 100
 local function powerOfFriendship(world)
 	-- We remove dependence on the Players service to make the system mockable.
 	-- But we use the Players service in the live production.
-	local _result
+	local players = {}
 	if RunService:IsStudio() then
-		local _exp = world:query(Client):snapshot()
-		local _arg0 = function(_param)
-			local player = _param.player
-			return player
+		for _, _binding in world:query(Client):snapshot() do
+			local player = _binding.player
+			table.insert(players, player)
 		end
-		-- ▼ ReadonlyArray.mapFiltered ▼
-		local _newValue = {}
-		local _length = 0
-		for _k, _v in _exp do
-			local _result_1 = _arg0(_v, _k - 1, _exp)
-			if _result_1 ~= nil then
-				_length += 1
-				_newValue[_length] = _result_1
-			end
-		end
-		-- ▲ ReadonlyArray.mapFiltered ▲
-		_result = _newValue
 	else
-		_result = Players:GetPlayers()
+		players = Players:GetPlayers()
 	end
-	local players = _result
 	for id, client in world:query(Client) do
 		local clientPlayer = client.player
 		if not clientPlayer then
 			continue
 		end
+		local _players = players
 		local _arg0 = function(player)
 			if player ~= clientPlayer then
 				if clientPlayer:IsFriendsWith(player.UserId) and player.AccountAge >= 30 then
@@ -46,11 +33,11 @@ local function powerOfFriendship(world)
 		-- ▼ ReadonlyArray.mapFiltered ▼
 		local _newValue = {}
 		local _length = 0
-		for _k, _v in players do
-			local _result_1 = _arg0(_v, _k - 1, players)
-			if _result_1 ~= nil then
+		for _k, _v in _players do
+			local _result = _arg0(_v, _k - 1, _players)
+			if _result ~= nil then
 				_length += 1
-				_newValue[_length] = _result_1
+				_newValue[_length] = _result
 			end
 		end
 		-- ▲ ReadonlyArray.mapFiltered ▲

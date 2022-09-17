@@ -50,8 +50,8 @@ local function espVision(world, state, ui)
 		local debugAdornment = world:get(id, DebugAdornment)
 		if not debugAdornment then
 			local label = cloneTemplate()
-			label.Parent = model
 			label.Adornee = model
+			label.Parent = model
 			local highlight = Instance.new("Highlight")
 			highlight.Parent = model
 			highlight.Adornee = model
@@ -77,7 +77,7 @@ local function espVision(world, state, ui)
 		text ..= "\n"
 		for name, component in pairs(Components) do
 			local data = world:get(id, component)
-			if data then
+			if data ~= 0 and (data == data and (data ~= "" and data)) then
 				text ..= name .. " {"
 				if (next(data)) ~= nil then
 					for key, val in pairs(data) do

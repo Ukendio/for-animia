@@ -5,11 +5,11 @@ local useDeltaTime = _matter.useDeltaTime
 local useThrottle = _matter.useThrottle
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
 local Agent = _components.Agent
-local Renderable = _components.Renderable
+local Body = _components.Body
 local Transform = _components.Transform
 local RNG = Random.new()
 local function agentsMove(world)
-	for id, transform, agent in world:query(Transform, Agent, Renderable) do
+	for id, transform, agent in world:query(Transform, Agent, Body) do
 		if useThrottle(RNG:NextInteger(4, 5), id) then
 			local _cf = transform.cf
 			local _vector3 = Vector3.new(math.random(-16, 16), 0, math.random(-16, 16))
@@ -19,7 +19,7 @@ local function agentsMove(world)
 			}))
 		end
 	end
-	for id, agent, transform in world:query(Agent, Transform, Renderable) do
+	for id, agent, transform, body in world:query(Agent, Transform, Body) do
 		local targetPosition = agent.targetPosition
 		if transform and targetPosition then
 			local _cFrame = CFrame.new(transform.cf.Position, targetPosition)

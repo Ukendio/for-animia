@@ -66,7 +66,7 @@ local function zonesSpawnAgents(world)
 			_zoneId = _zoneId.residentOf
 		end
 		local zoneId = _zoneId
-		local _value = mobRecord.new == nil and zoneId
+		local _value = not mobRecord.new and zoneId
 		if _value ~= 0 and (_value == _value and _value) then
 			local zone = world:get(zoneId, Zone)
 			if zone then

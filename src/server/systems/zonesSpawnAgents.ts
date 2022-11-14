@@ -1,6 +1,7 @@
 import { log, useThrottle, World } from "@rbxts/matter";
+import { CharacterRigR15 } from "@rbxts/promise-character";
 import { ReplicatedStorage, Workspace } from "@rbxts/services";
-import { CombatStats, Agent, Renderable, Transform, Zone } from "shared/components";
+import { CombatStats, Agent, Renderable, Transform, Zone, Collision, Body } from "shared/components";
 import { setPartCollisionGroup } from "shared/setCharacterCollisionGroup";
 import removingMissingModels from "shared/systems/removingMissingModels";
 
@@ -13,7 +14,7 @@ function heightFromGround(root?: BasePart): number {
 }
 
 function zonesSpawnAgents(world: World): void {
-	for (const [id, zone] of world.query(Zone)) {
+	for (const [id, zone, { cf }, { size }] of world.query(Zone, Transform, Collision)) {
 		if (useThrottle(15)) {
 			if (zone.maxCapacity - zone.population < 1) continue;
 
@@ -25,7 +26,7 @@ function zonesSpawnAgents(world: World): void {
 					damage: 5,
 				}),
 				Transform({
-					cf: new CFrame(new Vector3(math.random(-15, 15), 3, math.random(-15, 15))),
+					cf: cf.add(new Vector3(math.random(-size.X, size.X), 3, math.random(-size.Z, size.Z))),
 				}),
 			);
 
@@ -33,24 +34,20 @@ function zonesSpawnAgents(world: World): void {
 		}
 	}
 
-	for (const [id, transform] of world.query(Transform, Agent).without(Renderable)) {
-		const model = ReplicatedStorage.Assets.Dummy.Clone();
+	for (const [id, transform] of world.query(Transform, Agent).without(Body)) {
+		const model = ReplicatedStorage.Assets.Dummy.Clone() as unknown as CharacterRigR15;
+		const cf = new CFrame(new Vector3(transform.cf.Position.X, 3, transform.cf.Position.Z));
+		model.PivotTo(cf);
 		model.Parent = Workspace;
 
-		world.insert(
-			id,
-			Renderable({ model }),
-			transform.patch({
-				cf: new CFrame(new Vector3(transform.cf.Position.X, 3, transform.cf.Position.Z)),
-			}),
-		);
+		world.insert(id, Body({ model: model }), transform.patch({ cf }));
 		model.SetAttribute("entityId", id);
 		setPartCollisionGroup(model, "Agency");
 	}
 
 	for (const [, mobRecord] of world.queryChanged(Agent)) {
 		const zoneId = mobRecord.old?.residentOf;
-		if (mobRecord.new === undefined && zoneId) {
+		if (!mobRecord.new && zoneId) {
 			const zone = world.get(zoneId, Zone);
 			if (zone) {
 				world.insert(zoneId, zone.patch({ population: zone.population - 1 }));

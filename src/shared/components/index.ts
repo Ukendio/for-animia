@@ -35,6 +35,7 @@ export const CombatStats = component<{
 	maxHp: number;
 	damage: number;
 	state?: "Dead";
+	isDead?: boolean;
 }>("CombatStats");
 export type CombatStats = ReturnType<typeof CombatStats>;
 
@@ -48,6 +49,9 @@ export type DebugAdornment = ReturnType<typeof DebugAdornment>;
 
 export const Lifetime = component<{ spawnedAt: number; length: number; elapsed: number }>("Lifetime");
 export type Lifetime = ReturnType<typeof Lifetime>;
+
+export const Melee = component<{ applied: boolean }>();
+export type Melee = ReturnType<typeof Melee>;
 
 export const Projectile = component<{ direction: Vector3; filter: Array<Instance> }>("Projectile");
 export type Projectile = ReturnType<typeof Projectile>;

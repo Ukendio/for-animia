@@ -1,5 +1,4 @@
 import { start } from "shared/start";
-import { emitEffects } from "server/emitEffects";
 import { setupTags } from "../shared/setupTags";
 import { Players, ReplicatedStorage } from "@rbxts/services";
 import { Client, CombatStats, Renderable, Zone } from "shared/components";
@@ -14,7 +13,7 @@ export interface ServerState {}
 
 const state: ServerState = {};
 
-const world = start([script.systems, ReplicatedStorage.Shared.systems], state)(emitEffects, setupTags, trackLineSight);
+const world = start([script.systems, ReplicatedStorage.Shared.systems], state)(setupTags, trackLineSight);
 
 world.spawn(Zone({ maxCapacity: 5, population: 0 }));
 

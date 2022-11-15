@@ -1,8 +1,7 @@
 import { Debugger, Loop, World, AnySystem, AnyEntity } from "@rbxts/matter";
-import { Players, RunService, UserInputService } from "@rbxts/services";
+import { RunService, UserInputService } from "@rbxts/services";
 import { Context, HotReloader } from "@rbxts/rewire";
 import Plasma from "@rbxts/plasma";
-//import { ChickynoidClient, ChickynoidServer } from "./chickynoid/types";
 import { Renderable } from "./components";
 import { ClientState } from "./clientState";
 
@@ -83,7 +82,6 @@ export function start<S extends object>(
 
 	loop.begin(events);
 
-	//let chickynoid: typeof ChickynoidClient | typeof ChickynoidServer = ChickynoidClient;
 	if (RunService.IsClient()) {
 		UserInputService.InputBegan.Connect((input) => {
 			if (input.KeyCode === Enum.KeyCode.F4) {
@@ -91,12 +89,7 @@ export function start<S extends object>(
 				(state as ClientState).debugEnabled = myDebugger.enabled;
 			}
 		});
-	} else {
-		//chickynoid = ChickynoidServer;
-		//chickynoid.RecreateCollisions(Workspace);
 	}
-
-	//(chickynoid as typeof ChickynoidClient & typeof ChickynoidServer).Setup();
 
 	return function (...plugins: Array<(world: World, state: S) => void>): World {
 		for (const plugin of plugins) {

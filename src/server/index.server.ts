@@ -6,7 +6,6 @@ import promiseR15 from "@rbxts/promise-character";
 import trackLineSight from "./trackLineSight";
 import { setPartCollisionGroup } from "shared/setCharacterCollisionGroup";
 import { setupPhysicsCollisionRemove } from "./physicsGroupCollide";
-import { testBootStrapper } from "shared/testBoostrapper";
 
 declare const script: { systems: Folder; tests: Folder };
 export interface ServerState {}
@@ -52,4 +51,3 @@ for (const player of Players.GetPlayers()) {
 }
 
 setupPhysicsCollisionRemove();
-testBootStrapper(script.tests.GetChildren());

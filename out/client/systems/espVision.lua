@@ -1,4 +1,4 @@
--- Compiled with roblox-ts v1.3.3-dev-230088d
+-- Compiled with roblox-ts v2.0.4
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local useThrottle = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "matter", "lib").useThrottle
 local _components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
@@ -77,11 +77,11 @@ local function espVision(world, state, ui)
 		text ..= "\n"
 		for name, component in pairs(Components) do
 			local data = world:get(id, component)
-			if data ~= 0 and (data == data and (data ~= "" and data)) then
+			if data ~= nil then
 				text ..= name .. " {"
 				if (next(data)) ~= nil then
 					for key, val in pairs(data) do
-						text ..= "\n  " .. (key .. (": " .. tostring(val)))
+						text ..= "\n  " .. (tostring(key) .. (": " .. tostring(val)))
 					end
 					text ..= "\n"
 				end

@@ -12,7 +12,7 @@ export function start<S extends object>(
 	const world = new World();
 
 	const myDebugger = new Debugger(Plasma);
-	myDebugger.enabled;
+	myDebugger.enabled = false;
 
 	myDebugger.findInstanceFromEntity = (id): Model | undefined => {
 		if (!world.contains(id)) return;
@@ -83,6 +83,8 @@ export function start<S extends object>(
 	loop.begin(events);
 
 	if (RunService.IsClient()) {
+		(state as ClientState).debugEnabled = myDebugger.enabled;
+
 		UserInputService.InputBegan.Connect((input) => {
 			if (input.KeyCode === Enum.KeyCode.F4) {
 				myDebugger.toggle();

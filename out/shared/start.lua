@@ -1,4 +1,4 @@
--- Compiled with roblox-ts v1.3.3-dev-230088d
+-- Compiled with roblox-ts v2.0.4
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local _matter = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "matter", "lib")
 local Debugger = _matter.Debugger
@@ -9,12 +9,11 @@ local RunService = _services.RunService
 local UserInputService = _services.UserInputService
 local HotReloader = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "rewire", "out").HotReloader
 local Plasma = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "plasma", "src")
--- import { ChickynoidClient, ChickynoidServer } from "./chickynoid/types";
 local Renderable = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components").Renderable
 local function start(containers, state)
 	local world = World.new()
 	local myDebugger = Debugger.new(Plasma)
-	local _ = myDebugger.enabled
+	myDebugger.enabled = false
 	myDebugger.findInstanceFromEntity = function(id)
 		if not world:contains(id) then
 			return nil
@@ -73,8 +72,8 @@ local function start(containers, state)
 		default = RunService.Heartbeat,
 	}
 	loop:begin(events)
-	-- let chickynoid: typeof ChickynoidClient | typeof ChickynoidServer = ChickynoidClient;
 	if RunService:IsClient() then
+		state.debugEnabled = myDebugger.enabled
 		UserInputService.InputBegan:Connect(function(input)
 			if input.KeyCode == Enum.KeyCode.F4 then
 				myDebugger:toggle()
@@ -82,10 +81,9 @@ local function start(containers, state)
 			end
 		end)
 	end
-	-- (chickynoid as typeof ChickynoidClient & typeof ChickynoidServer).Setup();
 	return function(...)
 		local plugins = { ... }
-		for _1, plugin in plugins do
+		for _, plugin in plugins do
 			plugin(world, state)
 		end
 		return world

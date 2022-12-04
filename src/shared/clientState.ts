@@ -9,6 +9,8 @@ export enum PlayerState {
 export interface ClientState {
 	debugEnabled: boolean;
 	character: CharacterRigR15;
+	isJumping: boolean;
+	isRunning: boolean;
 	lastProcessedCommand?: InputKind;
 	entityIdMap: Map<string, AnyEntity>;
 	overlapParams: OverlapParams;

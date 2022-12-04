@@ -1,4 +1,4 @@
--- Compiled with roblox-ts v1.3.3-dev-230088d
+-- Compiled with roblox-ts v2.0.4
 -- Original Author by Sircfenner
 local Provider = game:GetService("KeyframeSequenceProvider")
 local cache = {}

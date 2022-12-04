@@ -80,11 +80,11 @@ function espVision(world: World, state: ClientState, ui: Widgets): void {
 		for (const [name, component] of pairs(Components)) {
 			const data = world.get(id, component);
 
-			if (data) {
+			if (data !== undefined) {
 				text += name + " {";
 
 				if (next(data)[0] !== undefined) {
-					for (const [key, val] of pairs(data)) {
+					for (const [key, val] of pairs(data as unknown as Map<never, never>)) {
 						text += `\n  ${key}: ${tostring(val)}`;
 					}
 

@@ -1,4 +1,4 @@
--- Compiled with roblox-ts v1.3.3-dev-230088d
+-- Compiled with roblox-ts v2.0.4
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local start = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "start").start
 local setupTags = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "setupTags").setupTags
@@ -14,7 +14,6 @@ local promiseR15 = TS.import(script, game:GetService("ReplicatedStorage"), "rbxt
 local trackLineSight = TS.import(script, game:GetService("ServerScriptService"), "Game", "trackLineSight")
 local setPartCollisionGroup = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "setCharacterCollisionGroup").setPartCollisionGroup
 local setupPhysicsCollisionRemove = TS.import(script, game:GetService("ServerScriptService"), "Game", "physicsGroupCollide").setupPhysicsCollisionRemove
-local testBootStrapper = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "testBoostrapper").testBootStrapper
 local state = {}
 local world = start({ script.systems, ReplicatedStorage.Shared.systems }, state)(setupTags, trackLineSight)
 world:spawn(Zone({
@@ -51,4 +50,3 @@ for _, player in Players:GetPlayers() do
 	playerAdded(player)
 end
 setupPhysicsCollisionRemove()
-testBootStrapper(script.tests:GetChildren())

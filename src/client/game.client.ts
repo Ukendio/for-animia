@@ -23,6 +23,8 @@ const state: ClientState = {
 	controller: {
 		actions: [],
 	},
+	isJumping: false,
+	isRunning: false,
 };
 
 start([ReplicatedStorage.Client.systems, ReplicatedStorage.Shared.systems], state)(receiveReplication);

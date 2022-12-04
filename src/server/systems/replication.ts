@@ -45,7 +45,7 @@ function replication(world: World): void {
 		}
 	}
 
-	if (next(changes)[0] !== undefined) {
+	if (!changes.isEmpty()) {
 		remoteEvent.FireAllClients(changes);
 	}
 }

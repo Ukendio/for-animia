@@ -1,4 +1,4 @@
--- Compiled with roblox-ts v1.3.3-dev-230088d
+-- Compiled with roblox-ts v2.0.4
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local Components = TS.import(script, game:GetService("ReplicatedStorage"), "Shared", "components")
 local ReplicatedStorage = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").ReplicatedStorage
@@ -33,8 +33,6 @@ local function receiveReplication(world, state)
 			end
 			if clientEntityId == nil then
 				clientEntityId = world:spawn(unpack(componentsToInsert))
-				print(componentMap)
-				print(unpack(componentsToInsert))
 				local _clientEntityId = clientEntityId
 				entityIdMap[serverEntityId] = _clientEntityId
 			else

@@ -4,9 +4,10 @@ export const InputKind = variantModule({
 	// Sub-messages
 	KeyDown: (key: Enum.KeyCode) => ({ key }),
 	KeyUp: (key: Enum.KeyCode) => ({ key }),
+	Hold: (duration: number) => ({ duration }),
 
 	// Messages
-	HoldRelease: (duration: number) => ({ duration }),
+	HoldRelease: {},
 	DoubleClick: {},
 	PointerMove: {},
 	PointerClick: {},

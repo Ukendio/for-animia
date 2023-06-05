@@ -25,6 +25,7 @@ const state: ClientState = {
 	},
 	isJumping: false,
 	isRunning: false,
+	promptKeyboardKeyCode: Enum.KeyCode.F,
 };
 
 start([ReplicatedStorage.Client.systems, ReplicatedStorage.Shared.systems], state)(receiveReplication);

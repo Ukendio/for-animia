@@ -3,8 +3,7 @@ import { match } from "@rbxts/variant";
 import { ClientState } from "shared/clientState";
 
 let lastDashed = os.clock();
-
-function sprintDash(world: World, client: ClientState): void {
+function sprintDash(_: World, client: ClientState): void {
 	if (client.lastProcessedCommand) {
 		match(client.lastProcessedCommand, {
 			KeyDown: ({ key }) => {

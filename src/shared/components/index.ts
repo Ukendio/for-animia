@@ -2,6 +2,9 @@ import { component, Entity } from "@rbxts/matter";
 import { CharacterRigR15 } from "@rbxts/promise-character";
 import { Buff } from "./buff";
 
+export const Activated = component<{}>("Activated");
+export type Activated = ReturnType<typeof Activated>;
+
 export const Agent = component<{
 	action?: string;
 	targetPosition?: Vector3;
@@ -47,6 +50,9 @@ export const DebugAdornment = component<{
 }>("DebugAdornment");
 export type DebugAdornment = ReturnType<typeof DebugAdornment>;
 
+export const Interactable = component<{}>("Interactable");
+export type Interactable = ReturnType<typeof Interactable>;
+
 export const Lifetime = component<{ spawnedAt: number; length: number; elapsed: number }>("Lifetime");
 export type Lifetime = ReturnType<typeof Lifetime>;
 
@@ -56,6 +62,9 @@ export type Melee = ReturnType<typeof Melee>;
 export const Projectile = component<{ direction: Vector3; filter: Array<Instance> }>("Projectile");
 export type Projectile = ReturnType<typeof Projectile>;
 
+export const Prompt = component<{ prompt: ProximityPrompt }>("Prompt");
+export type Prompt = ReturnType<typeof Prompt>;
+
 export const Renderable = component<{ model: Model; doNotDestroy?: boolean }>("Renderable");
 export type Renderable = ReturnType<typeof Renderable>;
 
@@ -64,9 +73,6 @@ export type SplashDamage = ReturnType<typeof SplashDamage>;
 
 export const Transform = component<{ cf: CFrame; doNotReconcile?: boolean }>("Transform");
 export type Transform = ReturnType<typeof Transform>;
-
-export const Todo = component<{}>("Todo");
-export type Todo = ReturnType<typeof Todo>;
 
 export const Velocity = component<{ speed: number }>("Velocity");
 export type Velocity = ReturnType<typeof Velocity>;

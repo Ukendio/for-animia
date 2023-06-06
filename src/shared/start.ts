@@ -1,4 +1,4 @@
-import { Debugger, Loop, World, AnySystem, AnyEntity } from "@rbxts/matter";
+import { Debugger, Loop, World, AnySystem, AnyEntity, System } from "@rbxts/matter";
 import { RunService, UserInputService } from "@rbxts/services";
 import { Context, HotReloader } from "@rbxts/rewire";
 import Plasma from "@rbxts/plasma";
@@ -11,9 +11,9 @@ export function start<S extends object>(
 ): (...plugins: Array<(world: World, state: S) => void>) => World {
 	const world = new World();
 
-	const myDebugger = new Debugger(Plasma);
+	type T = [World, S, Plasma.Widgets];
+	const myDebugger = new Debugger<T>(Plasma);
 	myDebugger.enabled = false;
-
 	myDebugger.findInstanceFromEntity = (id): Model | undefined => {
 		if (!world.contains(id)) return;
 
@@ -21,22 +21,20 @@ export function start<S extends object>(
 
 		return model ? model.model : undefined;
 	};
-
 	myDebugger.authorize = (player): boolean => {
 		return player.UserId === 97718174;
 	};
 
-	const loop = new Loop(world, state, myDebugger.getWidgets());
-
+	const loop = new Loop<T>(world, state, myDebugger.getWidgets());
 	const hotReloader = new HotReloader();
 
-	let firstRunSystems = new Array<AnySystem>();
-	let systemsByModule = new Map<ModuleScript, AnySystem>();
+	let firstRunSystems = new Array<System<T>>();
+	let systemsByModule = new Map<ModuleScript, System<T>>();
 
 	function loadModule(mod: ModuleScript, ctx: Context): void {
 		const originalModule = ctx.originalModule;
 
-		const [ok, system] = pcall(require, mod) as LuaTuple<[boolean, AnySystem]>;
+		const [ok, system] = pcall(require, mod) as LuaTuple<[boolean, System<T>]>;
 
 		if (!ok) {
 			warn("Error when hot-reloading system", mod.Name, system);
@@ -44,7 +42,7 @@ export function start<S extends object>(
 		}
 
 		if (firstRunSystems) {
-			firstRunSystems.push(system as AnySystem);
+			firstRunSystems.push(system);
 		} else if (systemsByModule.has(originalModule)) {
 			loop.replaceSystem(systemsByModule.get(originalModule)!, system);
 			myDebugger.replaceSystem(systemsByModule.get(originalModule)!, system);

@@ -1,7 +1,6 @@
-import { useEvent, World } from "@rbxts/matter";
+import { useEvent, useThrottle, World } from "@rbxts/matter";
 import Plasma from "@rbxts/plasma";
 import { Players, UserInputService } from "@rbxts/services";
-import { translateInput } from "client/translateInput";
 import touchButton from "client/widgets/touchButton";
 import { ClientState } from "shared/clientState";
 import { InputKind } from "shared/inputMapperMessage";
@@ -107,7 +106,12 @@ function fillDummyTouchEnded(props: Partial<WritableInstanceProperties<InputObje
 
 const plasmaNode = new Plasma(touchControlFrame);
 
+const yieldTime = 5;
+const start = os.clock();
+
 function translateTouchControl(_: World, client: ClientState): void {
+	if (os.clock() - start < yieldTime) return;
+
 	if (client.debugEnabled) return;
 	if (!touchControlFrame) return;
 
@@ -124,14 +128,17 @@ function translateTouchControl(_: World, client: ClientState): void {
 
 		const combatHandle = combatButton();
 
-		for (const [_] of useEvent(combatHandle.instance, "InputBegan")) {
-			const shouldEscape = translateInput(client, DUMMY_TOUCH_BEGIN, false);
-			if (shouldEscape) return undefined;
+		if (useEvent(combatHandle.instance, "InputBegan")) {
+			if (useThrottle(0.5)) {
+				client.lastProcessedCommand = InputKind.PointerClick;
+				return undefined;
+			}
+			client.lastProcessedCommand = InputKind.DoubleClick;
+			return undefined;
 		}
 
-		for (const [] of useEvent(combatHandle.instance, "InputEnded")) {
-			const shouldEscape = translateInput(client, DUMMY_TOUCH_ENDED, false);
-			if (shouldEscape) return undefined;
+		if (useEvent(combatHandle.instance, "InputEnded")) {
+			client.lastProcessedCommand = InputKind.HoldRelease;
 		}
 
 		if (skillHandle.tapped()) {

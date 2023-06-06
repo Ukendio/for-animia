@@ -18,4 +18,5 @@ export interface ClientState {
 	controller: {
 		actions: Array<unknown>;
 	};
+	promptKeyboardKeyCode: Enum.KeyCode;
 }

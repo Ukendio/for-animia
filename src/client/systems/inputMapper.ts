@@ -1,6 +1,5 @@
-import { useDeltaTime, useEvent, World } from "@rbxts/matter";
+import { useDeltaTime, useEvent, useThrottle, World } from "@rbxts/matter";
 import { UserInputService, Workspace } from "@rbxts/services";
-import { translateInput } from "client/translateInput";
 import { ClientState } from "shared/clientState";
 import { InputKind } from "shared/inputMapperMessage";
 
@@ -8,16 +7,29 @@ let holdDuration = 0;
 function inputMapper(_: World, client: ClientState): void {
 	if (!(client.character.Parent === Workspace)) return;
 
-	//  We need to position this above "InputBegan" to detect whether the input is valid
-
 	for (const [, input, gpe] of useEvent(UserInputService, "InputBegan")) {
-		const shouldEscape = translateInput(client, input, gpe);
-		if (shouldEscape) return undefined;
+		if (gpe) return undefined;
+		if (input.KeyCode !== Enum.KeyCode.Unknown) {
+			client.lastProcessedCommand = InputKind.KeyDown(input.KeyCode);
+		} else if (input.UserInputType === Enum.UserInputType.MouseButton1) {
+			if (useThrottle(0.5)) {
+				client.lastProcessedCommand = InputKind.PointerClick;
+				return undefined;
+			}
+			client.lastProcessedCommand = InputKind.DoubleClick;
+		}
+		return undefined;
 	}
 
 	for (const [, input, gpe] of useEvent(UserInputService, "InputEnded")) {
-		const shouldEscape = translateInput(client, input, gpe);
-		if (shouldEscape) return undefined;
+		if (gpe) return undefined;
+
+		if (input.KeyCode !== Enum.KeyCode.Unknown) {
+			client.lastProcessedCommand = InputKind.KeyUp(input.KeyCode);
+		} else if (input.UserInputType === Enum.UserInputType.MouseButton1) {
+			client.lastProcessedCommand = InputKind.HoldRelease;
+		}
+		return undefined;
 	}
 
 	if (UserInputService.IsMouseButtonPressed(Enum.UserInputType.MouseButton1)) {
@@ -28,6 +40,7 @@ function inputMapper(_: World, client: ClientState): void {
 
 	holdDuration = 0;
 	client.lastProcessedCommand = undefined;
+	return;
 }
 
 export = {

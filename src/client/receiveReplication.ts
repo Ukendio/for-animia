@@ -11,7 +11,7 @@ const remoteEvent = ReplicatedStorage.WaitForChild("Replication") as RemoteEvent
 export function receiveReplication(world: World, state: ClientState): void {
 	const entityIdMap = state.entityIdMap;
 
-	remoteEvent.OnClientEvent.Connect((entities: Map<string, Map<ComponentNames, { data: AnyComponent }>>) => {
+	remoteEvent.OnClientEvent.Connect((entities: Map<string, Map<ComponentNames, { data?: UnionComponentsMap }>>) => {
 		assert(t.map(t.string, t.table)(entities));
 
 		for (const [serverEntityId, componentMap] of entities) {
@@ -30,8 +30,10 @@ export function receiveReplication(world: World, state: ClientState): void {
 			const removeNames = new Array<string>();
 
 			for (const [name, container] of componentMap) {
-				if (container.data) {
-					componentsToInsert.push(Components[name](container.data as UnionComponentsMap));
+				if (container.data !== undefined) {
+					componentsToInsert.push(
+						Components[name](container.data as UnionToIntersection<UnionComponentsMap>),
+					);
 					insertNames.push(name);
 				} else {
 					componentsToRemove.push(Components[name]);

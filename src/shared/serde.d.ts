@@ -1,17 +1,9 @@
 import { GenericOfComponent } from "@rbxts/matter";
 import * as Components from "shared/components";
 
-declare type ComponentNames = keyof typeof Components;
-declare type MappedComponentToName<T extends ComponentNames> = GenericOfComponent<ReturnType<typeof Components[T]>>;
+export type ComponentNames = keyof typeof Components;
 
-declare type ComponentsMap<T extends ComponentNames> = T extends []
-	? T
-	: T extends [infer F, ...infer B]
-	? F extends keyof T
-		? B extends ComponentNames
-			? [MappedComponentToName<T>, ...ComponentsMap<B>]
-			: never
-		: never
-	: never;
+export type ComponentsMap = { [K in ComponentNames]: MappedComponentToName<K> };
 
-declare type UnionComponentsMap = ComponentsMap<ComponentNames>;
+export type MappedComponentToName<T extends ComponentNames> = GenericOfComponent<ReturnType<typeof Components[T]>>;
+type UnionComponentsMap = ComponentsMap[ComponentNames];
